@@ -1,0 +1,2 @@
+FLASK_APP=flightbooker.py
+FLASK_ENV=development
