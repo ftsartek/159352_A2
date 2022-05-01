@@ -1,5 +1,6 @@
-from flask import render_template, request, escape, abort, session
-from app import app
+from flask import render_template, request, escape, abort, session, redirect
+from app import app, database, forms
+from passlib.hash import sha512_crypt
 
 app.secret_key = 'v98Hwg93nBA5sv-0238tVNsk2d='
 app.config['SESSION_TYPE'] = 'filesystem'
@@ -13,3 +14,8 @@ def index():
 @app.route('/routes')
 def routes():
     return render_template("routes.jinja")
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    pass
