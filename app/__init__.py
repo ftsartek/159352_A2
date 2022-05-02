@@ -22,4 +22,12 @@ dictConfig({
 
 app = Flask(__name__)
 
-from app import routes
+app.secret_key = 'v98Hwg93nBA5sv-0238tVNsk2d='
+app.config['SESSION_TYPE'] = 'filesystem'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+from app import routes, database
+
+database.reset_db()
+database.create_sample_data()

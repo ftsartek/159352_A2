@@ -1,0 +1,33 @@
+{% extends "_base.jinja" %}
+
+{% block main %}
+    <div class="row">
+        <h1>FlightBooker</h1>
+    </div>
+    <div class="row">
+        <div class="col-sm-8 p-2">
+            <div class="border">
+                <form class="form-group" action="/admin/fleet/manage" method="post">
+                    <label for="aircraft_id">Aircraft ID: {{aircraft.id}}</label>
+                    <input type="hidden" name="aircraft_id" value="{{aircraft.id}}"/>
+                    <input type="hidden" name="return_mode" value="Save"/>
+                    <label for="aircraft_model">Aircraft Model:</label>
+                    <input class="form-control" type="text" name="aircraft_model" placeholder="{{aircraft.model}}">
+                    <label for="aircraft_model">Aircraft Registration:</label>
+                    <input class="form-control" type="text" name="aircraft_registration" placeholder="{{aircraft.registration}}">
+                    <label for="aircraft_model">Aircraft Capacity:</label>
+                    <input class="form-control" type="number" min="1" max="900" name="aircraft_capacity" placeholder="{{aircraft.capacity}}">
+                    <label for="aircraft_model">Retired:</label>
+                    <input class="form-check-input" type="checkbox" name="aircraft_retired"><br>
+                    <label for="aircraft_maint_complete">Maintenance Due Date: {{aircraft.maintenance_due}}
+                        <br>Maintenance Complete:</label>
+                    <input class="form-check-input" type="checkbox" name="aircraft_maint_complete"><br>
+                    <input type="submit" class="btn btn-secondary" value="Save">
+                </form>
+            </div>
+        </div>
+        <div class="col-sm-4 p-2">
+            <div class="border"></div>
+        </div>
+    </div>
+{% endblock %}

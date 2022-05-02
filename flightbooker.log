@@ -8,3 +8,231 @@
 [2022-04-29 14:26:10,821 (_internal)] INFO:  * Debugger PIN: 979-228-400
 [2022-04-29 14:26:24,379 (_internal)] INFO: 127.0.0.1 - - [29/Apr/2022 14:26:24] "GET / HTTP/1.1" 200 -
 [2022-04-29 14:26:24,540 (_internal)] INFO: 127.0.0.1 - - [29/Apr/2022 14:26:24] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+[2022-05-02 13:56:45,286 (_internal)] INFO:  * Running on http://127.0.0.1:5000 (Press CTRL+C to quit)
+[2022-05-02 14:08:00,210 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:08:00] "[33mGET /dashboard/register HTTP/1.1[0m" 404 -
+[2022-05-02 14:08:13,033 (app)] ERROR: Exception on /admin/fleet [GET]
+Traceback (most recent call last):
+  File "/home/jordan/PycharmProjects/159352_A2/venv/lib/python3.10/site-packages/flask/app.py", line 2077, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/jordan/PycharmProjects/159352_A2/venv/lib/python3.10/site-packages/flask/app.py", line 1526, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "/home/jordan/PycharmProjects/159352_A2/venv/lib/python3.10/site-packages/flask/app.py", line 1545, in finalize_request
+    response = self.make_response(rv)
+  File "/home/jordan/PycharmProjects/159352_A2/venv/lib/python3.10/site-packages/flask/app.py", line 1701, in make_response
+    raise TypeError(
+TypeError: The view function for 'adm_fleet' did not return a valid response. The function either returned None or ended without a return statement.
+[2022-05-02 14:08:13,034 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:08:13] "[35m[1mGET /admin/fleet HTTP/1.1[0m" 500 -
+[2022-05-02 14:09:05,134 (_internal)] INFO:  * Running on http://127.0.0.1:5000 (Press CTRL+C to quit)
+[2022-05-02 14:09:08,067 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:09:08] "GET /admin/fleet HTTP/1.1" 200 -
+[2022-05-02 14:10:07,244 (_internal)] INFO:  * Running on http://127.0.0.1:5000 (Press CTRL+C to quit)
+[2022-05-02 14:10:07,245 (_internal)] INFO:  * Restarting with stat
+[2022-05-02 14:10:07,341 (_internal)] WARNING:  * Debugger is active!
+[2022-05-02 14:10:07,341 (_internal)] INFO:  * Debugger PIN: 979-228-400
+[2022-05-02 14:10:10,351 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:10:10] "GET /admin/fleet HTTP/1.1" 200 -
+[2022-05-02 14:12:47,883 (_internal)] INFO:  * Detected change in '/home/jordan/PycharmProjects/159352_A2/app/routes.py', reloading
+[2022-05-02 14:12:47,948 (_internal)] INFO:  * Restarting with stat
+[2022-05-02 14:12:48,044 (_internal)] WARNING:  * Debugger is active!
+[2022-05-02 14:12:48,044 (_internal)] INFO:  * Debugger PIN: 979-228-400
+[2022-05-02 14:14:00,585 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:14:00] "[35m[1mGET /admin/fleet HTTP/1.1[0m" 500 -
+[2022-05-02 14:14:00,614 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:14:00] "GET /admin/fleet?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+[2022-05-02 14:14:00,615 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:14:00] "GET /admin/fleet?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+[2022-05-02 14:14:00,635 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:14:00] "GET /admin/fleet?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+[2022-05-02 14:14:08,235 (_internal)] INFO:  * Detected change in '/home/jordan/PycharmProjects/159352_A2/app/routes.py', reloading
+[2022-05-02 14:14:08,254 (_internal)] INFO:  * Restarting with stat
+[2022-05-02 14:14:08,349 (_internal)] WARNING:  * Debugger is active!
+[2022-05-02 14:14:08,350 (_internal)] INFO:  * Debugger PIN: 979-228-400
+[2022-05-02 14:14:08,776 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:14:08] "GET /admin/fleet HTTP/1.1" 200 -
+[2022-05-02 14:14:29,203 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:14:29] "GET /admin/fleet HTTP/1.1" 200 -
+[2022-05-02 14:14:29,334 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:14:29] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+[2022-05-02 14:15:00,963 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:15:00] "GET /admin/fleet HTTP/1.1" 200 -
+[2022-05-02 14:15:20,018 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:15:20] "GET /admin/fleet HTTP/1.1" 200 -
+[2022-05-02 14:20:30,590 (_internal)] INFO:  * Detected change in '/home/jordan/PycharmProjects/159352_A2/app/routes.py', reloading
+[2022-05-02 14:20:30,630 (_internal)] INFO:  * Restarting with stat
+[2022-05-02 14:20:30,723 (_internal)] WARNING:  * Debugger is active!
+[2022-05-02 14:20:30,723 (_internal)] INFO:  * Debugger PIN: 979-228-400
+[2022-05-02 14:20:34,866 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:20:34] "GET /admin/fleet HTTP/1.1" 200 -
+[2022-05-02 14:20:38,214 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:20:38] "[33mPOST /admin/fleet/manage HTTP/1.1[0m" 404 -
+[2022-05-02 14:20:50,799 (_internal)] INFO:  * Detected change in '/home/jordan/PycharmProjects/159352_A2/app/routes.py', reloading
+[2022-05-02 14:20:50,829 (_internal)] INFO:  * Restarting with stat
+[2022-05-02 14:20:50,921 (_internal)] WARNING:  * Debugger is active!
+[2022-05-02 14:20:50,922 (_internal)] INFO:  * Debugger PIN: 979-228-400
+[2022-05-02 14:20:51,853 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:20:51] "[31m[1mGET /admin/fleet/manage HTTP/1.1[0m" 401 -
+[2022-05-02 14:21:20,744 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:21:20] "GET /admin/fleet HTTP/1.1" 200 -
+[2022-05-02 14:21:21,562 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:21:21] "[31m[1mPOST /admin/fleet/manage HTTP/1.1[0m" 401 -
+[2022-05-02 14:23:39,486 (_internal)] INFO:  * Detected change in '/home/jordan/PycharmProjects/159352_A2/app/routes.py', reloading
+[2022-05-02 14:23:39,521 (_internal)] INFO:  * Restarting with stat
+[2022-05-02 14:23:39,620 (_internal)] WARNING:  * Debugger is active!
+[2022-05-02 14:23:39,620 (_internal)] INFO:  * Debugger PIN: 979-228-400
+[2022-05-02 14:23:41,839 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:23:41] "[31m[1mGET /admin/fleet/manage HTTP/1.1[0m" 405 -
+[2022-05-02 14:25:24,966 (_internal)] INFO:  * Detected change in '/home/jordan/PycharmProjects/159352_A2/app/routes.py', reloading
+[2022-05-02 14:25:24,997 (_internal)] INFO:  * Restarting with stat
+[2022-05-02 14:25:25,089 (_internal)] WARNING:  * Debugger is active!
+[2022-05-02 14:25:25,089 (_internal)] INFO:  * Debugger PIN: 979-228-400
+[2022-05-02 14:25:40,157 (_internal)] INFO:  * Detected change in '/home/jordan/PycharmProjects/159352_A2/app/routes.py', reloading
+[2022-05-02 14:25:40,201 (_internal)] INFO:  * Restarting with stat
+[2022-05-02 14:25:40,295 (_internal)] WARNING:  * Debugger is active!
+[2022-05-02 14:25:40,296 (_internal)] INFO:  * Debugger PIN: 979-228-400
+[2022-05-02 14:26:06,395 (_internal)] INFO:  * Detected change in '/home/jordan/PycharmProjects/159352_A2/app/routes.py', reloading
+[2022-05-02 14:26:06,435 (_internal)] INFO:  * Restarting with stat
+[2022-05-02 14:26:06,530 (_internal)] WARNING:  * Debugger is active!
+[2022-05-02 14:26:06,530 (_internal)] INFO:  * Debugger PIN: 979-228-400
+[2022-05-02 14:26:15,582 (_internal)] INFO:  * Detected change in '/home/jordan/PycharmProjects/159352_A2/app/routes.py', reloading
+[2022-05-02 14:26:15,616 (_internal)] INFO:  * Restarting with stat
+[2022-05-02 14:26:15,709 (_internal)] WARNING:  * Debugger is active!
+[2022-05-02 14:26:15,709 (_internal)] INFO:  * Debugger PIN: 979-228-400
+[2022-05-02 14:26:19,724 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:26:19] "GET /admin/fleet HTTP/1.1" 200 -
+[2022-05-02 14:26:20,400 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:26:20] "POST /admin/fleet/manage HTTP/1.1" 200 -
+[2022-05-02 14:26:56,851 (_internal)] INFO:  * Detected change in '/home/jordan/PycharmProjects/159352_A2/app/routes.py', reloading
+[2022-05-02 14:26:56,895 (_internal)] INFO:  * Restarting with stat
+[2022-05-02 14:26:56,990 (_internal)] WARNING:  * Debugger is active!
+[2022-05-02 14:26:56,991 (_internal)] INFO:  * Debugger PIN: 979-228-400
+[2022-05-02 14:28:50,333 (_internal)] INFO:  * Detected change in '/home/jordan/PycharmProjects/159352_A2/app/routes.py', reloading
+[2022-05-02 14:28:50,383 (_internal)] INFO:  * Restarting with stat
+[2022-05-02 14:28:50,477 (_internal)] WARNING:  * Debugger is active!
+[2022-05-02 14:28:50,477 (_internal)] INFO:  * Debugger PIN: 979-228-400
+[2022-05-02 14:29:11,563 (_internal)] INFO:  * Detected change in '/home/jordan/PycharmProjects/159352_A2/app/routes.py', reloading
+[2022-05-02 14:29:11,605 (_internal)] INFO:  * Restarting with stat
+[2022-05-02 14:29:11,698 (_internal)] WARNING:  * Debugger is active!
+[2022-05-02 14:29:11,699 (_internal)] INFO:  * Debugger PIN: 979-228-400
+[2022-05-02 14:29:36,803 (_internal)] INFO:  * Detected change in '/home/jordan/PycharmProjects/159352_A2/app/routes.py', reloading
+[2022-05-02 14:29:36,846 (_internal)] INFO:  * Restarting with stat
+[2022-05-02 14:29:36,961 (_internal)] WARNING:  * Debugger is active!
+[2022-05-02 14:29:36,961 (_internal)] INFO:  * Debugger PIN: 979-228-400
+[2022-05-02 14:29:52,030 (_internal)] INFO:  * Detected change in '/home/jordan/PycharmProjects/159352_A2/app/routes.py', reloading
+[2022-05-02 14:29:52,070 (_internal)] INFO:  * Restarting with stat
+[2022-05-02 14:29:52,163 (_internal)] WARNING:  * Debugger is active!
+[2022-05-02 14:29:52,163 (_internal)] INFO:  * Debugger PIN: 979-228-400
+[2022-05-02 14:30:07,198 (_internal)] INFO:  * Detected change in '/home/jordan/PycharmProjects/159352_A2/app/routes.py', reloading
+[2022-05-02 14:30:07,214 (_internal)] INFO:  * Restarting with stat
+[2022-05-02 14:30:07,309 (_internal)] WARNING:  * Debugger is active!
+[2022-05-02 14:30:07,309 (_internal)] INFO:  * Debugger PIN: 979-228-400
+[2022-05-02 14:30:32,370 (_internal)] INFO:  * Detected change in '/home/jordan/PycharmProjects/159352_A2/app/routes.py', reloading
+[2022-05-02 14:30:32,392 (_internal)] INFO:  * Restarting with stat
+[2022-05-02 14:30:32,485 (_internal)] WARNING:  * Debugger is active!
+[2022-05-02 14:30:32,485 (_internal)] INFO:  * Debugger PIN: 979-228-400
+[2022-05-02 14:34:37,208 (_internal)] INFO:  * Detected change in '/home/jordan/PycharmProjects/159352_A2/app/routes.py', reloading
+[2022-05-02 14:34:37,275 (_internal)] INFO:  * Restarting with stat
+[2022-05-02 14:34:37,371 (_internal)] WARNING:  * Debugger is active!
+[2022-05-02 14:34:37,371 (_internal)] INFO:  * Debugger PIN: 979-228-400
+[2022-05-02 14:37:54,806 (_internal)] INFO:  * Detected change in '/home/jordan/PycharmProjects/159352_A2/app/routes.py', reloading
+[2022-05-02 14:37:54,822 (_internal)] INFO:  * Restarting with stat
+[2022-05-02 14:37:54,917 (_internal)] WARNING:  * Debugger is active!
+[2022-05-02 14:37:54,917 (_internal)] INFO:  * Debugger PIN: 979-228-400
+[2022-05-02 14:38:06,948 (_internal)] INFO:  * Detected change in '/home/jordan/PycharmProjects/159352_A2/app/routes.py', reloading
+[2022-05-02 14:38:06,963 (_internal)] INFO:  * Restarting with stat
+[2022-05-02 14:38:07,056 (_internal)] WARNING:  * Debugger is active!
+[2022-05-02 14:38:07,056 (_internal)] INFO:  * Debugger PIN: 979-228-400
+[2022-05-02 14:38:09,984 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:38:09] "[35m[1mGET /admin/fleet HTTP/1.1[0m" 500 -
+[2022-05-02 14:38:10,019 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:38:10] "[36mGET /admin/fleet?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+[2022-05-02 14:38:10,019 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:38:10] "GET /admin/fleet?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+[2022-05-02 14:38:10,030 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:38:10] "[36mGET /admin/fleet?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+[2022-05-02 14:38:20,088 (_internal)] INFO:  * Detected change in '/home/jordan/PycharmProjects/159352_A2/app/routes.py', reloading
+[2022-05-02 14:38:20,113 (_internal)] INFO:  * Restarting with stat
+[2022-05-02 14:38:20,218 (_internal)] WARNING:  * Debugger is active!
+[2022-05-02 14:38:20,218 (_internal)] INFO:  * Debugger PIN: 979-228-400
+[2022-05-02 14:38:31,310 (_internal)] INFO:  * Detected change in '/home/jordan/PycharmProjects/159352_A2/app/routes.py', reloading
+[2022-05-02 14:38:31,343 (_internal)] INFO:  * Restarting with stat
+[2022-05-02 14:38:31,459 (_internal)] WARNING:  * Debugger is active!
+[2022-05-02 14:38:31,459 (_internal)] INFO:  * Debugger PIN: 979-228-400
+[2022-05-02 14:40:04,768 (_internal)] INFO:  * Detected change in '/home/jordan/PycharmProjects/159352_A2/app/routes.py', reloading
+[2022-05-02 14:40:04,800 (_internal)] INFO:  * Restarting with stat
+[2022-05-02 14:40:04,892 (_internal)] WARNING:  * Debugger is active!
+[2022-05-02 14:40:04,892 (_internal)] INFO:  * Debugger PIN: 979-228-400
+[2022-05-02 14:40:36,771 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:40:36] "GET /admin/fleet HTTP/1.1" 200 -
+[2022-05-02 14:40:37,896 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:40:37] "POST /admin/fleet/manage HTTP/1.1" 200 -
+[2022-05-02 14:40:58,468 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:40:58] "[32mGET /admin/fleet/manage HTTP/1.1[0m" 302 -
+[2022-05-02 14:40:58,519 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:40:58] "GET /admin/fleet HTTP/1.1" 200 -
+[2022-05-02 14:41:00,292 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:41:00] "POST /admin/fleet/manage HTTP/1.1" 200 -
+[2022-05-02 14:41:12,365 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:41:12] "[32mGET /admin/fleet/manage HTTP/1.1[0m" 302 -
+[2022-05-02 14:41:12,417 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:41:12] "GET /admin/fleet HTTP/1.1" 200 -
+[2022-05-02 14:41:18,259 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:41:18] "GET /admin/fleet HTTP/1.1" 200 -
+[2022-05-02 14:41:22,873 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:41:22] "GET /admin/fleet HTTP/1.1" 200 -
+[2022-05-02 14:41:28,945 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:41:28] "POST /admin/fleet/manage HTTP/1.1" 200 -
+[2022-05-02 14:43:16,505 (_internal)] INFO:  * Detected change in '/home/jordan/PycharmProjects/159352_A2/app/routes.py', reloading
+[2022-05-02 14:43:16,537 (_internal)] INFO:  * Restarting with stat
+[2022-05-02 14:43:16,629 (_internal)] WARNING:  * Debugger is active!
+[2022-05-02 14:43:16,629 (_internal)] INFO:  * Debugger PIN: 979-228-400
+[2022-05-02 14:44:37,825 (_internal)] INFO:  * Detected change in '/home/jordan/PycharmProjects/159352_A2/app/routes.py', reloading
+[2022-05-02 14:44:37,845 (_internal)] INFO:  * Restarting with stat
+[2022-05-02 14:44:37,938 (_internal)] WARNING:  * Debugger is active!
+[2022-05-02 14:44:37,938 (_internal)] INFO:  * Debugger PIN: 979-228-400
+[2022-05-02 14:46:53,386 (_internal)] INFO:  * Detected change in '/home/jordan/PycharmProjects/159352_A2/app/routes.py', reloading
+[2022-05-02 14:46:53,416 (_internal)] INFO:  * Restarting with stat
+[2022-05-02 14:46:53,512 (_internal)] WARNING:  * Debugger is active!
+[2022-05-02 14:46:53,512 (_internal)] INFO:  * Debugger PIN: 979-228-400
+[2022-05-02 14:47:06,546 (_internal)] INFO:  * Detected change in '/home/jordan/PycharmProjects/159352_A2/app/routes.py', reloading
+[2022-05-02 14:47:06,564 (_internal)] INFO:  * Restarting with stat
+[2022-05-02 14:47:06,659 (_internal)] WARNING:  * Debugger is active!
+[2022-05-02 14:47:06,660 (_internal)] INFO:  * Debugger PIN: 979-228-400
+[2022-05-02 14:47:55,763 (_internal)] INFO:  * Detected change in '/home/jordan/PycharmProjects/159352_A2/app/routes.py', reloading
+[2022-05-02 14:47:55,777 (_internal)] INFO:  * Restarting with stat
+[2022-05-02 14:47:55,872 (_internal)] WARNING:  * Debugger is active!
+[2022-05-02 14:47:55,872 (_internal)] INFO:  * Debugger PIN: 979-228-400
+[2022-05-02 14:48:37,967 (_internal)] INFO:  * Detected change in '/home/jordan/PycharmProjects/159352_A2/app/routes.py', reloading
+[2022-05-02 14:48:37,982 (_internal)] INFO:  * Restarting with stat
+[2022-05-02 14:48:38,076 (_internal)] WARNING:  * Debugger is active!
+[2022-05-02 14:48:38,076 (_internal)] INFO:  * Debugger PIN: 979-228-400
+[2022-05-02 14:50:46,483 (_internal)] INFO:  * Detected change in '/home/jordan/PycharmProjects/159352_A2/app/routes.py', reloading
+[2022-05-02 14:50:46,524 (_internal)] INFO:  * Restarting with stat
+[2022-05-02 14:50:46,617 (_internal)] WARNING:  * Debugger is active!
+[2022-05-02 14:50:46,617 (_internal)] INFO:  * Debugger PIN: 979-228-400
+[2022-05-02 14:51:28,765 (_internal)] INFO:  * Detected change in '/home/jordan/PycharmProjects/159352_A2/app/routes.py', reloading
+[2022-05-02 14:51:28,808 (_internal)] INFO:  * Restarting with stat
+[2022-05-02 14:51:28,903 (_internal)] WARNING:  * Debugger is active!
+[2022-05-02 14:51:28,904 (_internal)] INFO:  * Debugger PIN: 979-228-400
+[2022-05-02 14:58:17,742 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:58:17] "GET /admin/fleet HTTP/1.1" 200 -
+[2022-05-02 14:58:27,000 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:58:27] "[35m[1mPOST /admin/fleet/manage HTTP/1.1[0m" 500 -
+[2022-05-02 14:58:27,024 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:58:27] "GET /admin/fleet/manage?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+[2022-05-02 14:58:27,025 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:58:27] "GET /admin/fleet/manage?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+[2022-05-02 14:58:27,041 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 14:58:27] "GET /admin/fleet/manage?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+[2022-05-02 14:58:45,275 (_internal)] INFO:  * Detected change in '/home/jordan/PycharmProjects/159352_A2/app/routes.py', reloading
+[2022-05-02 14:58:45,331 (_internal)] INFO:  * Restarting with stat
+[2022-05-02 14:58:45,441 (_internal)] WARNING:  * Debugger is active!
+[2022-05-02 14:58:45,441 (_internal)] INFO:  * Debugger PIN: 979-228-400
+[2022-05-02 15:05:10,996 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 15:05:10] "POST /admin/fleet/manage HTTP/1.1" 200 -
+[2022-05-02 15:06:55,001 (_internal)] INFO:  * Detected change in '/home/jordan/PycharmProjects/159352_A2/app/routes.py', reloading
+[2022-05-02 15:06:55,042 (_internal)] INFO:  * Restarting with stat
+[2022-05-02 15:06:55,137 (_internal)] WARNING:  * Debugger is active!
+[2022-05-02 15:06:55,137 (_internal)] INFO:  * Debugger PIN: 979-228-400
+[2022-05-02 15:07:03,506 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 15:07:03] "POST /admin/fleet/manage HTTP/1.1" 200 -
+[2022-05-02 15:07:22,720 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 15:07:22] "[32mGET /admin/fleet/manage HTTP/1.1[0m" 302 -
+[2022-05-02 15:07:22,774 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 15:07:22] "GET /admin/fleet HTTP/1.1" 200 -
+[2022-05-02 15:07:24,265 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 15:07:24] "POST /admin/fleet/manage HTTP/1.1" 200 -
+[2022-05-02 15:07:43,309 (_internal)] INFO:  * Detected change in '/home/jordan/PycharmProjects/159352_A2/app/routes.py', reloading
+[2022-05-02 15:07:43,357 (_internal)] INFO:  * Restarting with stat
+[2022-05-02 15:07:43,455 (_internal)] WARNING:  * Debugger is active!
+[2022-05-02 15:07:43,455 (_internal)] INFO:  * Debugger PIN: 979-228-400
+[2022-05-02 15:07:48,079 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 15:07:48] "[32mGET /admin/fleet/manage HTTP/1.1[0m" 302 -
+[2022-05-02 15:07:48,139 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 15:07:48] "GET /admin/fleet HTTP/1.1" 200 -
+[2022-05-02 15:07:49,253 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 15:07:49] "POST /admin/fleet/manage HTTP/1.1" 200 -
+[2022-05-02 15:07:53,716 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 15:07:53] "POST /admin/fleet/manage HTTP/1.1" 200 -
+[2022-05-02 15:08:26,610 (_internal)] INFO:  * Detected change in '/home/jordan/PycharmProjects/159352_A2/app/routes.py', reloading
+[2022-05-02 15:08:26,664 (_internal)] INFO:  * Restarting with stat
+[2022-05-02 15:08:26,761 (_internal)] WARNING:  * Debugger is active!
+[2022-05-02 15:08:26,762 (_internal)] INFO:  * Debugger PIN: 979-228-400
+[2022-05-02 15:08:27,658 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 15:08:27] "[32mGET /admin/fleet/manage HTTP/1.1[0m" 302 -
+[2022-05-02 15:08:27,722 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 15:08:27] "GET /admin/fleet HTTP/1.1" 200 -
+[2022-05-02 15:08:28,735 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 15:08:28] "POST /admin/fleet/manage HTTP/1.1" 200 -
+[2022-05-02 15:14:40,519 (_internal)] INFO:  * Running on http://127.0.0.1:5000 (Press CTRL+C to quit)
+[2022-05-02 15:14:40,520 (_internal)] INFO:  * Restarting with stat
+[2022-05-02 15:14:40,615 (_internal)] WARNING:  * Debugger is active!
+[2022-05-02 15:14:40,616 (_internal)] INFO:  * Debugger PIN: 979-228-400
+[2022-05-02 15:14:44,167 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 15:14:44] "[32mGET /admin/fleet/manage HTTP/1.1[0m" 302 -
+[2022-05-02 15:14:44,226 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 15:14:44] "GET /admin/fleet HTTP/1.1" 200 -
+[2022-05-02 15:14:45,225 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 15:14:45] "POST /admin/fleet/manage HTTP/1.1" 200 -
+[2022-05-02 15:15:24,240 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 15:15:24] "[32mGET /admin/fleet/manage HTTP/1.1[0m" 302 -
+[2022-05-02 15:15:24,300 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 15:15:24] "GET /admin/fleet HTTP/1.1" 200 -
+[2022-05-02 15:15:25,274 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 15:15:25] "POST /admin/fleet/manage HTTP/1.1" 200 -
+[2022-05-02 15:15:34,304 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 15:15:34] "POST /admin/fleet/manage HTTP/1.1" 200 -
+[2022-05-02 15:16:03,647 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 15:16:03] "[32mGET /admin/fleet/manage HTTP/1.1[0m" 302 -
+[2022-05-02 15:16:03,699 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 15:16:03] "GET /admin/fleet HTTP/1.1" 200 -
+[2022-05-02 15:16:05,085 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 15:16:05] "POST /admin/fleet/manage HTTP/1.1" 200 -
+[2022-05-02 15:16:37,545 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 15:16:37] "[32mGET /admin/fleet/manage HTTP/1.1[0m" 302 -
+[2022-05-02 15:16:37,599 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 15:16:37] "GET /admin/fleet HTTP/1.1" 200 -
+[2022-05-02 15:16:40,017 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 15:16:40] "POST /admin/fleet/manage HTTP/1.1" 200 -
+[2022-05-02 15:16:49,553 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 15:16:49] "[32mGET /admin/fleet/manage HTTP/1.1[0m" 302 -
+[2022-05-02 15:16:49,604 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 15:16:49] "GET /admin/fleet HTTP/1.1" 200 -
+[2022-05-02 15:16:50,910 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 15:16:50] "POST /admin/fleet/manage HTTP/1.1" 200 -
+[2022-05-02 15:17:03,094 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 15:17:03] "[32mGET /admin/fleet/manage HTTP/1.1[0m" 302 -
+[2022-05-02 15:17:03,148 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 15:17:03] "GET /admin/fleet HTTP/1.1" 200 -
+[2022-05-02 15:17:04,291 (_internal)] INFO: 127.0.0.1 - - [02/May/2022 15:17:04] "POST /admin/fleet/manage HTTP/1.1" 200 -

@@ -1,0 +1,46 @@
+{% extends "_base.jinja" %}
+
+{% block main %}
+    <div class="row">
+        <h1>FlightBooker</h1>
+    </div>
+    <div class="row">
+        <div class="col-sm-8 p-2">
+            <div class="border">
+                <table class="table table-light">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Model</th>
+                            <th>Registration</th>
+                            <th>Capacity</th>
+                            <th>Maintenance Date</th>
+                            <th>Retired</th>
+                            <th>Edit Aircraft</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for aircraft in fleet_data %}
+                            <tr>
+                                <td>{{ aircraft.id }}</td>
+                                <td>{{ aircraft.model }}</td>
+                                <td>{{ aircraft.registration }}</td>
+                                <td>{{ aircraft.capacity }}</td>
+                                <td>{{ aircraft.maintenance_due }}</td>
+                                <td>{{ aircraft.retired }}</td>
+                                <td><form action="/admin/fleet/manage" method="post">
+                                    <input type="hidden" name="aircraft_id" value="{{aircraft.id}}"/>
+                                    <input type="hidden" name="return_mode" value="Edit"/>
+                                    <input type="submit" class="btn btn-secondary" value="Edit">
+                                </form></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-sm-4 p-2">
+            <div class="border"></div>
+        </div>
+    </div>
+{% endblock %}
