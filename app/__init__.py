@@ -27,7 +27,4 @@ app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-from app import routes, database
-
-database.reset_db()
-database.create_sample_data()
+from app import routes, database, accounts
