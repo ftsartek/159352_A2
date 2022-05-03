@@ -1,0 +1,17 @@
+{% extends "_base.jinja" %}
+
+{% block main %}
+
+<h1>Login Page</h1>
+
+{% from "_formhelpers.jinja" import render_field %}
+<form method=post>
+    {{ form.csrf_token }}
+  <dl>
+    {{ render_field(form.email) }}
+    {{ render_field(form.password) }}
+  </dl>
+  <p><input type="submit" value="Log In">
+</form>
+
+{% endblock %}
