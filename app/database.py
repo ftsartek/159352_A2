@@ -7,6 +7,7 @@ import random
 
 db = SQLAlchemy(app)
 
+
 class Aircraft(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     model = db.Column(db.String(30), nullable=False)
@@ -52,22 +53,26 @@ class Ticket(db.Model):
 
 
 class Booking(db.Model):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id: int = db.Column(db.Integer, primary_key=True, autoincrement=True)
     tickets = db.relationship('Ticket', backref='booking', lazy=True, uselist=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 
 class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    email = db.Column(db.String(30), unique=True, nullable=False)
-    first_name = db.Column(db.String(20), nullable=False)
-    last_name = db.Column(db.String(20), nullable=False)
-    hash = db.Column(db.String(160), nullable=False)
-    verification_code = db.Column(db.String(20), nullable=True)
-    verified = db.Column(db.Boolean, nullable=False)
-    disabled = db.Column(db.Boolean, nullable=False, default=False)
+    id: int = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    email: str = db.Column(db.String(30), unique=True, nullable=False)
+    first_name: str = db.Column(db.String(20), nullable=False)
+    last_name: str = db.Column(db.String(20), nullable=False)
+    hash: str = db.Column(db.String(200), nullable=False)
+    verification_code: str = db.Column(db.String(20), nullable=True)
+    is_active: bool = db.Column(db.Boolean, nullable=False, default=False)
     bookings = db.relationship('Booking', backref='user', lazy=True, uselist=True)
 
+    is_authenticated: bool = False
+    is_anonymous: bool = False
+
+    def get_id(self) -> str:
+        return str(self.id)
 
     def generate_hash(self, password):
         return sha512_crypt.hash(password)
@@ -79,7 +84,7 @@ class User(db.Model):
         else:
             return False
 
-    def generate_validator(self, length: int):
+    def generate_validator(self, length: int) -> None:
         # Generate a completely random string of a given length
         rand_char = 0
         step = 0
@@ -98,7 +103,8 @@ class User(db.Model):
                 rand_char = random.randrange(97, 123)
             random_code += str(chr(rand_char))
             step += 1
-        return random_code
+        self.verification_code = random_code
+        # TODO: Mail verification code
 
 
 def reset_db():
@@ -121,3 +127,7 @@ def create_sample_data():
     db.session.add(airport2)
     db.session.add(airport3)
     db.session.commit()
+
+
+reset_db()
+create_sample_data()
