@@ -63,9 +63,10 @@ class User(db.Model):
     email: str = db.Column(db.String(30), unique=True, nullable=False)
     first_name: str = db.Column(db.String(20), nullable=False)
     last_name: str = db.Column(db.String(20), nullable=False)
-    hash: str = db.Column(db.String(200), nullable=False)
+    pass_hash: str = db.Column(db.String(200), nullable=False)
     verification_code: str = db.Column(db.String(20), nullable=True)
     is_active: bool = db.Column(db.Boolean, nullable=False, default=False)
+    is_admin: bool = db.Column(db.Boolean, nullable=False, default=False)
     bookings = db.relationship('Booking', backref='user', lazy=True, uselist=True)
 
     is_authenticated: bool = False
@@ -74,10 +75,10 @@ class User(db.Model):
     def get_id(self) -> str:
         return str(self.id)
 
-    def generate_hash(self, password):
-        return sha512_crypt.hash(password)
+    def save_pass_hash(self, password) -> None:
+        self.pass_hash = sha512_crypt.hash(password)
 
-    def validate_account(self, code):
+    def validate_account(self, code) -> bool:
         if self.verification_code == code:
             self.verification_code = None
             return True
@@ -107,13 +108,13 @@ class User(db.Model):
         # TODO: Mail verification code
 
 
-def reset_db():
+def reset_db() -> None:
     db.drop_all(bind=None)
     db.create_all(bind=None)
     db.session.commit()
 
 
-def create_sample_data():
+def create_sample_data() -> None:
     aircraft1 = Aircraft(model='Cirrus F4000', registration='NZ1410', capacity=6,
                          retired=False, maintenance_due=datetime(2022, 7, 14))
     aircraft2 = Aircraft(model='Cirrus F4600', registration='NZ1476', capacity=7,
@@ -121,11 +122,14 @@ def create_sample_data():
     airport1 = Airport(icao='NZDF', name='Dairy Flat Airfield')
     airport2 = Airport(icao='NZAA', name='Auckland International Airport')
     airport3 = Airport(icao='NZRT', name='Rotorua Domestic Airport')
+    admin = User(email="test@test.test", first_name="admin", last_name="user",
+                 hash=sha512_crypt.hash("testpass"), is_admin=True)
     db.session.add(aircraft1)
     db.session.add(aircraft2)
     db.session.add(airport1)
     db.session.add(airport2)
     db.session.add(airport3)
+    db.session.add(admin)
     db.session.commit()
 
 
