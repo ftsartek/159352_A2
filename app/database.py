@@ -78,6 +78,9 @@ class User(db.Model):
     def save_pass_hash(self, password) -> None:
         self.pass_hash = sha512_crypt.hash(password)
 
+    def validate_pass(self, password) -> bool:
+        return sha512_crypt.verify(password, self.pass_hash)
+
     def validate_account(self, code) -> bool:
         if self.verification_code == code:
             self.verification_code = None
@@ -123,7 +126,7 @@ def create_sample_data() -> None:
     airport2 = Airport(icao='NZAA', name='Auckland International Airport')
     airport3 = Airport(icao='NZRT', name='Rotorua Domestic Airport')
     admin = User(email="test@test.test", first_name="admin", last_name="user",
-                 hash=sha512_crypt.hash("testpass"), is_admin=True)
+                 pass_hash=sha512_crypt.hash("testpass"), is_admin=True)
     db.session.add(aircraft1)
     db.session.add(aircraft2)
     db.session.add(airport1)
