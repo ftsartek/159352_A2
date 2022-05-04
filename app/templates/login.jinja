@@ -4,14 +4,15 @@
 
 <h1>Login Page</h1>
 
-{% from "_formhelpers.jinja" import render_field %}
-<form method=post>
+<form method=post class="form-group">
     {{ form.csrf_token }}
-  <dl>
-    {{ render_field(form.email) }}
-    {{ render_field(form.password) }}
-  </dl>
-  <p><input type="submit" value="Log In">
+    <dl>
+        {{ form.email.label }}
+        {{ form.email(class_="form-control") }}
+        {{ form.password.label }}
+        {{ form.password(class_="form-control") }}
+    </dl>
+    <p><input type="submit" value="Log In">
 </form>
 
 {% endblock %}
