@@ -1,6 +1,6 @@
 from datetime import datetime
-
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
 from app import app
 from passlib.hash import sha512_crypt
 import random
@@ -58,7 +58,7 @@ class Booking(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     id: int = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email: str = db.Column(db.String(30), unique=True, nullable=False)
     first_name: str = db.Column(db.String(20), nullable=False)
@@ -68,9 +68,6 @@ class User(db.Model):
     is_active: bool = db.Column(db.Boolean, nullable=False, default=False)
     is_admin: bool = db.Column(db.Boolean, nullable=False, default=False)
     bookings = db.relationship('Booking', backref='user', lazy=True, uselist=True)
-
-    is_authenticated: bool = False
-    is_anonymous: bool = False
 
     def get_id(self) -> str:
         return str(self.id)
@@ -125,16 +122,18 @@ def create_sample_data() -> None:
     airport1 = Airport(icao='NZDF', name='Dairy Flat Airfield')
     airport2 = Airport(icao='NZAA', name='Auckland International Airport')
     airport3 = Airport(icao='NZRT', name='Rotorua Domestic Airport')
-    admin = User(email="test@test.test", first_name="admin", last_name="user",
-                 pass_hash=sha512_crypt.hash("testpass"), is_admin=True)
+    admin = User(email="admin@test.test", first_name="admin", last_name="user",
+                 pass_hash=sha512_crypt.hash("testpass"), is_admin=True, is_active=True)
+    user = User(email="user@test.test", first_name="normal", last_name="user",
+                pass_hash=sha512_crypt.hash("testpass"), is_active=True)
     db.session.add(aircraft1)
     db.session.add(aircraft2)
     db.session.add(airport1)
     db.session.add(airport2)
     db.session.add(airport3)
     db.session.add(admin)
+    db.session.add(user)
     db.session.commit()
 
 
-reset_db()
-create_sample_data()
+
