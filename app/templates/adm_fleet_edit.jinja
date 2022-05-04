@@ -1,0 +1,36 @@
+{% extends "_base.jinja" %}
+
+{% block main %}
+    <div class="row">
+        <h1>FlightBooker</h1>
+    </div>
+    <div class="row">
+        <div class="col-sm-8 p-2">
+            <div class="border p-3">
+                <form class="form-group" action="/admin/fleet/edit/{{aircraft.id}}" method="post">
+                    {{ form.csrf_token }}
+                    <h5>Aircraft ID: {{aircraft.id}}</h5>
+                    {{ form.id(value=aircraft.id) }}
+                    <br>
+                    <h5>Aircraft Model: {{aircraft.model}}</h5>
+                    {{ form.model(value=aircraft.model) }}
+                    <br>
+                    {{ form.registration.label }}
+                    {{ form.registration(placeholder=aircraft.registration, class_="form-control") }}
+                    <br>
+                    {{ form.capacity.label }}
+                    {{ form.capacity(placeholder=aircraft.capacity, class_="form-control") }}
+                    <br>
+                    {{ form.retired(checked=aircraft.retired, class_="form-check-input") }}
+                    {{ form.retired.label(class_="form-check-label") }}
+                    <br>
+                    {{ form.maint_schedule.label }}
+                    {{ form.maint_schedule(value=aircraft.maintenance_due, class_="form-control") }}
+                </form>
+            </div>
+        </div>
+        <div class="col-sm-4 p-2">
+            <div class="border"></div>
+        </div>
+    </div>
+{% endblock %}
