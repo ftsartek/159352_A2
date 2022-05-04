@@ -28,11 +28,7 @@
                                 <td>{{ aircraft.capacity }}</td>
                                 <td>{{ aircraft.maintenance_due }}</td>
                                 <td>{{ aircraft.retired }}</td>
-                                <td><form action="/admin/fleet/manage" method="post">
-                                    <input type="hidden" name="aircraft_id" value="{{aircraft.id}}"/>
-                                    <input type="hidden" name="return_mode" value="Edit"/>
-                                    <input type="submit" class="btn btn-secondary" value="Edit">
-                                </form></td>
+                                <td><a href="/admin/fleet/edit/{{ aircraft.id }}"><button class="btn btn-secondary">Edit</button></a></td>
                             </tr>
                         {% endfor %}
                     </tbody>
