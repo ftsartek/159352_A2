@@ -15,7 +15,24 @@ def routes():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    pass
+    form = forms.RegistrationForm()
+    if current_user.is_authenticated:
+        return redirect('/dashboard')
+    if form.validate_on_submit():
+        user = database.User(email=form.email.data, first_name=form.first_name.data, last_name=form.surname.data, active=True)
+        user.save_pass_hash(form.password.data)
+        user.generate_validator(16)
+        database.db.session.add(user)
+        database.db.session.commit()
+        flash('Your account has been created, and you can now log in.', 'success')
+        return redirect('/login')
+    elif len(form.errors) > 0:
+        issues = ''
+        print(form.errors)
+        for error in form.errors:
+            issues += form.errors.get(error)[0] + '<br>'
+        flash(f'Your account could not be created. Errors encountered:<br>' + issues, 'danger')
+    return render_template("register.jinja", form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
