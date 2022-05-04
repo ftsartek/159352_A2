@@ -1,8 +1,6 @@
-import flask
 from flask import render_template, request, escape, abort, session, redirect, flash
-from flask_login import login_required, logout_user, login_user
+from flask_login import login_required, logout_user, login_user, current_user
 from app import app, database, forms, accounts
-from passlib.hash import sha512_crypt
 
 
 @app.route('/')
@@ -23,7 +21,6 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = forms.LoginForm()
-    print(flask.get_flashed_messages(with_categories=True))
     if form.validate_on_submit():
         user = database.User.query.filter_by(email=form.email.data).first()
         if user is not None:
@@ -31,7 +28,7 @@ def login():
                 flash('Incorrect username or password', 'danger')
                 return render_template('login.jinja', form=form)
             else:
-                login_user(user)
+                login_user(user, remember=True)
                 flash('Logged in successfully', 'success')
             return redirect('/')
         else:
@@ -46,81 +43,114 @@ def logout():
     return redirect('/login')
 
 
-@app.route('/account')
+@app.route('/dashboard')
 @login_required
-def account():
+def dashboard():
     pass
 
 
-@app.route('/account/pwd_reset', methods=['GET', 'POST'])
+@app.route('/dashboard/pwd_reset', methods=['GET', 'POST'])
 @login_required
 def pwd_reset():
     pass
 
 
-@app.route('/account/acc_validate', methods=['GET', 'POST'])
+@app.route('/dashboard/acc_validate', methods=['GET', 'POST'])
 @login_required
 def acc_validate():
     pass
 
 
-@app.route('/account/bookings')
+@app.route('/dashboard/bookings')
 @login_required
 def bookings():
     pass
 
 
-@app.route('/account/book')
+@app.route('/dashboard/book')
 @login_required
 def book():
     pass
 
 
+@app.route('/admin/dashboard')
+@admin_required
+def adm_dash():
+    if current_user.is_admin:
+        return render_template("adm_.jinja")
+    else:
+        flash("You do not have permission to view this page.", "warning")
+        return redirect('/dashboard')
+
+
 @app.route('/admin/bookings')
 @login_required
 def adm_bookings():
-    pass
+    if current_user.is_admin:
+        return render_template("adm_.jinja")
+    else:
+        flash("You do not have permission to view this page.", "warning")
+        return redirect('/dashboard')
 
 
 @app.route('/admin/schedule', methods=['GET', 'POST'])
 @login_required
 def adm_schedule():
-    pass
+    if current_user.is_admin:
+        return render_template("adm_.jinja")
+    else:
+        flash("You do not have permission to view this page.", "warning")
+        return redirect('/dashboard')
 
 
 @app.route('/admin/fleet', methods=['GET', 'POST'])
 @login_required
 def adm_fleet():
-    return render_template("adm_fleet.jinja", fleet_data=database.Aircraft.query.all())
+    if current_user.is_admin:
+        return render_template("adm_fleet.jinja", fleet_data=database.Aircraft.query.all())
+    else:
+        flash("You do not have permission to view this page.", "warning")
+        return redirect('/dashboard')
 
 
-@app.route('/admin/fleet/manage', methods=['GET', 'POST'])
+@app.route('/admin/fleet/edit/<ac_id>', methods=['GET', 'POST'])
 @login_required
-def adm_fleet_mgmt():
-    if request.method == 'POST':
-        post_data = request.values.to_dict()
-        if post_data.get("aircraft_id") is not None:
-            aircraft = database.Aircraft.query.filter_by(id=post_data.get("aircraft_id")).first()
-            if post_data.get("return_mode") == "Save":
-                # Save post data to aircraft
-                pass
-            elif post_data.get("return_mode") == "New":
-                # Save post data to a new aircraft
-                pass
-            return render_template('adm_fleet_mgmt.jinja', aircraft=aircraft)
-    # Fallback
-    return redirect('/admin/fleet')
+def adm_fleet_mgmt(ac_id):
+    if current_user.is_admin:
+        if request.method == 'GET':
+            aircraft = database.Aircraft.query.filter_by(id=ac_id).first()
+            if aircraft is not None:
+                form = forms.AircraftEditForm()
+                return render_template('adm_fleet_edit.jinja', aircraft=aircraft, form=form)
+            # Fallback
+            return redirect('/admin/fleet')
+    else:
+        flash("You do not have permission to view this page.", "warning")
+        return redirect('/dashboard')
 
 
 @app.route('/admin/routes', methods=['GET', 'POST'])
 @login_required
 def adm_routes():
-    pass
+    if current_user.is_admin:
+        return render_template("adm_.jinja")
+    else:
+        flash("You do not have permission to view this page.", "warning")
+        return redirect('/dashboard')
 
 
 @app.route('/admin/accounts', methods=['GET', 'POST'])
 @login_required
 def adm_accounts():
-    pass
+    if current_user.is_admin:
+        return render_template("adm_.jinja")
+    else:
+        flash("You do not have permission to view this page.", "warning")
+        return redirect('/dashboard')
 
 
+@app.route('/resetall')
+def reset_all():
+    database.reset_db()
+    database.create_sample_data()
+    return redirect('/login')
