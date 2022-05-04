@@ -1,5 +1,5 @@
 from flask import render_template, request, escape, abort, session, redirect, flash
-from flask_login import login_required, logout_user, login_user, current_user
+from flask_login import login_required, logout_user, login_user, current_user, login_fresh
 from app import app, database, forms, accounts
 
 
@@ -21,6 +21,8 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = forms.LoginForm()
+    if current_user.is_authenticated or login_fresh is None:
+        return redirect('/dashboard')
     if form.validate_on_submit():
         user = database.User.query.filter_by(email=form.email.data).first()
         if user is not None:
@@ -46,7 +48,7 @@ def logout():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    pass
+    return "Hi"
 
 
 @app.route('/dashboard/pwd_reset', methods=['GET', 'POST'])
@@ -74,7 +76,7 @@ def book():
 
 
 @app.route('/admin/dashboard')
-@admin_required
+@login_required
 def adm_dash():
     if current_user.is_admin:
         return render_template("adm_.jinja")
