@@ -28,7 +28,6 @@ def register():
         return redirect('/login')
     elif len(form.errors) > 0:
         issues = ''
-        print(form.errors)
         for error in form.errors:
             issues += form.errors.get(error)[0] + '<br>'
         flash(f'Your account could not be created. Errors encountered:<br>' + issues, 'danger')
@@ -65,12 +64,16 @@ def logout():
 @app.route('/dashboard')
 @login_required
 def dashboard():
+    if not current_user.is_validated():
+        return redirect('/dashboard/validate')
     return "Hi"
 
 
 @app.route('/dashboard/pwd_reset', methods=['GET', 'POST'])
 @login_required
 def pwd_reset():
+    if not current_user.is_validated():
+        return redirect('/dashboard/validate')
     pass
 
 
@@ -85,19 +88,23 @@ def acc_validate():
 @app.route('/dashboard/bookings')
 @login_required
 def bookings():
+    if not current_user.is_validated():
+        return redirect('/dashboard/validate')
     pass
 
 
 @app.route('/dashboard/book')
 @login_required
 def book():
+    if not current_user.is_validated():
+        return redirect('/dashboard/validate')
     pass
 
 
 @app.route('/admin/dashboard')
 @login_required
 def adm_dash():
-    if current_user.is_admin:
+    if current_user.is_admin():
         return render_template("adm_.jinja")
     else:
         flash("You do not have permission to view this page.", "warning")
@@ -107,7 +114,7 @@ def adm_dash():
 @app.route('/admin/bookings')
 @login_required
 def adm_bookings():
-    if current_user.is_admin:
+    if current_user.is_admin():
         return render_template("adm_.jinja")
     else:
         flash("You do not have permission to view this page.", "warning")
@@ -117,7 +124,7 @@ def adm_bookings():
 @app.route('/admin/schedule', methods=['GET', 'POST'])
 @login_required
 def adm_schedule():
-    if current_user.is_admin:
+    if current_user.is_admin():
         return render_template("adm_.jinja")
     else:
         flash("You do not have permission to view this page.", "warning")
@@ -127,7 +134,7 @@ def adm_schedule():
 @app.route('/admin/fleet', methods=['GET', 'POST'])
 @login_required
 def adm_fleet():
-    if current_user.is_admin:
+    if current_user.is_admin():
         return render_template("adm_fleet.jinja", fleet_data=database.Aircraft.query.all())
     else:
         flash("You do not have permission to view this page.", "warning")
@@ -137,7 +144,7 @@ def adm_fleet():
 @app.route('/admin/fleet/edit/<ac_id>', methods=['GET', 'POST'])
 @login_required
 def adm_fleet_mgmt(ac_id):
-    if current_user.is_admin:
+    if current_user.is_admin():
         if request.method == 'GET':
             aircraft = database.Aircraft.query.filter_by(id=ac_id).first()
             if aircraft is not None:
@@ -153,7 +160,7 @@ def adm_fleet_mgmt(ac_id):
 @app.route('/admin/routes', methods=['GET', 'POST'])
 @login_required
 def adm_routes():
-    if current_user.is_admin:
+    if current_user.is_admin():
         return render_template("adm_.jinja")
     else:
         flash("You do not have permission to view this page.", "warning")
@@ -163,7 +170,7 @@ def adm_routes():
 @app.route('/admin/accounts', methods=['GET', 'POST'])
 @login_required
 def adm_accounts():
-    if current_user.is_admin:
+    if current_user.is_admin():
         return render_template("adm_.jinja")
     else:
         flash("You do not have permission to view this page.", "warning")
