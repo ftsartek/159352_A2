@@ -57,9 +57,11 @@ def pwd_reset():
     pass
 
 
-@app.route('/dashboard/acc_validate', methods=['GET', 'POST'])
+@app.route('/dashboard/validate', methods=['GET', 'POST'])
 @login_required
 def acc_validate():
+    if current_user.verification_code is None:
+        return redirect('/dashboard')
     pass
 
 
