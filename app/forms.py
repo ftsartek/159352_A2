@@ -6,15 +6,16 @@ csrf = csrf.CSRFProtect(app)
 
 
 class LoginForm(FlaskForm):
-    email = StringField('Email', [validators.DataRequired(), validators.Length(min=4, max=30)])
+    email = StringField('Email', [validators.DataRequired(), validators.Email()])
     password = PasswordField('Password', [validators.DataRequired(), validators.Length(min=8, max=25)])
 
 
 class RegistrationForm(FlaskForm):
-    email = StringField('Email', [validators.DataRequired(), validators.Length(min=4, max=30)])
-    password = PasswordField('Password', [validators.DataRequired(), validators.Length(min=8, max=25)])
-    confirm = PasswordField('Confirm Password', [validators.DataRequired(), validators.Length(min=8, max=25)])
-    #First name & last name
+    email = StringField('Email', [validators.InputRequired(), validators.Email()])
+    password = PasswordField('Password', [validators.InputRequired(), validators.equal_to('confirm', message="Password & Confirm field inputs did not match."), validators.Length(min=6, max=25)])
+    confirm = PasswordField('Confirm Password', [validators.InputRequired()])
+    first_name = StringField('First Name', [validators.DataRequired()])
+    surname = StringField('Surname', [validators.DataRequired()])
 
 
 class AircraftEditForm(FlaskForm):
