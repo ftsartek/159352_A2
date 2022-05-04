@@ -58,16 +58,28 @@ class Booking(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 
-class User(db.Model, UserMixin):
+class User(db.Model):
     id: int = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email: str = db.Column(db.String(30), unique=True, nullable=False)
     first_name: str = db.Column(db.String(20), nullable=False)
     last_name: str = db.Column(db.String(20), nullable=False)
     pass_hash: str = db.Column(db.String(200), nullable=False)
     verification_code: str = db.Column(db.String(20), nullable=True)
-    is_active: bool = db.Column(db.Boolean, nullable=False, default=False)
-    is_admin: bool = db.Column(db.Boolean, nullable=False, default=False)
+    active: bool = db.Column(db.Boolean, nullable=False, default=False)
+    admin: bool = db.Column(db.Boolean, nullable=False, default=False)
     bookings = db.relationship('Booking', backref='user', lazy=True, uselist=True)
+
+    def is_active(self):
+        return self.active
+
+    def is_anonymous(self):
+        return False
+
+    def is_authenticated(self):
+        return self.active
+
+    def is_admin(self):
+        return self.admin
 
     def get_id(self) -> str:
         return str(self.id)
@@ -123,9 +135,9 @@ def create_sample_data() -> None:
     airport2 = Airport(icao='NZAA', name='Auckland International Airport')
     airport3 = Airport(icao='NZRT', name='Rotorua Domestic Airport')
     admin = User(email="admin@test.test", first_name="admin", last_name="user",
-                 pass_hash=sha512_crypt.hash("testpass"), is_admin=True, is_active=True)
+                 pass_hash=sha512_crypt.hash("testpass"), admin=True, active=True)
     user = User(email="user@test.test", first_name="normal", last_name="user",
-                pass_hash=sha512_crypt.hash("testpass"), is_active=True)
+                pass_hash=sha512_crypt.hash("testpass"), active=True)
     db.session.add(aircraft1)
     db.session.add(aircraft2)
     db.session.add(airport1)
