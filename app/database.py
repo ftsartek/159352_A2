@@ -65,6 +65,7 @@ class User(db.Model):
     last_name: str = db.Column(db.String(20), nullable=False)
     pass_hash: str = db.Column(db.String(200), nullable=False)
     verification_code: str = db.Column(db.String(20), nullable=True)
+    validated: bool = db.Column(db.Boolean, nullable=False, default=False)
     active: bool = db.Column(db.Boolean, nullable=False, default=False)
     admin: bool = db.Column(db.Boolean, nullable=False, default=False)
     bookings = db.relationship('Booking', backref='user', lazy=True, uselist=True)
@@ -80,6 +81,9 @@ class User(db.Model):
 
     def is_admin(self):
         return self.admin
+
+    def is_validated(self):
+        return self.validated
 
     def get_id(self) -> str:
         return str(self.id)
