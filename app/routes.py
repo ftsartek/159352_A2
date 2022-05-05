@@ -43,14 +43,14 @@ def login():
         user = database.User.query.filter_by(email=form.email.data).first()
         if user is not None:
             if not user.validate_pass(form.password.data):
-                flash('Incorrect username or password', 'danger')
+                flash('Incorrect email or password', 'danger')
                 return render_template('login.jinja', form=form)
             else:
                 login_user(user, remember=True)
                 flash('Logged in successfully', 'success')
-            return redirect('/')
+            return redirect('/dashboard')
         else:
-            flash('Incorrect username or password', 'danger')
+            flash('Incorrect email or password', 'danger')
     return render_template('login.jinja', form=form)
 
 
@@ -58,6 +58,7 @@ def login():
 @login_required
 def logout():
     logout_user()
+    flash('Logged out successfully', 'success')
     return redirect('/login')
 
 
