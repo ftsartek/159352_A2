@@ -1,42 +1,41 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-secondary bg-opacity-25 px-2">
     <div class="container">
-    <a class="navbar-brand" href="#">FlightBooker</a>
+    <a class="navbar-brand" href="/">FlightBooker</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ms-auto">
+    <ul class="collapse navbar-collapse my-0" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-lg-0">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Home</a>
+                <a class="nav-link" href="/">Home</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/routes">Routes</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/aircraft">Aircraft</a>
+            </li>
             {% if current_user.is_active and current_user.is_validated() %}
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Dashboard
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Search Flights</a>
-                        <a class="dropdown-item" href="#">View/Make Bookings</a>
-                        <a class="dropdown-item" href="#">Account Management</a>
-                        <a class="dropdown-item" href="/logout">Log Out</a>
-                    </div>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#">Search Flights</a></li>
+                        <li><a class="dropdown-item" href="#">View/Make Bookings</a></li>
+                        <li><a class="dropdown-item" href="#">Account Management</a></li>
+                        {% if current_user.is_admin() %}
+                        <li><hr class="dropdown-divider"></li>
+                        <li><p class="dropdown-item disabled"><strong>Administration</strong></p></li>
+                        <li><a class="dropdown-item" href="#">Flight List</a></li>
+                        <li><a class="dropdown-item" href="#">Booking List</a></li>
+                        <li><a class="dropdown-item" href="#">Aircraft List</a></li>
+                        {% endif %}
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="/logout">Log Out</a></li>
+                    </ul>
                 </li>
-                {% if current_user.is_admin() %}
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Admin
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Search Flights</a>
-                        <a class="dropdown-item" href="#">View/Make Bookings</a>
-                        <a class="dropdown-item" href="#">Account Management</a>
-                    </div>
-                </li>
-                {% endif %}
             {% elif current_user.is_active and not current_user.is_validated() %}
                 <li class="nav-item">
                     <a class="nav-link" href="/dashboard/validate">Validate</a>
