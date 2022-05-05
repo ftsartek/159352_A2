@@ -18,6 +18,7 @@ def aircraft():
     return render_template("aircraft.jinja")
 
 
+# Account transaction pages
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = forms.RegistrationForm()
@@ -161,13 +162,12 @@ def adm_fleet():
 @login_required
 def adm_fleet_mgmt(ac_id):
     if current_user.is_admin():
-        if request.method == 'GET':
-            aircraft = database.Aircraft.query.filter_by(id=ac_id).first()
-            if aircraft is not None:
-                form = forms.AircraftEditForm()
-                return render_template('adm_fleet_edit.jinja', aircraft=aircraft, form=form)
-            # Fallback
-            return redirect('/admin/fleet')
+        aircraft = database.Aircraft.query.get(ac_id)
+        if aircraft is not None:
+            form = forms.AircraftEditForm()
+            return render_template('adm_fleet_edit.jinja', aircraft=aircraft, form=form)
+        # Fallback
+        return redirect('/admin/fleet')
     else:
         flash("You do not have permission to view this page.", "warning")
         return redirect('/dashboard')
@@ -183,11 +183,11 @@ def adm_routes():
         return redirect('/dashboard')
 
 
-@app.route('/admin/accounts', methods=['GET', 'POST'])
+@app.route('/admin/users', methods=['GET', 'POST'])
 @login_required
-def adm_accounts():
+def adm_users():
     if current_user.is_admin():
-        return render_template("adm_.jinja")
+        return render_template("adm_users.jinja", user_data=database.User.query.all())
     else:
         flash("You do not have permission to view this page.", "warning")
         return redirect('/dashboard')
