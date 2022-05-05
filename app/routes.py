@@ -80,9 +80,19 @@ def pwd_reset():
 @app.route('/dashboard/validate', methods=['GET', 'POST'])
 @login_required
 def acc_validate():
-    if current_user.verification_code is None:
+    form = forms.ValidationCheckForm()
+    if not current_user.requires_validation():
         return redirect('/dashboard')
-    pass
+    if form.validate_on_submit():
+        if current_user.validate_account(form.validation_code.data):
+            flash('Your account was successfully validated.', 'success')
+            database.db.session.commit()
+            return redirect('/dashboard')
+        else:
+            flash('Your account could not be verified. Please try again.', 'danger')
+    elif len(form.errors) > 0:
+        flash('Your account could not be verified. Please try again.', 'danger')
+    return render_template("dashboard_validate.jinja", form=form)
 
 
 @app.route('/dashboard/bookings')
