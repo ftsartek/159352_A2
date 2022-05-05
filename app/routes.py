@@ -189,6 +189,7 @@ def adm_accounts():
 
 @app.route('/resetall')
 def reset_all():
+    logout_user()
     database.reset_db()
     database.create_sample_data()
     return redirect('/login')
