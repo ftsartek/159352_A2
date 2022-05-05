@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from app import app
@@ -15,8 +15,8 @@ class Aircraft(db.Model):
     model = db.Column(db.String(30), nullable=False)
     registration = db.Column(db.String(10), nullable=False)
     capacity = db.Column(db.Integer, nullable=False)
-    retired = db.Column(db.Boolean, nullable=False)
-    maintenance_due = db.Column(db.Date, nullable=False)
+    retired = db.Column(db.Boolean, nullable=False, default=False)
+    maintenance_due = db.Column(db.Date, nullable=False, default=(date.today() + datetime.timedelta(weeks=26)))
     flights = db.relationship('Flight', backref='aircraft', lazy=True, uselist=True)
 
 
