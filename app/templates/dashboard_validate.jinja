@@ -1,0 +1,20 @@
+{% extends "_base.jinja" %}
+
+{% block main %}
+
+<h1>Validation Page</h1>
+
+    {% if current_user.requires_validation() %}
+        <h6>{{ current_user.verification_code }} </h6>
+        <form method=post class="form-group">
+            {{ form.csrf_token }}
+            <dl>
+                {{ form.validation_code.label }}
+                {{ form.validation_code(class_="form-control") }}
+            </dl>
+            <p><input type="submit" value="Validate Account">
+        </form>
+    {% else %} <h6>Your account does not need to be validated.</h6>
+    {% endif %}
+
+{% endblock %}
