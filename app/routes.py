@@ -13,6 +13,11 @@ def routes():
     return render_template("routes.jinja")
 
 
+@app.route('/aircraft')
+def aircraft():
+    return render_template("aircraft.jinja")
+
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = forms.RegistrationForm()
