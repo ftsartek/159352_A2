@@ -97,6 +97,13 @@ class User(db.Model):
     def validate_account(self, code) -> bool:
         if self.verification_code == code:
             self.verification_code = None
+            self.validated = True
+            return True
+        else:
+            return False
+
+    def requires_validation(self):
+        if not self.validated or self.verification_code is not None:
             return True
         else:
             return False
@@ -121,7 +128,6 @@ class User(db.Model):
             random_code += str(chr(rand_char))
             step += 1
         self.verification_code = random_code
-        # TODO: Mail verification code
 
 
 def reset_db() -> None:
