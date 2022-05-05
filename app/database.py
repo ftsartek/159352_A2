@@ -144,10 +144,10 @@ def create_sample_data() -> None:
     airport1 = Airport(icao='NZDF', name='Dairy Flat Airfield')
     airport2 = Airport(icao='NZAA', name='Auckland International Airport')
     airport3 = Airport(icao='NZRT', name='Rotorua Domestic Airport')
-    admin = User(email="admin@test.test", first_name="admin", last_name="user",
-                 pass_hash=sha512_crypt.hash("testpass"), admin=True, active=True)
-    user = User(email="user@test.test", first_name="normal", last_name="user",
-                pass_hash=sha512_crypt.hash("testpass"), active=True)
+    admin = User(email="admin@testsite.com", first_name="admin", last_name="user",
+                 pass_hash=sha512_crypt.hash("testpass"), admin=True, active=True, validated=True)
+    user = User(email="user@testsite.com", first_name="normal", last_name="user",
+                pass_hash=sha512_crypt.hash("testpass"), active=True, validated=True)
     db.session.add(aircraft1)
     db.session.add(aircraft2)
     db.session.add(airport1)
