@@ -18,6 +18,12 @@ class Aircraft(db.Model):
     flights = db.relationship('Flight', backref='aircraft', lazy=True, uselist=True)
 
 
+class FlightSchedule(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    date = db.Column(db.Date, nullable=False)
+    bookings = db.relationship('Booking', backref='flight_schedule', lazy=True, uselist=True)
+
+
 class Flight(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     designation = db.Column(db.String(8), nullable=False)
@@ -29,7 +35,10 @@ class Flight(db.Model):
 # Used to define legs of flights
 class FlightLeg(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    leg = db.Column(db.Integer, default=1)
+    leg = db.Column(db.Integer, default=None, nullable=True)
+    departure_time = db.Column(db.Time, nullable=False)
+    arrival_time = db.Column(db.Time, nullable=False)
+    price = db.Column(db.Float, nullable=False)
     flight_id = db.Column(db.Integer, db.ForeignKey('flight.id'))
     # These two don't need to exclude each other to allow for scenic routes that return to the same airport
     departure_airport_id = db.Column(db.Integer, db.ForeignKey('airport.id'), nullable=False)
@@ -56,6 +65,9 @@ class Booking(db.Model):
     id: int = db.Column(db.Integer, primary_key=True, autoincrement=True)
     tickets = db.relationship('Ticket', backref='booking', lazy=True, uselist=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    flight_booked = db.Column(db.Integer, db.ForeignKey('flightschedule.id'), nullable=False)
+    start_leg = db.Column(db.Integer, db.ForeignKey('flightleg.id'))
+    end_leg = db.Column(db.Integer, db.ForeignKey('flightleg.id'))
 
 
 class User(db.Model):
