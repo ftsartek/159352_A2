@@ -9,6 +9,8 @@ db = SQLAlchemy(app)
 
 
 class Aircraft(db.Model):
+    __tablename__ = 'aircraft'
+
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     model = db.Column(db.String(30), nullable=False)
     registration = db.Column(db.String(10), nullable=False)
@@ -18,13 +20,29 @@ class Aircraft(db.Model):
     flights = db.relationship('Flight', backref='aircraft', lazy=True, uselist=True)
 
 
+class Booking(db.Model):
+    __tablename__ = 'booking'
+
+    id: int = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    tickets = db.relationship('Ticket', backref='booking', lazy=True, uselist=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    flight_booked_id = db.Column(db.Integer, db.ForeignKey('flightschedule.id'), nullable=False)
+    start_leg_id = db.Column(db.Integer, db.ForeignKey('flightleg.id'))
+    end_leg_id = db.Column(db.Integer, db.ForeignKey('flightleg.id'))
+    flight_booked = db.relationship('FlightSchedule', back_populates='bookings', uselist=False)
+
+
 class FlightSchedule(db.Model):
+    __tablename__ = 'flightschedule'
+
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     date = db.Column(db.Date, nullable=False)
-    bookings = db.relationship('Booking', backref='flight_schedule', lazy=True, uselist=True)
+    bookings = db.relationship('Booking', back_populates='flight_booked', lazy=True, uselist=True)
 
 
 class Flight(db.Model):
+    __tablename__ = 'flight'
+
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     designation = db.Column(db.String(8), nullable=False)
     return_flight_id = db.Column(db.String, db.ForeignKey('flight.id'), nullable=True)
@@ -34,6 +52,8 @@ class Flight(db.Model):
 
 # Used to define legs of flights
 class FlightLeg(db.Model):
+    __tablename__ = 'flightleg'
+
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     leg = db.Column(db.Integer, default=None, nullable=True)
     departure_time = db.Column(db.Time, nullable=False)
@@ -43,9 +63,15 @@ class FlightLeg(db.Model):
     # These two don't need to exclude each other to allow for scenic routes that return to the same airport
     departure_airport_id = db.Column(db.Integer, db.ForeignKey('airport.id'), nullable=False)
     arrival_airport_id = db.Column(db.Integer, db.ForeignKey('airport.id'), nullable=False)
+    booking_start_leg = db.relationship('Booking', backref='start_leg', lazy=True, uselist=True,
+                                        foreign_keys=[Booking.start_leg_id])
+    booking_end_leg = db.relationship('Booking', backref='end_leg', lazy=True, uselist=True,
+                                      foreign_keys=[Booking.end_leg_id])
 
 
 class Airport(db.Model):
+    __tablename__ = 'airport'
+
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     icao = db.Column(db.String(4), nullable=False)
     name = db.Column(db.String(30), nullable=False)
@@ -56,21 +82,16 @@ class Airport(db.Model):
 
 
 class Ticket(db.Model):
+    __tablename__ = 'ticket'
+
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     number = db.Column(db.Integer, nullable=False)
     booking_id = db.Column(db.Integer, db.ForeignKey('booking.id'), nullable=False)
 
 
-class Booking(db.Model):
-    id: int = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    tickets = db.relationship('Ticket', backref='booking', lazy=True, uselist=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    flight_booked = db.Column(db.Integer, db.ForeignKey('flightschedule.id'), nullable=False)
-    start_leg = db.Column(db.Integer, db.ForeignKey('flightleg.id'))
-    end_leg = db.Column(db.Integer, db.ForeignKey('flightleg.id'))
-
-
 class User(db.Model):
+    __tablename__ = 'user'
+
     id: int = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email: str = db.Column(db.String(30), unique=True, nullable=False)
     first_name: str = db.Column(db.String(20), nullable=False)
@@ -168,6 +189,3 @@ def create_sample_data() -> None:
     db.session.add(admin)
     db.session.add(user)
     db.session.commit()
-
-
-
