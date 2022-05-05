@@ -11,14 +11,18 @@
 </head>
 
 <body>
-
+    <div class="position-absolute bottom-0 start-50 translate-middle-x">
     {% with messages = get_flashed_messages(with_categories=True) %}
        {% if messages %}
           {% for message in messages %}
-              <div class="alert alert-{{ message[0] }}" role="alert"> {{ message[1] }} </div>
+              <div class="alert alert-{{ message[0] }} alert-dismissible fade show" role="alert">
+                  {{ message[1] }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
           {% endfor %}
        {% endif %}
     {% endwith %}
+    </div>
 
     {% include "__menubar.jinja" %}
 
