@@ -1,0 +1,44 @@
+{% extends "_base.jinja" %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-sm-8 p-2">
+            <div class="border">
+                <table class="table table-light">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Email</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th class="text-center">Active</th>
+                            <th class="text-center">Validated</th>
+                            <th class="text-center">Admin</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in user_data %}
+                            <tr>
+                                <td>{{ user.id }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.first_name }}</td>
+                                <td>{{ user.last_name }}</td>
+                                <td class="text-center">{% if user.active %}<h5 class="bi-check-square checkbox-icon"></h5>
+                                {% else %}<h5 class="bi-x-square crossbox-icon"></h5>{% endif %}</td>
+                                <td class="text-center">{% if user.validated %}<h5 class="bi-check-square checkbox-icon"></h5>
+                                {% else %}<h5 class="bi-x-square crossbox-icon"></h5>{% endif %}</td>
+                                <td class="text-center">{% if user.admin %}<h5 class="bi-check-square checkbox-icon"></h5>
+                                {% else %}<h5 class="bi-x-square crossbox-icon"></h5>{% endif %}</td>
+                                <td><a href="/admin/users/edit/{{ user.id }}"><button class="btn btn-secondary">Edit</button></a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-sm-4 p-2">
+            <div class="border"></div>
+        </div>
+    </div>
+{% endblock %}
