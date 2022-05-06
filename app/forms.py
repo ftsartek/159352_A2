@@ -1,4 +1,5 @@
 from app import app
+from app.database import Aircraft, Flight, FlightLeg, FlightSchedule
 from flask_wtf import FlaskForm, csrf
 from wtforms import TextAreaField, SelectField, BooleanField, DateField, StringField, PasswordField, IntegerField, \
     validators, HiddenField, BooleanField, SubmitField
@@ -34,3 +35,14 @@ class AircraftEditForm(FlaskForm):
 class ValidationCheckForm(FlaskForm):
     validation_code = StringField('Validation Code', [validators.DataRequired()])
     submit = SubmitField("Validate Account")
+
+
+class BookingForm(FlaskForm):
+    flights = Flight.query.all()
+    choice_list = []
+    for flight in flights:
+        for flightleg in flight.flight:
+            choice_list.append(f"{flight.designation}: {flightleg.departure_airport.name} --> {flightleg.arrival_airport.name}")
+    route_selector = SelectField('Route', [validators.DataRequired()], choices=choice_list)
+    date_start_selector = DateField('Between', [validators.DataRequired()])
+    date_end_selector = DateField('And', [validators.DataRequired()])
