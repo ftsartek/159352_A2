@@ -116,7 +116,9 @@ def bookings():
 def book():
     if not current_user.is_validated():
         return redirect('/dashboard/validate')
-    pass
+    else:
+        form = forms.BookingForm()
+        return render_template('book.jinja', form=form)
 
 
 @app.route('/admin/dashboard')
