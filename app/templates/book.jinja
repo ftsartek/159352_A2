@@ -1,0 +1,19 @@
+{% extends "_base.jinja" %}
+
+{% block main %}
+
+<h1>Booking Page</h1>
+
+<form method=post class="form-group">
+    {{ form.csrf_token }}
+    <dl>
+        {{ form.route_selector.label }}
+        {{ form.route_selector(class_="form-control") }}
+        {{ form.date_start_selector.label }}
+        {{ form.date_start_selector(class_="form-control") }}
+        {{ form.date_end_selector.label }}
+        {{ form.date_end_selector(class_="form-control") }}
+    </dl>
+</form>
+
+{% endblock %}
