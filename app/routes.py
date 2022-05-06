@@ -1,6 +1,7 @@
+import flask_login
 from flask import render_template, request, escape, abort, session, redirect, flash
 from flask_login import login_required, logout_user, login_user, current_user, login_fresh
-from app import app, database, forms, accounts
+from app import app, database, forms, accounts, database_defaults
 
 
 @app.route('/')
@@ -195,7 +196,7 @@ def adm_users():
 
 @app.route('/resetall')
 def reset_all():
-    logout_user()
-    database.reset_db()
-    database.create_sample_data()
+    if not isinstance(current_user, flask_login.AnonymousUserMixin):
+        logout_user()
+    database_defaults.generate_defaults()
     return redirect('/login')
