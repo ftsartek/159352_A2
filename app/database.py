@@ -1,4 +1,4 @@
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from app import app
@@ -16,7 +16,7 @@ class Aircraft(db.Model):
     registration = db.Column(db.String(10), nullable=False)
     capacity = db.Column(db.Integer, nullable=False)
     retired = db.Column(db.Boolean, nullable=False, default=False)
-    maintenance_due = db.Column(db.Date, nullable=False, default=(date.today() + datetime.timedelta(weeks=26)))
+    maintenance_due = db.Column(db.Date, nullable=False, default=(date.today() + timedelta(weeks=26)))
     flights = db.relationship('Flight', backref='aircraft', lazy=True, uselist=True)
 
 
@@ -37,7 +37,9 @@ class FlightSchedule(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     date = db.Column(db.Date, nullable=False)
+    flight_id = db.Column(db.Integer, db.ForeignKey('flight.id'), nullable=False)
     bookings = db.relationship('Booking', back_populates='flight_booked', lazy=True, uselist=True)
+    flight = db.relationship('Flight', back_populates='schedule', lazy=True, uselist=False)
 
 
 class Flight(db.Model):
@@ -48,6 +50,7 @@ class Flight(db.Model):
     return_flight_id = db.Column(db.String, db.ForeignKey('flight.id'), nullable=True)
     aircraft_id = db.Column(db.String, db.ForeignKey('aircraft.id'), nullable=False)
     flight = db.relationship('FlightLeg', backref='flight', lazy=True, uselist=True)
+    schedule = db.relationship('FlightSchedule', back_populates='flight', lazy=True, uselist=True)
 
 
 # Used to define legs of flights
@@ -57,7 +60,7 @@ class FlightLeg(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     leg = db.Column(db.Integer, default=None, nullable=True)
     departure_time = db.Column(db.Time, nullable=False)
-    arrival_time = db.Column(db.Time, nullable=False)
+    flight_duration = db.Column(db.Time, nullable=False)
     price = db.Column(db.Float, nullable=False)
     flight_id = db.Column(db.Integer, db.ForeignKey('flight.id'))
     # These two don't need to exclude each other to allow for scenic routes that return to the same airport
@@ -75,6 +78,8 @@ class Airport(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     icao = db.Column(db.String(4), nullable=False)
     name = db.Column(db.String(30), nullable=False)
+    location = db.Column(db.String(60), nullable=False)
+    tz_offset = db.Column(db.Interval, nullable=False)
     departures = db.relationship('FlightLeg', backref='departure_airport', lazy=True, uselist=True,
                                  foreign_keys=[FlightLeg.departure_airport_id])
     arrivals = db.relationship('FlightLeg', backref='arrival_airport', lazy=True, uselist=True,
@@ -161,31 +166,3 @@ class User(db.Model):
             random_code += str(chr(rand_char))
             step += 1
         self.verification_code = random_code
-
-
-def reset_db() -> None:
-    db.drop_all(bind=None)
-    db.create_all(bind=None)
-    db.session.commit()
-
-
-def create_sample_data() -> None:
-    aircraft1 = Aircraft(model='Cirrus F4000', registration='NZ1410', capacity=6,
-                         retired=False, maintenance_due=datetime(2022, 7, 14))
-    aircraft2 = Aircraft(model='Cirrus F4600', registration='NZ1476', capacity=7,
-                         retired=False, maintenance_due=datetime(2022, 8, 30))
-    airport1 = Airport(icao='NZDF', name='Dairy Flat Airfield')
-    airport2 = Airport(icao='NZAA', name='Auckland International Airport')
-    airport3 = Airport(icao='NZRT', name='Rotorua Domestic Airport')
-    admin = User(email="admin@testsite.com", first_name="admin", last_name="user",
-                 pass_hash=sha512_crypt.hash("testpass"), admin=True, active=True, validated=True)
-    user = User(email="user@testsite.com", first_name="normal", last_name="user",
-                pass_hash=sha512_crypt.hash("testpass"), active=True, validated=True)
-    db.session.add(aircraft1)
-    db.session.add(aircraft2)
-    db.session.add(airport1)
-    db.session.add(airport2)
-    db.session.add(airport3)
-    db.session.add(admin)
-    db.session.add(user)
-    db.session.commit()
