@@ -41,8 +41,13 @@ class BookingForm(FlaskForm):
     flights = Flight.query.all()
     choice_list = []
     for flight in flights:
-        for flightleg in flight.flight:
-            choice_list.append(f"{flight.designation}: {flightleg.departure_airport.name} --> {flightleg.arrival_airport.name}")
+        legs = flight.flight
+        while len(legs) > 0:
+            incrementor = 0
+            while incrementor < len(legs):
+                choice_list.append(
+                    f"{flight.designation}: {legs[0].departure_airport.name} --> {legs[incrementor].arrival_airport.name}")
+                incrementor += 1
     route_selector = SelectField('Route', [validators.DataRequired()], choices=choice_list)
     date_start_selector = DateField('Between', [validators.DataRequired()])
     date_end_selector = DateField('And', [validators.DataRequired()])
