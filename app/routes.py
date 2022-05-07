@@ -1,7 +1,9 @@
 import flask_login
 from flask import render_template, request, escape, abort, session, redirect, flash
 from flask_login import login_required, logout_user, login_user, current_user, login_fresh
-from app import app, database, forms, accounts, database_defaults
+from app import app, database, database_defaults, forms, accounts
+
+print("Initialising routes")
 
 
 @app.route('/')

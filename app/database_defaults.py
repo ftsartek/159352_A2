@@ -2,6 +2,8 @@ from app.database import db, Aircraft, Airport, Booking, Flight, FlightLeg, Flig
 from datetime import date, time, timezone, timedelta
 from passlib.hash import sha512_crypt
 
+print("Initialising database defaults")
+
 
 def create_date_list(days) -> tuple:
     date_generator = date.today()

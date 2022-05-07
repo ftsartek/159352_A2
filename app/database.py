@@ -5,6 +5,7 @@ from app import app
 from passlib.hash import sha512_crypt
 import random
 
+print("Initialising database")
 db = SQLAlchemy(app)
 
 

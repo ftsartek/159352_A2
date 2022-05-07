@@ -3,6 +3,8 @@ from flask import flash, redirect
 from flask_login import LoginManager
 from app import app, database
 
+print("Initialising accounts")
+
 login_manager = LoginManager()
 
 login_manager.init_app(app)
