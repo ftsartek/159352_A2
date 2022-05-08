@@ -5,7 +5,6 @@ from app import app, database, database_defaults, forms, accounts
 
 print("Initialising routes")
 
-
 @app.route('/')
 def index():
     return render_template("index.jinja")
@@ -113,14 +112,22 @@ def bookings():
     pass
 
 
-@app.route('/dashboard/book')
+@app.route('/dashboard/book', methods=['GET', 'POST'])
 @login_required
 def book():
     if not current_user.is_validated():
         return redirect('/dashboard/validate')
     else:
-        form = forms.BookingForm()
-        return render_template('book.jinja', form=form)
+        searchform = forms.BookingForm()
+        if searchform.submit.data and searchform.validate_on_submit():
+            if searchform.start_airport == searchform.end_airport or searchform.start_airport == 0 or searchform.end_airport == 0:
+                flash("Your start and end destinations should be different!", 'warning')
+            if searchform.date_end_selector < searchform.date_start_selector:
+                flash("The end date in the range selection should be the same or after the start date.", 'warning')
+
+        # selectform = forms.FlightSelectForm()
+        # returnselectform = forms.ReturnSelectForm()
+        return render_template('book.jinja', searchform=searchform)
 
 
 @app.route('/admin/dashboard')
