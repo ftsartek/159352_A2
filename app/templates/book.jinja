@@ -5,14 +5,17 @@
 <h1>Booking Page</h1>
 
 <form method=post class="form-group">
-    {{ form.csrf_token }}
+    {{ searchform.csrf_token }}
     <dl>
-        {{ form.route_selector.label }}
-        {{ form.route_selector(class_="form-control") }}
-        {{ form.date_start_selector.label }}
-        {{ form.date_start_selector(class_="form-control") }}
-        {{ form.date_end_selector.label }}
-        {{ form.date_end_selector(class_="form-control") }}
+        {{ searchform.start_airport.label }}
+        {{ searchform.start_airport(class_="form-control") }}
+        {{ searchform.end_airport.label }}
+        {{ searchform.end_airport(class_="form-control") }}
+        {{ searchform.date_start_selector.label }}
+        {{ searchform.date_start_selector(class_="form-control") }}
+        {{ searchform.date_end_selector.label }}
+        {{ searchform.date_end_selector(class_="form-control") }}
+        {{ searchform.submit }}
     </dl>
 </form>
 
