@@ -43,7 +43,7 @@ class BookingForm(FlaskForm):
     choice_list = database_helpers.flight_list()
     airports = [(0, "--- Select an Airport ---")] + [(ap.id, ap.name) for ap in Airport.query.all()]
     start_airport = SelectField('Departure Airport', choices=airports)
-    end_airport = SelectField('Arrival Airport', choices=airports, validators=[NotEqualTo(start_airport)])
+    end_airport = SelectField('Arrival Airport', choices=airports)
     date_start_selector = DateField('Between', [validators.DataRequired()])
     date_end_selector = DateField('And', [validators.DataRequired()])
     submit = SubmitField("Search")

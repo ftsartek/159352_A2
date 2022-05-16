@@ -272,3 +272,6 @@ def generate_defaults() -> None:
     default_flights()
     default_legs()
     generate_schedule()
+
+
+# generate_defaults()

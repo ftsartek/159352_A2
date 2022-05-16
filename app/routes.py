@@ -1,7 +1,8 @@
 import flask_login
 from flask import render_template, request, escape, abort, session, redirect, flash
 from flask_login import login_required, logout_user, login_user, current_user, login_fresh
-from app import app, database, database_defaults, forms, accounts
+from app import app, database, database_defaults, forms, accounts, database_helpers
+from datetime import date
 
 print("Initialising routes")
 
@@ -118,16 +119,25 @@ def book():
     if not current_user.is_validated():
         return redirect('/dashboard/validate')
     else:
-        searchform = forms.BookingForm()
-        if searchform.submit.data and searchform.validate_on_submit():
-            if searchform.start_airport == searchform.end_airport or searchform.start_airport == 0 or searchform.end_airport == 0:
-                flash("Your start and end destinations should be different!", 'warning')
-            if searchform.date_end_selector < searchform.date_start_selector:
-                flash("The end date in the range selection should be the same or after the start date.", 'warning')
-
         # selectform = forms.FlightSelectForm()
         # returnselectform = forms.ReturnSelectForm()
-        return render_template('book.jinja', searchform=searchform)
+        searchform = forms.BookingForm()
+        if searchform.submit.data:
+            if searchform.validate_on_submit():
+                airport_data = [database.Airport.query.filter_by(id=searchform.start_airport.data).first(),
+                                database.Airport.query.filter_by(id=searchform.end_airport.data).first()]
+                results = database_helpers.filtered_flight_list(
+                    searchform.start_airport.data, searchform.end_airport.data,
+                    searchform.date_start_selector.data, searchform.date_end_selector.data)
+                return render_template('book.jinja', searchform=searchform, step=2, airport_data=airport_data, results=results)
+            else:
+                if searchform.start_airport.data == searchform.end_airport.data:
+                    flash("Your start and end destinations should be different!", 'warning')
+                if searchform.start_airport.data == '0' or searchform.end_airport.data == '0':
+                    flash("Please select both a departure and arrival airport.", 'warning')
+                if searchform.date_end_selector.data < searchform.date_start_selector.data:
+                    flash("The end date in the range selection should be the same or after the start date.", 'warning')
+        return render_template('book.jinja', searchform=searchform, step=1)
 
 
 @app.route('/admin/dashboard')

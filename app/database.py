@@ -40,7 +40,7 @@ class FlightSchedule(db.Model):
     date = db.Column(db.Date, nullable=False)
     flight_id = db.Column(db.Integer, db.ForeignKey('flight.id'), nullable=False)
     bookings = db.relationship('Booking', back_populates='flight_booked', lazy=True, uselist=True)
-    flight = db.relationship('Flight', back_populates='schedule', lazy=True, uselist=False)
+    flight = db.relationship('Flight', back_populates='schedule', lazy=False, uselist=False)
 
 
 class Flight(db.Model):
@@ -50,8 +50,8 @@ class Flight(db.Model):
     designation = db.Column(db.String(8), nullable=False)
     return_flight_id = db.Column(db.String, db.ForeignKey('flight.id'), nullable=True)
     aircraft_id = db.Column(db.String, db.ForeignKey('aircraft.id'), nullable=False)
-    flight = db.relationship('FlightLeg', backref='flight', lazy=True, uselist=True)
-    schedule = db.relationship('FlightSchedule', back_populates='flight', lazy=True, uselist=True)
+    flightlegs = db.relationship('FlightLeg', backref='flight', lazy=True, uselist=True)
+    schedule = db.relationship('FlightSchedule', back_populates='flight', lazy='dynamic', uselist=True)
 
 
 # Used to define legs of flights

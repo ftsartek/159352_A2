@@ -1,5 +1,5 @@
 from app import app
-import json
+import yaml
 
 
 class Config:
@@ -28,8 +28,8 @@ class Config:
 
     def load_config(self):
         try:
-            with open("config.json", "r") as config_file:
-                self.data = json.load(config_file)
+            with open("config.yaml", "r") as config_file:
+                self.data = yaml.load(config_file)
                 config_file.close()
             app.logger.info("Config file loaded successfully.")
         except (IOError, FileNotFoundError):
@@ -39,7 +39,7 @@ class Config:
     def dump_config(self):
         config_dict = {"Debug": self.debug_mode}
         app.logger.info("Config json dumped.")
-        return json.dumps(config_dict, indent=2)
+        return yaml.dump(config_dict, indent=2)
 
     def write_config(self):
         try:

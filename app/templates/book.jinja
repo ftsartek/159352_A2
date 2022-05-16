@@ -4,6 +4,7 @@
 
 <h1>Booking Page</h1>
 
+{% if step == 1 %}
 <form method=post class="form-group">
     {{ searchform.csrf_token }}
     <dl>
@@ -18,5 +19,49 @@
         {{ searchform.submit }}
     </dl>
 </form>
+{% endif %}
+
+{% if step == 2 %}
+<h3>Listing flights from:</h3><br>
+<p>{{ airport_data[0].name }}</p><br>
+<h3>To:</h3><br>
+<p>{{ airport_data[1].name }}</p><br>
+<h3>Between:</h3>
+<p>{{ searchform.date_start_selector.data }} and {{ searchform.date_end_selector.data }}</p>
+<div class="row">
+        <div class="col-sm-8 p-2">
+            <div class="border">
+                <table class="table table-light">
+                    <thead>
+                        <tr>
+                            <th>Flight ID</th>
+                            <th>Designator</th>
+                            <th>Date</th>
+                            <th>Start Airport</th>
+                            <th>End Airport</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for flight in results %}
+                            <tr>
+                                <td>{{ flight.id }}</td>
+                                <td>{{ flight.flight.designation }}</td>
+                                <td>{{ flight.date }}</td>
+                                <td>{{ flight }}</td>
+                                <td>{{ flight }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-sm-4 p-2">
+            <div class="border"></div>
+        </div>
+    </div>
+
+{% endif %}
+
+
 
 {% endblock %}
