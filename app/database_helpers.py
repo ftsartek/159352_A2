@@ -1,4 +1,4 @@
-from app.database import db, Flight, FlightSchedule, FlightLeg, Airport
+from app.database import db, Flight, FlightSchedule, FlightLeg, Airport, Aircraft, Booking
 from datetime import date
 
 
@@ -20,10 +20,23 @@ def flight_list():
 
 
 def filtered_flight_list(departure: int, arrival: int, earliest: date, latest: date):
-    query = db.select(Flight).outerjoin(Flight.schedule).\
-        where(FlightSchedule.date <= latest, FlightSchedule.date >= earliest)
-    print(query)
-    schedules = db.session.execute(query)
-    for item in schedules:
-        print(item.Flight.designation, item.Flight.schedule.date)
-    return schedules
+    # Alias two versions of FlightLeg for startleg and endleg comparisons
+    fl1_aliased = db.aliased(FlightLeg)
+    fl2_aliased = db.aliased(FlightLeg)
+    # One HELL of an SQL query to get all the data we need to check available bookings
+    combine = db.select(FlightSchedule.id, FlightSchedule.date, Flight.id, fl1_aliased.id,
+                        fl1_aliased.departure_airport_id, fl2_aliased.id, fl2_aliased.arrival_airport_id,
+                        db.func.count(Booking.flight_booked_id), Aircraft.capacity) \
+        .where(FlightSchedule.date >= earliest, FlightSchedule.date <= latest) \
+        .join(FlightSchedule.flight.of_type(Flight)).outerjoin(Booking) \
+        .join(Flight.aircraft.of_type(Aircraft)) \
+        .join(Flight.flightlegs.of_type(fl1_aliased)).join(Flight.flightlegs.of_type(fl2_aliased)) \
+        .where(fl1_aliased.departure_airport_id == departure) \
+        .where(fl2_aliased.arrival_airport_id == arrival) \
+        .group_by(FlightSchedule.id)
+
+
+    schedules = db.session.execute(combine)
+    schedule_list = [item for item in schedules]
+    print(schedule_list)
+    #return schedules
