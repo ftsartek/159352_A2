@@ -1,3 +1,5 @@
+import datetime
+
 from app.database import db, Flight, FlightSchedule, FlightLeg, Airport, Aircraft, Booking
 from datetime import date
 
@@ -24,9 +26,12 @@ def filtered_flight_list(departure: int, arrival: int, earliest: date, latest: d
     fl1_aliased = db.aliased(FlightLeg)
     fl2_aliased = db.aliased(FlightLeg)
     # One HELL of an SQL query to get all the data we need to check available bookings
-    combine = db.select(FlightSchedule.id, FlightSchedule.date, Flight.id, fl1_aliased.id,
-                        fl1_aliased.departure_airport_id, fl2_aliased.id, fl2_aliased.arrival_airport_id,
-                        db.func.count(Booking.flight_booked_id), Aircraft.capacity) \
+    combine = db.select(FlightSchedule.id, FlightSchedule.date, Flight.id,
+                        fl1_aliased.id, fl1_aliased.departure_airport_id, fl1_aliased.leg,
+                        fl1_aliased.departure_time, fl1_aliased.flight_duration,
+                        fl2_aliased.id, fl2_aliased.arrival_airport_id, fl2_aliased.leg,
+                        fl2_aliased.departure_time, fl2_aliased.flight_duration,
+                        db.func.count(Booking.flight_booked_id), Aircraft.id) \
         .where(FlightSchedule.date >= earliest, FlightSchedule.date <= latest) \
         .join(FlightSchedule.flight.of_type(Flight)).outerjoin(Booking) \
         .join(Flight.aircraft.of_type(Aircraft)) \
@@ -35,8 +40,25 @@ def filtered_flight_list(departure: int, arrival: int, earliest: date, latest: d
         .where(fl2_aliased.arrival_airport_id == arrival) \
         .group_by(FlightSchedule.id)
 
-
     schedules = db.session.execute(combine)
-    schedule_list = [item for item in schedules]
-    print(schedule_list)
-    #return schedules
+    dict_list = []
+    for item in schedules:
+        dict_list.append({
+            "Schedule ID": item[0],
+            "Schedule Date": item[1],
+            "Flight Designation": Flight.query.filter_by(id=item[2]).first().designation,
+            "Aircraft Model": Aircraft.query.filter_by(id=item[14]).first().model,
+            "Start Leg ID": item[3],
+            "Departure Airport Name": Airport.query.filter_by(id=item[4]).first().name,
+            "Departure Airport ICAO": Airport.query.filter_by(id=item[4]).first().icao,
+            "Stops": item[10] - item[5],
+            "Start Leg Departure": datetime.datetime.combine(item[1], item[6]),
+            "End Leg ID": item[8],
+            "Arrival Airport Name": Airport.query.filter_by(id=item[9]).first().name,
+            "Arrival Airport ICAO": Airport.query.filter_by(id=item[9]).first().icao,
+            "End Leg Arrival": datetime.datetime.combine(item[1], item[6]) + item[12],
+            "Schedule Bookings": item[13],
+            "Aircraft Capacity": Aircraft.query.filter_by(id=item[14]).first().capacity
+        })
+    print(dict_list)
+    return dict_list

@@ -117,19 +117,19 @@ def default_legs() -> None:
     # Purely because one flight has two legs... Fun!
     # Times are all in UTC only!
     # Prestige Flight Legs
-    prst_west_leg1 = FlightLeg(leg=1, price=148.50, flight_duration=time(hour=0, minute=45),
+    prst_west_leg1 = FlightLeg(leg=1, price=148.50, flight_duration=timedelta(hours=0, minutes=45),
                                departure_time=time(hour=7, minute=15,
                                                    tzinfo=timezone(offset=timedelta(hours=12), name='NZST')),
                                flight_id=Flight.query.filter_by(designation='AFB153').first().id,
                                departure_airport_id=Airport.query.filter_by(icao='NZNE').first().id,
                                arrival_airport_id=Airport.query.filter_by(icao='NZRO').first().id)
-    prst_west_leg2 = FlightLeg(leg=2, price=551.30, flight_duration=time(hour=4, minute=15),
+    prst_west_leg2 = FlightLeg(leg=2, price=551.30, flight_duration=timedelta(hours=4, minutes=15),
                                departure_time=time(hour=8, minute=25,
                                                    tzinfo=timezone(offset=timedelta(hours=12), name='NZST')),
                                flight_id=Flight.query.filter_by(designation='AFB153').first().id,
                                departure_airport_id=Airport.query.filter_by(icao='NZRO').first().id,
                                arrival_airport_id=Airport.query.filter_by(icao='YSSY').first().id)
-    prst_east_leg = FlightLeg(leg=1, price=585.80, flight_duration=time(hour=3, minute=50),
+    prst_east_leg = FlightLeg(leg=1, price=585.80, flight_duration=timedelta(hours=3, minutes=50),
                               departure_time=time(hour=15, minute=30,
                                                   tzinfo=timezone(offset=timedelta(hours=10), name='AEST')),
                               flight_id=Flight.query.filter_by(designation='AFB154').first().id,
@@ -139,13 +139,13 @@ def default_legs() -> None:
     db.session.add(prst_west_leg2)
     db.session.add(prst_east_leg)
     # Early Shuttle Legs
-    shtl_south_leg_early = FlightLeg(leg=1, price=98.95, flight_duration=time(hour=0, minute=55),
+    shtl_south_leg_early = FlightLeg(leg=1, price=98.95, flight_duration=timedelta(hours=0, minutes=55),
                                      departure_time=time(hour=8, minute=0,
                                                          tzinfo=timezone(offset=timedelta(hours=12), name='NZST')),
                                      flight_id=Flight.query.filter_by(designation='AFB635').first().id,
                                      departure_airport_id=Airport.query.filter_by(icao='NZNE').first().id,
                                      arrival_airport_id=Airport.query.filter_by(icao='NZRO').first().id)
-    shtl_north_leg_early = FlightLeg(leg=1, price=99.15, flight_duration=time(hour=0, minute=58),
+    shtl_north_leg_early = FlightLeg(leg=1, price=99.15, flight_duration=timedelta(hours=0, minutes=58),
                                      departure_time=time(hour=12, minute=0,
                                                          tzinfo=timezone(offset=timedelta(hours=12), name='NZST')),
                                      flight_id=Flight.query.filter_by(designation='AFB636').first().id,
@@ -154,13 +154,13 @@ def default_legs() -> None:
     db.session.add(shtl_south_leg_early)
     db.session.add(shtl_north_leg_early)
     # Late Shuttle Legs
-    shtl_south_leg_late = FlightLeg(leg=1, price=98.95, flight_duration=time(hour=0, minute=55),
+    shtl_south_leg_late = FlightLeg(leg=1, price=98.95, flight_duration=timedelta(hours=0, minutes=55),
                                     departure_time=time(hour=16, minute=0,
                                                         tzinfo=timezone(offset=timedelta(hours=12), name='NZST')),
                                     flight_id=Flight.query.filter_by(designation='AFB637').first().id,
                                     departure_airport_id=Airport.query.filter_by(icao='NZNE').first().id,
                                     arrival_airport_id=Airport.query.filter_by(icao='NZRO').first().id)
-    shtl_north_leg_late = FlightLeg(leg=1, price=99.15, flight_duration=time(hour=0, minute=58),
+    shtl_north_leg_late = FlightLeg(leg=1, price=99.15, flight_duration=timedelta(hours=0, minutes=58),
                                     departure_time=time(hour=20, minute=0,
                                                         tzinfo=timezone(offset=timedelta(hours=12), name='NZST')),
                                     flight_id=Flight.query.filter_by(designation='AFB638').first().id,
@@ -169,13 +169,13 @@ def default_legs() -> None:
     db.session.add(shtl_south_leg_late)
     db.session.add(shtl_north_leg_late)
     # Great Barrier Island Legs
-    gbi_east_leg = FlightLeg(leg=1, price=68.45, flight_duration=time(hour=0, minute=30),
+    gbi_east_leg = FlightLeg(leg=1, price=68.45, flight_duration=timedelta(hours=0, minutes=30),
                              departure_time=time(hour=8, minute=45,
                                                  tzinfo=timezone(offset=timedelta(hours=12), name='NZST')),
                              flight_id=Flight.query.filter_by(designation='AFB700').first().id,
                              departure_airport_id=Airport.query.filter_by(icao='NZNE').first().id,
                              arrival_airport_id=Airport.query.filter_by(icao='NZGB').first().id)
-    gbi_west_leg = FlightLeg(leg=1, price=68.45, flight_duration=time(hour=0, minute=30),
+    gbi_west_leg = FlightLeg(leg=1, price=68.45, flight_duration=timedelta(hours=0, minutes=30),
                              departure_time=time(hour=8, minute=45,
                                                  tzinfo=timezone(offset=timedelta(hours=12), name='NZST')),
                              flight_id=Flight.query.filter_by(designation='AFB701').first().id,
@@ -183,14 +183,15 @@ def default_legs() -> None:
                              arrival_airport_id=Airport.query.filter_by(icao='NZNE').first().id)
     db.session.add(gbi_east_leg)
     db.session.add(gbi_west_leg)
+    db.session.add(gbi_west_leg)
     # Chatham Island Legs
-    chtm_south_leg = FlightLeg(leg=1, price=339.95, flight_duration=time(hour=2, minute=40),
+    chtm_south_leg = FlightLeg(leg=1, price=339.95, flight_duration=timedelta(hours=2, minutes=40),
                                departure_time=time(hour=10, minute=30,
                                                    tzinfo=timezone(offset=timedelta(hours=12), name='NZST')),
                                flight_id=Flight.query.filter_by(designation='AFB465').first().id,
                                departure_airport_id=Airport.query.filter_by(icao='NZNE').first().id,
                                arrival_airport_id=Airport.query.filter_by(icao='NZCI').first().id)
-    chtm_north_leg = FlightLeg(leg=1, price=349.95, flight_duration=time(hour=2, minute=55),
+    chtm_north_leg = FlightLeg(leg=1, price=349.95, flight_duration=timedelta(hours=2, minutes=55),
                                departure_time=time(hour=10, minute=15,
                                                    tzinfo=timezone(offset=timedelta(hours=12, minutes=45), name='NZST')),
                                flight_id=Flight.query.filter_by(designation='AFB466').first().id,
@@ -199,13 +200,13 @@ def default_legs() -> None:
     db.session.add(chtm_south_leg)
     db.session.add(chtm_north_leg)
     # Tekapo Legs
-    tek_south_leg = FlightLeg(leg=1, price=385.55, flight_duration=time(hour=3, minute=15),
+    tek_south_leg = FlightLeg(leg=1, price=385.55, flight_duration=timedelta(hours=3, minutes=15),
                               departure_time=time(hour=10, minute=30,
                                                   tzinfo=timezone(offset=timedelta(hours=12), name='NZST')),
                               flight_id=Flight.query.filter_by(designation='AFB989').first().id,
                               departure_airport_id=Airport.query.filter_by(icao='NZNE').first().id,
                               arrival_airport_id=Airport.query.filter_by(icao='NZTL').first().id)
-    tek_north_leg = FlightLeg(leg=1, price=399.80, flight_duration=time(hour=3, minute=25),
+    tek_north_leg = FlightLeg(leg=1, price=399.80, flight_duration=timedelta(hours=3, minutes=25),
                               departure_time=time(hour=10, minute=30,
                                                   tzinfo=timezone(offset=timedelta(hours=12), name='NZST')),
                               flight_id=Flight.query.filter_by(designation='AFB990').first().id,
@@ -274,4 +275,4 @@ def generate_defaults() -> None:
     generate_schedule()
 
 
-# generate_defaults()
+generate_defaults()

@@ -5,3 +5,27 @@
 .crossbox-icon {
     color: #a30000;
 }
+
+.noto-light {
+    font-family: 'Noto Sans Display', sans-serif;
+    font-weight: 200;
+}
+
+.noto-regular {
+    font-family: 'Noto Sans Display', sans-serif;
+    font-weight: 400;
+}
+
+.noto-bold {
+    font-family: 'Noto Sans Display', sans-serif;
+    font-weight: 600;
+}
+
+.noto-black {
+    font-family: 'Noto Sans Display', sans-serif;
+    font-weight: 800;
+}
+
+.schedule-selector:hover {
+    background: #e5e5e5;
+}

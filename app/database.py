@@ -61,7 +61,7 @@ class FlightLeg(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     leg = db.Column(db.Integer, default=None, nullable=True)
     departure_time = db.Column(db.Time, nullable=False)
-    flight_duration = db.Column(db.Time, nullable=False)
+    flight_duration = db.Column(db.Interval, nullable=False)
     price = db.Column(db.Float, nullable=False)
     flight_id = db.Column(db.Integer, db.ForeignKey('flight.id'))
     # These two don't need to exclude each other to allow for scenic routes that return to the same airport
