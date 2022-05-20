@@ -50,6 +50,7 @@ class Flight(db.Model):
     designation = db.Column(db.String(8), nullable=False)
     return_flight_id = db.Column(db.String, db.ForeignKey('flight.id'), nullable=True)
     aircraft_id = db.Column(db.String, db.ForeignKey('aircraft.id'), nullable=False)
+    route_image = db.Column(db.String, nullable=True)
     flightlegs = db.relationship('FlightLeg', backref='flight', lazy=True, uselist=True)
     schedule = db.relationship('FlightSchedule', back_populates='flight', lazy=True, uselist=True)
 
