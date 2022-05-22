@@ -1,3 +1,5 @@
+import datetime
+
 import flask_login
 from flask import render_template, request, escape, abort, session, redirect, flash
 from flask_login import login_required, logout_user, login_user, current_user, login_fresh
@@ -122,21 +124,40 @@ def book():
         # selectform = forms.FlightSelectForm()
         # returnselectform = forms.ReturnSelectForm()
         searchform = forms.BookingForm()
+        # Step 1 section
         if searchform.submit.data:
             if searchform.validate_on_submit():
+                # Validate data that we can't via WTForms
+                invalidate = False
+                if searchform.date_end_selector.data < searchform.date_start_selector.data:
+                    flash("Date selection invalid: Range end date is earlier than range start date.", 'warning')
+                    invalidate = True
+                if searchform.date_start_selector.data < datetime.date.today():
+                    flash("Date selection invalid: Cannot search for historic flights.", 'warning')
+                    invalidate = True
+                if searchform.start_airport.data == '0' or searchform.end_airport.data == '0':
+                    flash("Airport selection invalid: Both a departure and arrival airport must be selected.", 'warning')
+                    invalidate = True
+                elif searchform.start_airport.data == searchform.end_airport.data:
+                    flash("Airport selection invalid: Start and end destinations must be different.", 'warning')
+                    invalidate = True
+                # Reload the first step if the form data is invalid
+                if invalidate:
+                    return render_template('book.jinja', searchform=searchform, step=1)
+                # Get airport data for query
                 airport_data = [database.Airport.query.filter_by(id=searchform.start_airport.data).first(),
                                 database.Airport.query.filter_by(id=searchform.end_airport.data).first()]
+                # Generate and execute query via helper to get flight list
                 results = database_helpers.filtered_flight_list(
                     searchform.start_airport.data, searchform.end_airport.data,
                     searchform.date_start_selector.data, searchform.date_end_selector.data)
+                # If there are no results, alert user and reload step 1
+                if len(results) == 0:
+                    flash("No flights fit these criteria. Please try again.", 'warning')
+                    return render_template('book.jinja', searchform=searchform, step=1)
+                # If everything is good, move on to step 2
                 return render_template('book.jinja', searchform=searchform, step=2, airport_data=airport_data, results=results)
-            else:
-                if searchform.start_airport.data == searchform.end_airport.data:
-                    flash("Your start and end destinations should be different!", 'warning')
-                if searchform.start_airport.data == '0' or searchform.end_airport.data == '0':
-                    flash("Please select both a departure and arrival airport.", 'warning')
-                if searchform.date_end_selector.data < searchform.date_start_selector.data:
-                    flash("The end date in the range selection should be the same or after the start date.", 'warning')
+        # Default loader
         return render_template('book.jinja', searchform=searchform, step=1)
 
 

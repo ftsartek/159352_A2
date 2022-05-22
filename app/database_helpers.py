@@ -39,14 +39,16 @@ def filtered_flight_list(departure: int, arrival: int, earliest: date, latest: d
         .where(fl1_aliased.departure_airport_id == departure) \
         .where(fl2_aliased.arrival_airport_id == arrival) \
         .group_by(FlightSchedule.id)
-
+    # Execute the command
     schedules = db.session.execute(combine)
     dict_list = []
+    # Loop through results and build a dictionary to return (easier to work with)
     for item in schedules:
         dict_list.append({
             "Schedule ID": item[0],
             "Schedule Date": item[1],
-            "Flight Designation": Flight.query.filter_by(id=item[2]).first().designation,
+            "Flight Designation": Flight.query.filter_by(id=item[2]).first().designation if not None else "route_missing.png",
+            "Flight Image": Flight.query.filter_by(id=item[2]).first().route_image,
             "Aircraft Model": Aircraft.query.filter_by(id=item[14]).first().model,
             "Start Leg ID": item[3],
             "Departure Airport Name": Airport.query.filter_by(id=item[4]).first().name,
@@ -60,5 +62,4 @@ def filtered_flight_list(departure: int, arrival: int, earliest: date, latest: d
             "Schedule Bookings": item[13],
             "Aircraft Capacity": Aircraft.query.filter_by(id=item[14]).first().capacity
         })
-    print(dict_list)
     return dict_list

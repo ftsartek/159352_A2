@@ -66,45 +66,45 @@ def default_flights() -> None:
     # North/East flights tend to be even numbers. Multiple repeat flights in a day usually get their own designator
     # International are usually between 100-399, domestic are usually 400-999
     # Prestige round flights
-    prestige_west = Flight(designation='AFB153', aircraft_id=Aircraft.query.filter_by(registration='NZ1410').first().id)
-    prestige_east = Flight(designation='AFB154', aircraft_id=Aircraft.query.filter_by(registration='NZ1410').first().id)
+    prestige_west = Flight(designation='AFB153', aircraft_id=Aircraft.query.filter_by(registration='NZ1410').first().id, route_image='nzne-yssy.gif')
+    prestige_east = Flight(designation='AFB154', aircraft_id=Aircraft.query.filter_by(registration='NZ1410').first().id, route_image='yssy-nzne.gif')
     prestige_west.return_flight_id = prestige_east.id
     prestige_east.return_flight_id = prestige_west.id
     db.session.add(prestige_west)
     db.session.add(prestige_east)
     # Early Rotorua shuttle
     shuttle_early_south = Flight(designation='AFB635',
-                                 aircraft_id=Aircraft.query.filter_by(registration='NZ1675').first().id)
+                                 aircraft_id=Aircraft.query.filter_by(registration='NZ1675').first().id, route_image='nzne-nzro.gif')
     shuttle_early_north = Flight(designation='AFB636',
-                                 aircraft_id=Aircraft.query.filter_by(registration='NZ1675').first().id)
+                                 aircraft_id=Aircraft.query.filter_by(registration='NZ1675').first().id, route_image='nzro-nzne.gif')
     shuttle_early_south.return_flight_id = shuttle_early_north.id
     shuttle_early_north.return_flight_id = shuttle_early_south.id
     db.session.add(shuttle_early_south)
     db.session.add(shuttle_early_north)
     # Late Rotorua shuttle
-    shuttle_late_south = Flight(designation='AFB637', aircraft_id=Aircraft.query.filter_by(registration='NZ1675').first().id)
-    shuttle_late_north = Flight(designation='AFB638', aircraft_id=Aircraft.query.filter_by(registration='NZ1675').first().id)
+    shuttle_late_south = Flight(designation='AFB637', aircraft_id=Aircraft.query.filter_by(registration='NZ1675').first().id, route_image='nzne-nzro.gif')
+    shuttle_late_north = Flight(designation='AFB638', aircraft_id=Aircraft.query.filter_by(registration='NZ1675').first().id, route_image='nzro-nzne.gif')
     shuttle_late_south.return_flight_id = shuttle_late_north.id
     shuttle_late_north.return_flight_id = shuttle_late_south.id
     db.session.add(shuttle_late_south)
     db.session.add(shuttle_late_north)
     # GBI service
-    gbi_east = Flight(designation='AFB700', aircraft_id=Aircraft.query.filter_by(registration='NZ1882').first().id)
-    gbi_west = Flight(designation='AFB701', aircraft_id=Aircraft.query.filter_by(registration='NZ1882').first().id)
+    gbi_east = Flight(designation='AFB700', aircraft_id=Aircraft.query.filter_by(registration='NZ1882').first().id, route_image='nzne-nzgb.gif')
+    gbi_west = Flight(designation='AFB701', aircraft_id=Aircraft.query.filter_by(registration='NZ1882').first().id, route_image='nzgb-nzne.gif')
     gbi_east.return_flight_id = gbi_west.id
     gbi_west.return_flight_id = gbi_east.id
     db.session.add(gbi_east)
     db.session.add(gbi_west)
     # Chatham service
-    cht_south = Flight(designation='AFB465', aircraft_id=Aircraft.query.filter_by(registration='NZ1905').first().id)
-    cht_north = Flight(designation='AFB466', aircraft_id=Aircraft.query.filter_by(registration='NZ1905').first().id)
+    cht_south = Flight(designation='AFB465', aircraft_id=Aircraft.query.filter_by(registration='NZ1905').first().id, route_image='nzne-nzci.gif')
+    cht_north = Flight(designation='AFB466', aircraft_id=Aircraft.query.filter_by(registration='NZ1905').first().id, route_image='nzci-nzne.gif')
     cht_south.return_flight_id = cht_north.id
     cht_north.return_flight_id = cht_south.id
     db.session.add(cht_south)
     db.session.add(cht_north)
     # Tekapo Service
-    tek_south = Flight(designation='AFB989', aircraft_id=Aircraft.query.filter_by(registration='NZ1121').first().id)
-    tek_north = Flight(designation='AFB990', aircraft_id=Aircraft.query.filter_by(registration='NZ1121').first().id)
+    tek_south = Flight(designation='AFB989', aircraft_id=Aircraft.query.filter_by(registration='NZ1121').first().id, route_image='nzne-nztl.gif')
+    tek_north = Flight(designation='AFB990', aircraft_id=Aircraft.query.filter_by(registration='NZ1121').first().id, route_image='nztl-nzne.gif')
     tek_south.return_flight_id = tek_north.id
     tek_north.return_flight_id = tek_south.id
     db.session.add(tek_south)
