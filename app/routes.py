@@ -121,9 +121,20 @@ def book():
     if not current_user.is_validated():
         return redirect('/dashboard/validate')
     else:
-        # selectform = forms.FlightSelectForm()
-        # returnselectform = forms.ReturnSelectForm()
-        searchform = forms.BookingForm()
+        selectform = forms.BookingSelectForm()
+        searchform = forms.BookingSearchForm()
+        # Step 2 section
+        if selectform.submit.data:
+            if selectform.validate_on_submit():
+                new_booking = database.Booking(seats=selectform.ticket_number.data,
+                                               user_id=selectform.user_id.data,
+                                               flight_booked_id=selectform.schedule_id.data,
+                                               start_leg_id=selectform.startleg_id.data,
+                                               end_leg_id=selectform.endleg_id.data)
+                database.db.session.add(new_booking)
+                database.db.session.commit()
+            else:
+                print(selectform.errors)
         # Step 1 section
         if searchform.submit.data:
             if searchform.validate_on_submit():
@@ -156,7 +167,7 @@ def book():
                     flash("No flights fit these criteria. Please try again.", 'warning')
                     return render_template('book.jinja', searchform=searchform, step=1)
                 # If everything is good, move on to step 2
-                return render_template('book.jinja', searchform=searchform, step=2, airport_data=airport_data, results=results)
+                return render_template('book.jinja', searchform=searchform, selectform=selectform, step=2, airport_data=airport_data, results=results)
         # Default loader
         return render_template('book.jinja', searchform=searchform, step=1)
 
@@ -175,7 +186,7 @@ def adm_dash():
 @login_required
 def adm_bookings():
     if current_user.is_admin():
-        return render_template("adm_.jinja")
+        return render_template("adm_bookings.jinja", booking_data=database.Booking.query.all())
     else:
         flash("You do not have permission to view this page.", "warning")
         return redirect('/dashboard')

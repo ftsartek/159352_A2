@@ -31,7 +31,7 @@ def filtered_flight_list(departure: int, arrival: int, earliest: date, latest: d
                         fl1_aliased.departure_time, fl1_aliased.flight_duration,
                         fl2_aliased.id, fl2_aliased.arrival_airport_id, fl2_aliased.leg,
                         fl2_aliased.departure_time, fl2_aliased.flight_duration,
-                        db.func.count(Booking.flight_booked_id), Aircraft.id) \
+                        db.func.sum(Booking.seats), Aircraft.id) \
         .where(FlightSchedule.date >= earliest, FlightSchedule.date <= latest) \
         .join(FlightSchedule.flight.of_type(Flight)).outerjoin(Booking) \
         .join(Flight.aircraft.of_type(Aircraft)) \
@@ -59,7 +59,7 @@ def filtered_flight_list(departure: int, arrival: int, earliest: date, latest: d
             "Arrival Airport Name": Airport.query.filter_by(id=item[9]).first().name,
             "Arrival Airport ICAO": Airport.query.filter_by(id=item[9]).first().icao,
             "End Leg Arrival": datetime.datetime.combine(item[1], item[6]) + item[12],
-            "Schedule Bookings": item[13],
-            "Aircraft Capacity": Aircraft.query.filter_by(id=item[14]).first().capacity
+            "Scheduled Seat Bookings": item[13] if item[13] is not None else 0,
+            "Aircraft Capacity": Aircraft.query.filter_by(id=item[14]).first().capacity,
         })
     return dict_list

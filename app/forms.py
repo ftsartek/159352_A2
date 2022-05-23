@@ -39,7 +39,7 @@ class ValidationCheckForm(FlaskForm):
     submit = SubmitField("Validate Account")
 
 
-class BookingForm(FlaskForm):
+class BookingSearchForm(FlaskForm):
     choice_list = database_helpers.flight_list()
     airports = [(0, "--- Select an Airport ---")] + [(ap.id, ap.name) for ap in Airport.query.all()]
     start_airport = SelectField('Departure Airport', choices=airports)
@@ -49,10 +49,10 @@ class BookingForm(FlaskForm):
     submit = SubmitField("Search")
 
 
-class FlightSelectForm(FlaskForm):
-    details = HiddenField('Selection')
+class BookingSelectForm(FlaskForm):
+    schedule_id = HiddenField('Schedule ID')
+    startleg_id = HiddenField('Starting Leg ID')
+    endleg_id = HiddenField('End Leg ID')
+    user_id = HiddenField('User ID')
+    ticket_number = IntegerField('Number of Seats', [validators.DataRequired()])
     submit = SubmitField('Book Flight')
-
-
-class ReturnSelectForm(FlaskForm):
-    pass

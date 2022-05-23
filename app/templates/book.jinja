@@ -29,7 +29,7 @@
 <h3>Between:</h3>
 <p>{{ searchform.date_start_selector.data }} and {{ searchform.date_end_selector.data }}</p>
 <img src="/static/img/{{ airport_data[0].icao.lower() }}-{{ airport_data[1].icao.lower() }}.gif" class="img-fluid rounded-end">
-{% for flight in results %}
+{% for flight in results %}{% if flight.get("Aircraft Capacity") - flight.get("Scheduled Seat Bookings") > 0 %}
     <div class="row mb-3 rounded">
         <div class="col-2 m-0 p-2 border rounded-start">
             <h5 class="noto-bold"><strong>{{ flight.get("Flight Designation") }}</strong></h5>
@@ -47,17 +47,45 @@
             {% else %}
             <p>Direct Flight</p>
             {% endif %}
-            <p>Seats available: {{ flight.get("Aircraft Capacity") - flight.get("Schedule Bookings") }}</p>
+            <p>Seats available: {{ flight.get("Aircraft Capacity") - flight.get("Scheduled Seat Bookings") }}</p>
         </div>
-        <div class="col-2 m-0 p-2 border border-start-0 rounded-end bg-primary text-white schedule-selector">
+        <div class="col-2 m-0 p-2 border border-start-0 rounded-end bg-primary text-white schedule-selector"
+             data-bs-toggle="modal" data-bs-target="#exampleModal"
+             onclick="updateSelectForm({{ flight.get("Schedule ID") }},
+                     {{ current_user.id }}, {{ flight.get("Start Leg ID") }}, {{ flight.get("End Leg ID") }},
+                     {{ flight.get("Aircraft Capacity") - flight.get("Scheduled Seat Bookings") }})">
             <h5>Book Flight</h5>
         </div>
-    </div>
-    {#  Modal (Bootstrap) for selection of a flight  #}
-    <div>
 
     </div>
-{% endfor %}
+{% endif %}{% endfor %}
+
+
+    <div class="modal" id="exampleModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Booking Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method=post class="form-group">
+                <div class="modal-body">
+                    {{ searchform.csrf_token }}
+                    {{ selectform.schedule_id }}
+                    {{ selectform.startleg_id }}
+                    {{ selectform.endleg_id }}
+                    {{ selectform.user_id }}
+                    {{ selectform.ticket_number.label }}
+                    {{ selectform.ticket_number(class_="form-control", min=1, max=1) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    {{ selectform.submit(class_="btn btn-primary") }}
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 {% endif %}
 

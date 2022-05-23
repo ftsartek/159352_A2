@@ -1,0 +1,37 @@
+{% extends "_base.jinja" %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-sm-8 p-2">
+            <div class="border">
+                <table class="table table-light">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Seats</th>
+                            <th>User</th>
+                            <th>Schedule</th>
+                            <th>Start Leg</th>
+                            <th>End Leg</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for booking in booking_data %}
+                            <tr>
+                                <td>{{ booking.id }}</td>
+                                <td>{{ booking.seats }}</td>
+                                <td>{{ booking.user_id }}</td>
+                                <td>{{ booking.flight_booked_id }}</td>
+                                <td>{{ booking.start_leg_id }}</td>
+                                <td>{{ booking.end_leg_id }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-sm-4 p-2">
+            <div class="border"></div>
+        </div>
+    </div>
+{% endblock %}

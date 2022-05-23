@@ -25,11 +25,11 @@ class Booking(db.Model):
     __tablename__ = 'booking'
 
     id: int = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    tickets = db.relationship('Ticket', backref='booking', lazy=True, uselist=True)
+    seats = db.Column(db.Integer, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     flight_booked_id = db.Column(db.Integer, db.ForeignKey('flightschedule.id'), nullable=False)
-    start_leg_id = db.Column(db.Integer, db.ForeignKey('flightleg.id'))
-    end_leg_id = db.Column(db.Integer, db.ForeignKey('flightleg.id'))
+    start_leg_id = db.Column(db.Integer, db.ForeignKey('flightleg.id'), nullable=False)
+    end_leg_id = db.Column(db.Integer, db.ForeignKey('flightleg.id'), nullable=False)
     flight_booked = db.relationship('FlightSchedule', back_populates='bookings', uselist=False)
 
 
@@ -87,13 +87,6 @@ class Airport(db.Model):
     arrivals = db.relationship('FlightLeg', backref='arrival_airport', lazy=True, uselist=True,
                                foreign_keys=[FlightLeg.arrival_airport_id])
 
-
-class Ticket(db.Model):
-    __tablename__ = 'ticket'
-
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    number = db.Column(db.Integer, nullable=False)
-    booking_id = db.Column(db.Integer, db.ForeignKey('booking.id'), nullable=False)
 
 
 class User(db.Model):
