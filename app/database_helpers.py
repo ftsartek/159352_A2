@@ -33,10 +33,12 @@ def filtered_flight_list(departure: int, arrival: int, earliest: date, latest: d
                         fl2_aliased.departure_time, fl2_aliased.flight_duration,
                         db.func.sum(Booking.seats), Aircraft.id) \
         .where(FlightSchedule.date >= earliest, FlightSchedule.date <= latest) \
-        .join(FlightSchedule.flight.of_type(Flight)).outerjoin(Booking) \
+        .join(FlightSchedule.flight.of_type(Flight)) \
         .join(Flight.aircraft.of_type(Aircraft)) \
         .join(Flight.flightlegs.of_type(fl1_aliased)).join(Flight.flightlegs.of_type(fl2_aliased)) \
-        .where(fl1_aliased.departure_airport_id == departure) \
+        .outerjoin(FlightSchedule.bookings.and_(
+            db.and_(Booking.start_leg_id <= fl2_aliased.id, Booking.end_leg_id >= fl1_aliased.id))) \
+            .where(fl1_aliased.departure_airport_id == departure) \
         .where(fl2_aliased.arrival_airport_id == arrival) \
         .group_by(FlightSchedule.id)
     # Execute the command
