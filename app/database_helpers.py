@@ -47,8 +47,8 @@ def filtered_flight_list(departure: int, arrival: int, earliest: date, latest: d
         dict_list.append({
             "Schedule ID": item[0],
             "Schedule Date": item[1],
-            "Flight Designation": Flight.query.filter_by(id=item[2]).first().designation if not None else "route_missing.png",
-            "Flight Image": Flight.query.filter_by(id=item[2]).first().route_image,
+            "Flight Designation": Flight.query.filter_by(id=item[2]).first().designation,
+            "Flight Image": Flight.query.filter_by(id=item[2]).first().route_image if not None else "route_missing.png",
             "Aircraft Model": Aircraft.query.filter_by(id=item[14]).first().model,
             "Start Leg ID": item[3],
             "Departure Airport Name": Airport.query.filter_by(id=item[4]).first().name,
