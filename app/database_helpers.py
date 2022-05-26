@@ -1,6 +1,6 @@
 import datetime
 
-from app.database import db, Flight, FlightSchedule, FlightLeg, Airport, Aircraft, Booking
+from app.database import db, Flight, FlightSchedule, FlightLeg, Airport, Aircraft, Booking, User
 from datetime import date
 
 
@@ -64,4 +64,59 @@ def filtered_flight_list(departure: int, arrival: int, earliest: date, latest: d
             "Scheduled Seat Bookings": item[13] if item[13] is not None else 0,
             "Aircraft Capacity": Aircraft.query.filter_by(id=item[14]).first().capacity,
         })
+    return dict_list
+
+
+def booking_list(user=None):
+    fl1_aliased = db.aliased(FlightLeg)
+    fl2_aliased = db.aliased(FlightLeg)
+    ap1_aliased = db.aliased(Airport)
+    ap2_aliased = db.aliased(Airport)
+    if user is not None:
+        bookings = db.select(Booking.id, Booking.seats, User.id, FlightSchedule.date, Flight.designation,
+                             Aircraft.model, Aircraft.registration, fl1_aliased.departure_time,
+                             fl2_aliased.departure_time, fl2_aliased.flight_duration, ap1_aliased.icao,
+                             ap1_aliased.tz_offset, ap2_aliased.icao, ap2_aliased.tz_offset) \
+            .select_from(Booking) \
+            .where(Booking.user_id == user)\
+            .join(FlightSchedule, Booking.flight_booked_id == FlightSchedule.id) \
+            .join(Flight, FlightSchedule.flight_id == Flight.id) \
+            .join(Aircraft, Flight.aircraft_id == Aircraft.id) \
+            .join(fl1_aliased, fl1_aliased.id == Booking.start_leg_id) \
+            .join(fl2_aliased, fl2_aliased.id == Booking.end_leg_id) \
+            .join(ap1_aliased, fl1_aliased.departure_airport_id == ap1_aliased.id) \
+            .join(ap2_aliased, fl2_aliased.arrival_airport_id == ap2_aliased.id) \
+            .group_by(Booking.id)
+
+    else:
+        bookings = db.select(Booking.id, Booking.seats, User.id, FlightSchedule.date, Flight.designation,
+                             Aircraft.model, Aircraft.registration, fl1_aliased.departure_time,
+                             fl2_aliased.departure_time, fl2_aliased.flight_duration, ap1_aliased.icao,
+                             ap1_aliased.tz_offset, ap2_aliased.icao, ap2_aliased.tz_offset) \
+            .select_from(Booking) \
+            .join(FlightSchedule, Booking.flight_booked_id == FlightSchedule.id) \
+            .join(Flight, FlightSchedule.flight_id == Flight.id) \
+            .join(Aircraft, Flight.aircraft_id == Aircraft.id) \
+            .join(fl1_aliased, fl1_aliased.id == Booking.start_leg_id) \
+            .join(fl2_aliased, fl2_aliased.id == Booking.end_leg_id) \
+            .join(ap1_aliased, fl1_aliased.departure_airport_id == ap1_aliased.id) \
+            .join(ap2_aliased, fl2_aliased.arrival_airport_id == ap2_aliased.id)
+    booked = db.session.execute(bookings)
+    dict_list = []
+    for entry in booked:
+        dict_list.append({
+            "Booking ID": entry[0],
+            "Booked Seats": entry[1],
+            "User ID": entry[2],
+            "Flight Designation": entry[4],
+            "Aircraft Model": entry[5],
+            "Aircraft Registration": entry[6],
+            "Departure": datetime.datetime.combine(entry[3], entry[7]),
+            "Arrival": datetime.datetime.combine(entry[3], entry[8]) + entry[9],
+            "Departure Airport ICAO": entry[10],
+            "Departure Offset": entry[11],
+            "Arrival Airport ICAO": entry[12],
+            "Arrival Offset": entry[13]
+        })
+    print(dict_list)
     return dict_list

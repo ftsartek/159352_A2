@@ -112,7 +112,8 @@ def acc_validate():
 def bookings():
     if not current_user.is_validated():
         return redirect('/dashboard/validate')
-    pass
+    else:
+        return render_template('bookings.jinja', booking_data=database_helpers.booking_list(current_user.id))
 
 
 @app.route('/dashboard/book', methods=['GET', 'POST'])
@@ -154,7 +155,7 @@ def book():
                     invalidate = True
                 # Reload the first step if the form data is invalid
                 if invalidate:
-                    return render_template('book.jinja', searchform=searchform, step=1)
+                    return render_template('book_search.jinja', searchform=searchform)
                 # Get airport data for query
                 airport_data = [database.Airport.query.filter_by(id=searchform.start_airport.data).first(),
                                 database.Airport.query.filter_by(id=searchform.end_airport.data).first()]
@@ -165,11 +166,11 @@ def book():
                 # If there are no results, alert user and reload step 1
                 if len(results) == 0:
                     flash("No flights fit these criteria. Please try again.", 'warning')
-                    return render_template('book.jinja', searchform=searchform, step=1)
+                    return render_template('book_search.jinja', searchform=searchform)
                 # If everything is good, move on to step 2
-                return render_template('book.jinja', searchform=searchform, selectform=selectform, step=2, airport_data=airport_data, results=results)
+                return render_template('book_select.jinja', searchform=searchform, selectform=selectform, airport_data=airport_data, results=results)
         # Default loader
-        return render_template('book.jinja', searchform=searchform, step=1)
+        return render_template('book_search.jinja', searchform=searchform)
 
 
 @app.route('/admin/dashboard')

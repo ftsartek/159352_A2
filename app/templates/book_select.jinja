@@ -3,25 +3,6 @@
 {% block main %}
 
 <h1>Booking Page</h1>
-
-{% if step == 1 %}
-<form method=post class="form-group">
-    {{ searchform.csrf_token }}
-    <dl>
-        {{ searchform.start_airport.label }}
-        {{ searchform.start_airport(class_="form-control") }}
-        {{ searchform.end_airport.label }}
-        {{ searchform.end_airport(class_="form-control") }}
-        {{ searchform.date_start_selector.label }}
-        {{ searchform.date_start_selector(class_="form-control") }}
-        {{ searchform.date_end_selector.label }}
-        {{ searchform.date_end_selector(class_="form-control") }}
-        {{ searchform.submit }}
-    </dl>
-</form>
-{% endif %}
-
-{% if step == 2 %}
 <h3>Listing flights from:</h3><br>
 <p>{{ airport_data[0].name }}</p><br>
 <h3>To:</h3><br>
@@ -86,8 +67,6 @@
             </div>
         </div>
     </div>
-
-{% endif %}
 
 
 

@@ -1,0 +1,47 @@
+{% extends "_base.jinja" %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-sm-8 p-2">
+            <div class="border">
+                <table class="table table-light">
+                    <thead>
+                        <tr>
+                            <th>Designation</th>
+                            <th>Departure</th>
+                            <th>Arrival</th>
+                            <th>Seats</th>
+                            <th>Aircraft</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for booking in booking_data %}
+                            {# "Booking ID": entry[0],
+                            {#            "Booked Seats": entry[1],
+                            {#            "User ID": entry[2],
+                            {#            "Flight Designation": entry[4],
+                            {#            "Aircraft Model": entry[5],
+                            {#            "Aircraft Registration": entry[6],
+                            {#            "Departure": datetime.datetime.combine(entry[3], entry[7]),
+                            {#            "Arrival": datetime.datetime.combine(entry[3], entry[8]) + entry[9],
+                            {#            "Departure Airport ICAO": entry[10],
+                            {#            "Departure Offset": entry[11],
+                            {#            "Arrival Airport ICAO": entry[12],
+                            {#            "Arrival Offset": entry[13] #}
+                            <tr>
+                                <td>{{ booking.get("Flight Designation") }}</td>
+                                <td>{{ booking.get("Departure Airport ICAO") }} - {{ booking.get("Departure") }} (UTC {{ booking.get("Departure Offset") }})</td>
+                                <td>{{ booking.get("Arrival Airport ICAO") }} - {{ booking.get("Arrival") }} (UTC {{ booking.get("Arrival Offset") }})</td>
+                                <td>{{ booking.get("Booked Seats") }}</td>
+                                <td>{{ booking.get("Aircraft Model") }} ({{ booking.get("Aircraft Registration") }})</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-sm-4 p-2">
+            <div class="border"></div>
+        </div>
+    </div>
+{% endblock %}
