@@ -8,22 +8,26 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Seats</th>
                             <th>User</th>
-                            <th>Schedule</th>
-                            <th>Start Leg</th>
-                            <th>End Leg</th>
+                            <th>Designation</th>
+                            <th>Departure</th>
+                            <th>Arrival</th>
+                            <th>Seats</th>
+                            <th>Aircraft</th>
+                            <th>Return Of</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for booking in booking_data %}
                             <tr>
-                                <td>{{ booking.id }}</td>
-                                <td>{{ booking.seats }}</td>
-                                <td>{{ booking.user_id }}</td>
-                                <td>{{ booking.flight_booked_id }}</td>
-                                <td>{{ booking.start_leg_id }}</td>
-                                <td>{{ booking.end_leg_id }}</td>
+                                <td>{{ booking.get("Booking ID") }}</td>
+                                <td>{{ booking.get("User Email") }}</td>
+                                <td>{{ booking.get("Flight Designation") }}</td>
+                                <td>{{ booking.get("Departure Airport ICAO") }} - {{ booking.get("Departure") }} (UTC {{ booking.get("Departure Offset") }})</td>
+                                <td>{{ booking.get("Arrival Airport ICAO") }} - {{ booking.get("Arrival") }} (UTC {{ booking.get("Arrival Offset") }})</td>
+                                <td>{{ booking.get("Booked Seats") }}</td>
+                                <td>{{ booking.get("Aircraft Model") }} ({{ booking.get("Aircraft Registration") }})</td>
+                                <td>{{ booking.get("Original Booking ID") }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>

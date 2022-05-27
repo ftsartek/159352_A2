@@ -46,16 +46,22 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Booking Details</h5>
+                    <h5 class="modal-title">{% if returning %}Return {% endif %}Booking Details</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form method=post class="form-group">
                 <div class="modal-body">
-                    {{ searchform.csrf_token }}
+                    {{ selectform.csrf_token }}
                     {{ selectform.schedule_id }}
                     {{ selectform.startleg_id }}
                     {{ selectform.endleg_id }}
                     {{ selectform.user_id }}
+                    {% if returning %}
+                    {{ selectform.original_id(value=original_flight) }}
+                    {% elif not returning %}
+                    {{ selectform.return_ticket.label(class_="form-check-label") }}
+                    {{ selectform.return_ticket(class_="form-check-input") }}<br>
+                    {% endif %}
                     {{ selectform.ticket_number.label }}
                     {{ selectform.ticket_number(class_="form-control", min=1, max=1) }}
                 </div>

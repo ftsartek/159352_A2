@@ -107,6 +107,13 @@ def acc_validate():
     return render_template("dashboard_validate.jinja", form=form)
 
 
+@app.route('/dashboard/confirmation/<id>')
+@login_required
+def confirmation(id):
+    booking = bookings
+    return render_template("book_confirm.jinja", origin_details=None, return_details=None)
+
+
 @app.route('/dashboard/bookings')
 @login_required
 def bookings():
@@ -124,19 +131,40 @@ def book():
     else:
         selectform = forms.BookingSelectForm()
         searchform = forms.BookingSearchForm()
-        # Step 2 section
+
+        # Book section
         if selectform.submit.data:
             if selectform.validate_on_submit():
+
                 new_booking = database.Booking(seats=selectform.ticket_number.data,
                                                user_id=selectform.user_id.data,
                                                flight_booked_id=selectform.schedule_id.data,
                                                start_leg_id=selectform.startleg_id.data,
-                                               end_leg_id=selectform.endleg_id.data)
+                                               end_leg_id=selectform.endleg_id.data,
+                                               return_booking=selectform.original_id.data)
                 database.db.session.add(new_booking)
+                if selectform.original_id.data is not None:
+                    update_booking = database.Booking.query.filter_by(id=selectform.original_id.data).first()
+                    update_booking.origin_booking = new_booking.id
                 database.db.session.commit()
+                if selectform.return_ticket.data:
+                    # Get airport data for query
+                    airport_data = [database.Airport.query.filter_by(id=database.FlightLeg.query.filter_by(id=selectform.endleg_id.data).first().arrival_airport_id).first(),
+                                    database.Airport.query.filter_by(id=database.FlightLeg.query.filter_by(id=selectform.startleg_id.data).first().departure_airport_id).first()]
+                    # Generate and execute query via helper to get flight list
+                    return_date_range = database.FlightSchedule.query.filter_by(id=selectform.schedule_id.data).first().date
+                    results = database_helpers.filtered_flight_list(
+                        airport_data[0].id, airport_data[1].id,
+                        return_date_range + datetime.timedelta(days=1),
+                        return_date_range + datetime.timedelta(days=15))
+
+                    # If there are no results, alert user and reload search section
+                    return render_template('book_select.jinja', searchform=searchform, selectform=selectform,
+                                           airport_data=airport_data, results=results, returning=True, original_flight=new_booking.id)
             else:
                 print(selectform.errors)
-        # Step 1 section
+
+        # Search section
         if searchform.submit.data:
             if searchform.validate_on_submit():
                 # Validate data that we can't via WTForms
@@ -163,12 +191,12 @@ def book():
                 results = database_helpers.filtered_flight_list(
                     searchform.start_airport.data, searchform.end_airport.data,
                     searchform.date_start_selector.data, searchform.date_end_selector.data)
-                # If there are no results, alert user and reload step 1
+                # If there are no results, alert user and reload search section
                 if len(results) == 0:
                     flash("No flights fit these criteria. Please try again.", 'warning')
                     return render_template('book_search.jinja', searchform=searchform)
-                # If everything is good, move on to step 2
-                return render_template('book_select.jinja', searchform=searchform, selectform=selectform, airport_data=airport_data, results=results)
+                # If everything is good, move on to booking
+                return render_template('book_select.jinja', searchform=searchform, selectform=selectform, airport_data=airport_data, results=results, returning=False)
         # Default loader
         return render_template('book_search.jinja', searchform=searchform)
 
@@ -187,7 +215,7 @@ def adm_dash():
 @login_required
 def adm_bookings():
     if current_user.is_admin():
-        return render_template("adm_bookings.jinja", booking_data=database.Booking.query.all())
+        return render_template("adm_bookings.jinja", booking_data=database_helpers.booking_list())
     else:
         flash("You do not have permission to view this page.", "warning")
         return redirect('/dashboard')

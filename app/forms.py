@@ -54,5 +54,7 @@ class BookingSelectForm(FlaskForm):
     startleg_id = HiddenField('Starting Leg ID')
     endleg_id = HiddenField('End Leg ID')
     user_id = HiddenField('User ID')
+    original_id = HiddenField('Original Flight ID')
     ticket_number = IntegerField('Number of Seats', [validators.DataRequired()])
+    return_ticket = BooleanField('Return Ticket')
     submit = SubmitField('Book Flight')

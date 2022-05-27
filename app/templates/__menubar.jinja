@@ -22,8 +22,8 @@
                         Dashboard
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Search Flights</a></li>
-                        <li><a class="dropdown-item" href="#">View/Make Bookings</a></li>
+                        <li><a class="dropdown-item" href="/dashboard/bookings">View Bookings</a></li>
+                        <li><a class="dropdown-item" href="/dashboard/book">Search/Make Booking</a></li>
                         <li><a class="dropdown-item" href="#">Account Management</a></li>
                         {% if current_user.is_admin() %}
                         <li><hr class="dropdown-divider"></li>
