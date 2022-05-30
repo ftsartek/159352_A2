@@ -2,7 +2,7 @@
 
 {% block main %}
     <div class="row">
-        <div class="col-sm-8 p-2">
+        <div class="col-12 p-2">
             <div class="border">
                 <table class="table table-light">
                     <thead>
@@ -14,7 +14,9 @@
                             <th>Arrival</th>
                             <th>Seats</th>
                             <th>Aircraft</th>
+                            <th>Origin Of</th>
                             <th>Return Of</th>
+                            <th>Created</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -23,19 +25,18 @@
                                 <td>{{ booking.get("Booking ID") }}</td>
                                 <td>{{ booking.get("User Email") }}</td>
                                 <td>{{ booking.get("Flight Designation") }}</td>
-                                <td>{{ booking.get("Departure Airport ICAO") }} - {{ booking.get("Departure") }} (UTC {{ booking.get("Departure Offset") }})</td>
-                                <td>{{ booking.get("Arrival Airport ICAO") }} - {{ booking.get("Arrival") }} (UTC {{ booking.get("Arrival Offset") }})</td>
+                                <td>{{ booking.get("Departure Airport Name") }} <br> {{ booking.get("Departure").strftime("%-I:%M %p (UTC %z) <br> %-d %b %Y") }}</td>
+                                <td>{{ booking.get("Arrival Airport Name") }} <br> {{ booking.get("Arrival").strftime("%-I:%M %p (UTC %z) <br> %-d %b %Y") }}</td>
                                 <td>{{ booking.get("Booked Seats") }}</td>
                                 <td>{{ booking.get("Aircraft Model") }} ({{ booking.get("Aircraft Registration") }})</td>
-                                <td>{{ booking.get("Original Booking ID") }}</td>
+                                <td>{{ booking.get("Return Booking ID") }}</td>
+                                <td>{{ booking.get("Origin Booking ID") }}</td>
+                                <td>{{ booking.get("Creation").strftime("%x<br> %X") }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
-        </div>
-        <div class="col-sm-4 p-2">
-            <div class="border"></div>
         </div>
     </div>
 {% endblock %}

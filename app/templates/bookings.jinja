@@ -10,38 +10,45 @@
                             <th>Designation</th>
                             <th>Departure</th>
                             <th>Arrival</th>
-                            <th>Seats</th>
-                            <th>Aircraft</th>
+                            <th>Details</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for booking in booking_data %}
-                            {# "Booking ID": entry[0],
-                            {#            "Booked Seats": entry[1],
-                            {#            "User ID": entry[2],
-                            {#            "Flight Designation": entry[4],
-                            {#            "Aircraft Model": entry[5],
-                            {#            "Aircraft Registration": entry[6],
-                            {#            "Departure": datetime.datetime.combine(entry[3], entry[7]),
-                            {#            "Arrival": datetime.datetime.combine(entry[3], entry[8]) + entry[9],
-                            {#            "Departure Airport ICAO": entry[10],
-                            {#            "Departure Offset": entry[11],
-                            {#            "Arrival Airport ICAO": entry[12],
-                            {#            "Arrival Offset": entry[13] #}
                             <tr>
                                 <td>{{ booking.get("Flight Designation") }}</td>
-                                <td>{{ booking.get("Departure Airport ICAO") }} - {{ booking.get("Departure") }} (UTC {{ booking.get("Departure Offset") }})</td>
-                                <td>{{ booking.get("Arrival Airport ICAO") }} - {{ booking.get("Arrival") }} (UTC {{ booking.get("Arrival Offset") }})</td>
-                                <td>{{ booking.get("Booked Seats") }}</td>
-                                <td>{{ booking.get("Aircraft Model") }} ({{ booking.get("Aircraft Registration") }})</td>
+                                <td>{{ booking.get("Departure Airport Name") }} <br> {{ booking.get("Departure").strftime("%-I:%M %p (UTC %z) <br> %-d %b %Y") }}</td>
+                                <td>{{ booking.get("Arrival Airport Name") }} <br> {{ (booking.get("Arrival")).strftime("%-I:%M %p (UTC %z) <br> %-d %b %Y") }}</td>
+                                <td><button class="btn btn-primary" onclick="updateBookingSidebar(
+                                        '{{ booking.get("Flight Designation") }}',
+                                        '{{ booking.get("Departure").strftime("%-d %b %Y") }}',
+                                        '{{ booking.get("Departure Airport Name") }}',
+                                        '{{ booking.get("Departure").strftime("%-I:%M %p (UTC %z)") }}',
+                                        '{{ booking.get("Arrival Airport Name") }}',
+                                        '{{ booking.get("Arrival").strftime("%-I:%M %p (UTC %z)") }}',
+                                        '{{ booking.get("Aircraft Model") }} ({{ booking.get("Aircraft Registration") }}',
+                                        '{{ booking.get("Creation").strftime("%x %X") }}',
+                                        '{{ booking.get("Booking ID") }}')">
+                                        Details
+                                </button></td>
                             </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
         </div>
-        <div class="col-sm-4 p-2">
-            <div class="border"></div>
+        <div class="col-sm-4 p-2" id="book-sidebar" style="visibility: hidden">
+            <div class="border p-2">
+                <h5><strong>Designation: </strong></h5><h5 id="book-sidebar-dsg"></h5><br>
+                <h5><strong>Flight Date:</strong></h5><h5 id="book-sidebar-date"></h5><br>
+                <h5><strong>Departure Airport: </strong></h5><h5 id="book-sidebar-dpt-ap"></h5><br>
+                <h5><strong>Departure Time: </strong></h5><h5 id="book-sidebar-dpt-tm"></h5><br>
+                <h5><strong>Arrival Airport: </strong></h5><h5 id="book-sidebar-arr-ap"></h5><br>
+                <h5><strong>Arrival Time: </strong></h5><h5 id="book-sidebar-arr-tm"></h5><br>
+                <h5><strong>Aircraft: </strong></h5><h5 id="book-sidebar-aircraft"></h5><br>
+                <h5><strong>Booking Created: </strong></h5><h5 id="book-sidebar-created"></h5>
+
+            </div>
         </div>
     </div>
 {% endblock %}

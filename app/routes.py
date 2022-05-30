@@ -141,11 +141,11 @@ def book():
                                                flight_booked_id=selectform.schedule_id.data,
                                                start_leg_id=selectform.startleg_id.data,
                                                end_leg_id=selectform.endleg_id.data,
-                                               return_booking=selectform.original_id.data)
+                                               origin_booking=selectform.original_id.data)
                 database.db.session.add(new_booking)
                 if selectform.original_id.data is not None:
                     update_booking = database.Booking.query.filter_by(id=selectform.original_id.data).first()
-                    update_booking.origin_booking = new_booking.id
+                    update_booking.return_booking = new_booking.id
                 database.db.session.commit()
                 if selectform.return_ticket.data:
                     # Get airport data for query

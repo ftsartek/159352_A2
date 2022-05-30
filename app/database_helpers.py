@@ -75,8 +75,8 @@ def booking_list(user=None, booking=None):
     if user is not None:
         bookings = db.select(Booking.id, Booking.seats, User.id, User.email, FlightSchedule.date, Flight.designation,
                              Aircraft.model, Aircraft.registration, fl1_aliased.departure_time,
-                             fl2_aliased.departure_time, fl2_aliased.flight_duration, ap1_aliased.icao,
-                             ap1_aliased.tz_offset, ap2_aliased.icao, ap2_aliased.tz_offset, Booking.origin_booking, Booking.return_booking) \
+                             fl2_aliased.departure_time, fl2_aliased.flight_duration, ap1_aliased.name,
+                             ap1_aliased.tz_offset, ap2_aliased.name, ap2_aliased.tz_offset, Booking.origin_booking, Booking.return_booking, Booking.created) \
             .select_from(Booking) \
             .where(Booking.user_id == user) \
             .join(User, User.id == Booking.user_id) \
@@ -91,8 +91,8 @@ def booking_list(user=None, booking=None):
     elif booking is not None:
         bookings = db.select(Booking.id, Booking.seats, User.id, User.email, FlightSchedule.date, Flight.designation,
                              Aircraft.model, Aircraft.registration, fl1_aliased.departure_time,
-                             fl2_aliased.departure_time, fl2_aliased.flight_duration, ap1_aliased.icao,
-                             ap1_aliased.tz_offset, ap2_aliased.icao, ap2_aliased.tz_offset, Booking.origin_booking, Booking.return_booking) \
+                             fl2_aliased.departure_time, fl2_aliased.flight_duration, ap1_aliased.name,
+                             ap1_aliased.tz_offset, ap2_aliased.name, ap2_aliased.tz_offset, Booking.origin_booking, Booking.return_booking, Booking.created) \
             .select_from(Booking) \
             .where(Booking.id == booking) \
             .join(User, User.id == Booking.user_id) \
@@ -107,8 +107,8 @@ def booking_list(user=None, booking=None):
     else:
         bookings = db.select(Booking.id, Booking.seats, User.id, User.email, FlightSchedule.date, Flight.designation,
                              Aircraft.model, Aircraft.registration, fl1_aliased.departure_time,
-                             fl2_aliased.departure_time, fl2_aliased.flight_duration, ap1_aliased.icao,
-                             ap1_aliased.tz_offset, ap2_aliased.icao, ap2_aliased.tz_offset, Booking.origin_booking, Booking.return_booking) \
+                             fl2_aliased.departure_time, fl2_aliased.flight_duration, ap1_aliased.name,
+                             ap1_aliased.tz_offset, ap2_aliased.name, ap2_aliased.tz_offset, Booking.origin_booking, Booking.return_booking, Booking.created) \
             .select_from(Booking) \
             .join(User, User.id == Booking.user_id) \
             .join(FlightSchedule, Booking.flight_booked_id == FlightSchedule.id) \
@@ -130,12 +130,13 @@ def booking_list(user=None, booking=None):
             "Flight Designation": entry[5],
             "Aircraft Model": entry[6],
             "Aircraft Registration": entry[7],
-            "Departure": datetime.datetime.combine(entry[4], entry[8]),
-            "Arrival": datetime.datetime.combine(entry[4], entry[9]) + entry[10],
-            "Departure Airport ICAO": entry[11],
+            "Departure": datetime.datetime.combine(entry[4], entry[8], tzinfo=datetime.timezone(offset=entry[12])),
+            "Arrival": datetime.datetime.combine(entry[4], entry[9], tzinfo=datetime.timezone(offset=entry[14])) + entry[10] - (entry[12] - entry[14]),
+            "Departure Airport Name": entry[11],
             "Departure Offset": entry[12],
-            "Arrival Airport ICAO": entry[13],
+            "Arrival Airport Name": entry[13],
             "Arrival Offset": entry[14],
             "Origin Booking ID": entry[15],
-            "Return booking ID": entry[16]})
+            "Return Booking ID": entry[16],
+            "Creation": entry[17]})
     return dict_list
