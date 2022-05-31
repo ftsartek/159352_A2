@@ -17,5 +17,5 @@ function updateBookingSidebar(designation, date, dep_airport, dep_time, arr_airp
     document.getElementById('book-sidebar-arr-tm').innerText = arr_time;
     document.getElementById('book-sidebar-aircraft').innerText = aircraft;
     document.getElementById('book-sidebar-created').innerText = created;
-    document.getElementById()
+    document.getElementById('book-sidebar-cancel').value = book_id;
 }
