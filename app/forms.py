@@ -58,3 +58,9 @@ class BookingSelectForm(FlaskForm):
     ticket_number = IntegerField('Number of Seats', [validators.DataRequired()])
     return_ticket = BooleanField('Return Ticket')
     submit = SubmitField('Book Flight')
+
+
+class BookingCancelForm(FlaskForm):
+    booking_id = HiddenField('Booking ID')
+    related_id = HiddenField('Related ID')
+    submit = SubmitField('Cancel Booking')

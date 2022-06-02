@@ -120,7 +120,10 @@ def bookings():
     if not current_user.is_validated():
         return redirect('/dashboard/validate')
     else:
-        return render_template('bookings.jinja', booking_data=database_helpers.booking_list(current_user.id))
+        form = forms.BookingCancelForm()
+        return render_template('bookings.jinja',
+                               booking_data=database_helpers.booking_list(current_user.id),
+                               cancel_form=form)
 
 
 @app.route('/dashboard/book', methods=['GET', 'POST'])

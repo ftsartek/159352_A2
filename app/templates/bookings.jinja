@@ -2,7 +2,7 @@
 
 {% block main %}
     <div class="row">
-        <div class="col-sm-8 p-2">
+        <div class="col-9 p-2">
             <div class="border">
                 <table class="table table-light">
                     <thead>
@@ -28,7 +28,8 @@
                                         '{{ booking.get("Arrival").strftime("%-I:%M %p (UTC %z)") }}',
                                         '{{ booking.get("Aircraft Model") }} ({{ booking.get("Aircraft Registration") }}',
                                         '{{ booking.get("Creation").strftime("%x %X") }}',
-                                        '{{ booking.get("Booking ID") }}')">
+                                        '{{ booking.get("Booking ID") }}',
+                                        '{% if booking.get("Return Booking ID") %}{{ booking.get("Return Booking ID") }}{% elif booking.get("Origin Booking ID") %}{{ booking.get("Origin Booking ID") }}{% else %}{{ None }}{% endif %}')">
                                         Details
                                 </button></td>
                             </tr>
@@ -37,17 +38,19 @@
                 </table>
             </div>
         </div>
-        <div class="col-sm-4 p-2" id="book-sidebar" style="visibility: hidden">
+        <div class="col-3 p-2" id="book-sidebar" style="visibility: hidden">
             <div class="border p-2">
-                <h5><strong>Designation: </strong></h5><h5 id="book-sidebar-dsg"></h5><br>
-                <h5><strong>Flight Date:</strong></h5><h5 id="book-sidebar-date"></h5><br>
-                <h5><strong>Departure Airport: </strong></h5><h5 id="book-sidebar-dpt-ap"></h5><br>
-                <h5><strong>Departure Time: </strong></h5><h5 id="book-sidebar-dpt-tm"></h5><br>
-                <h5><strong>Arrival Airport: </strong></h5><h5 id="book-sidebar-arr-ap"></h5><br>
-                <h5><strong>Arrival Time: </strong></h5><h5 id="book-sidebar-arr-tm"></h5><br>
-                <h5><strong>Aircraft: </strong></h5><h5 id="book-sidebar-aircraft"></h5><br>
-                <h5><strong>Booking Created: </strong></h5><h5 id="book-sidebar-created"></h5>
-
+                <h6><strong>Designation: </strong></h6><h6 id="book-sidebar-dsg"></h6><br>
+                <h6><strong>Flight Date: </strong></h6><h6 id="book-sidebar-date"></h6><br>
+                <h6><strong>Departure Airport: </strong></h6><h6 id="book-sidebar-dpt-ap"></h6><br>
+                <h6><strong>Departure Time: </strong></h6><h6 id="book-sidebar-dpt-tm"></h6><br>
+                <h6><strong>Arrival Airport: </strong></h6><h6 id="book-sidebar-arr-ap"></h6><br>
+                <h6><strong>Arrival Time: </strong></h6><h6 id="book-sidebar-arr-tm"></h6><br>
+                <h6><strong>Aircraft: </strong></h6><h6 id="book-sidebar-aircraft"></h6><br>
+                <h6><strong>Booking Created: </strong></h6><h6 id="book-sidebar-created"></h6><br>
+                {{ cancel_form.booking_id }}
+                {{ cancel_form.related_id }}
+                {{ cancel_form.submit(class_="btn btn-primary") }}
             </div>
         </div>
     </div>

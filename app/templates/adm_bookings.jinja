@@ -16,6 +16,7 @@
                             <th>Aircraft</th>
                             <th>Origin Of</th>
                             <th>Return Of</th>
+                            <th>Price</th>
                             <th>Created</th>
                         </tr>
                     </thead>
@@ -31,6 +32,7 @@
                                 <td>{{ booking.get("Aircraft Model") }} ({{ booking.get("Aircraft Registration") }})</td>
                                 <td>{{ booking.get("Return Booking ID") }}</td>
                                 <td>{{ booking.get("Origin Booking ID") }}</td>
+                                <td>{{ booking.get("Price") }}</td>
                                 <td>{{ booking.get("Creation").strftime("%x<br> %X") }}</td>
                             </tr>
                         {% endfor %}

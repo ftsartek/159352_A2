@@ -63,6 +63,7 @@ def filtered_flight_list(departure: int, arrival: int, earliest: date, latest: d
             "End Leg Arrival": datetime.datetime.combine(item[1], item[6]) + item[12],
             "Scheduled Seat Bookings": item[13] if item[13] is not None else 0,
             "Aircraft Capacity": Aircraft.query.filter_by(id=item[14]).first().capacity,
+            "Price": f"{calc_total_price(item[2], item[3], item[8]):.2f}",
         })
     return dict_list
 
@@ -76,7 +77,8 @@ def booking_list(user=None, booking=None):
         bookings = db.select(Booking.id, Booking.seats, User.id, User.email, FlightSchedule.date, Flight.designation,
                              Aircraft.model, Aircraft.registration, fl1_aliased.departure_time,
                              fl2_aliased.departure_time, fl2_aliased.flight_duration, ap1_aliased.name,
-                             ap1_aliased.tz_offset, ap2_aliased.name, ap2_aliased.tz_offset, Booking.origin_booking, Booking.return_booking, Booking.created) \
+                             ap1_aliased.tz_offset, ap2_aliased.name, ap2_aliased.tz_offset, Booking.origin_booking,
+                             Booking.return_booking, Booking.created, Flight.id, fl1_aliased.id, fl2_aliased.id) \
             .select_from(Booking) \
             .where(Booking.user_id == user) \
             .join(User, User.id == Booking.user_id) \
@@ -92,7 +94,8 @@ def booking_list(user=None, booking=None):
         bookings = db.select(Booking.id, Booking.seats, User.id, User.email, FlightSchedule.date, Flight.designation,
                              Aircraft.model, Aircraft.registration, fl1_aliased.departure_time,
                              fl2_aliased.departure_time, fl2_aliased.flight_duration, ap1_aliased.name,
-                             ap1_aliased.tz_offset, ap2_aliased.name, ap2_aliased.tz_offset, Booking.origin_booking, Booking.return_booking, Booking.created) \
+                             ap1_aliased.tz_offset, ap2_aliased.name, ap2_aliased.tz_offset, Booking.origin_booking,
+                             Booking.return_booking, Booking.created, Flight.id, fl1_aliased.id, fl2_aliased.id) \
             .select_from(Booking) \
             .where(Booking.id == booking) \
             .join(User, User.id == Booking.user_id) \
@@ -108,7 +111,8 @@ def booking_list(user=None, booking=None):
         bookings = db.select(Booking.id, Booking.seats, User.id, User.email, FlightSchedule.date, Flight.designation,
                              Aircraft.model, Aircraft.registration, fl1_aliased.departure_time,
                              fl2_aliased.departure_time, fl2_aliased.flight_duration, ap1_aliased.name,
-                             ap1_aliased.tz_offset, ap2_aliased.name, ap2_aliased.tz_offset, Booking.origin_booking, Booking.return_booking, Booking.created) \
+                             ap1_aliased.tz_offset, ap2_aliased.name, ap2_aliased.tz_offset, Booking.origin_booking,
+                             Booking.return_booking, Booking.created, Flight.id, fl1_aliased.id, fl2_aliased.id) \
             .select_from(Booking) \
             .join(User, User.id == Booking.user_id) \
             .join(FlightSchedule, Booking.flight_booked_id == FlightSchedule.id) \
@@ -138,5 +142,15 @@ def booking_list(user=None, booking=None):
             "Arrival Offset": entry[14],
             "Origin Booking ID": entry[15],
             "Return Booking ID": entry[16],
+            "Price": f"{calc_total_price(entry[18], entry[19], entry[20]):.2f}",
             "Creation": entry[17]})
     return dict_list
+
+
+def calc_total_price(flight, start_leg, end_leg):
+    price = 0.0
+    for leg in range(start_leg, end_leg + 1):
+        fl = FlightLeg.query.filter_by(id=leg).first()
+        if fl.flight_id == flight:
+            price += fl.price
+    return price
