@@ -1,6 +1,8 @@
 import datetime
+import time
 
 import flask_login
+from dateutil.tz import tzlocal
 from flask import render_template, request, escape, abort, session, redirect, flash
 from flask_login import login_required, logout_user, login_user, current_user, login_fresh
 from app import app, database, database_defaults, forms, accounts, database_helpers
@@ -107,20 +109,30 @@ def acc_validate():
     return render_template("dashboard_validate.jinja", form=form)
 
 
-@app.route('/dashboard/confirmation/<id>')
+@app.route('/dashboard/booking/confirm/<id>')
 @login_required
 def confirmation(id):
     booking = bookings
     return render_template("book_confirm.jinja", origin_details=None, return_details=None)
 
 
-@app.route('/dashboard/bookings')
+@app.route('/dashboard/bookings', methods=['GET', 'POST'])
 @login_required
 def bookings():
     if not current_user.is_validated():
         return redirect('/dashboard/validate')
     else:
         form = forms.BookingCancelForm()
+        if form.validate_on_submit():
+            booking = database.Booking.query.filter_by(id=form.booking_id.data).first()
+            booking.cancelled = True
+            booking.seats = 0
+            print(form.related_id.data)
+            if form.related_id.data is not '':
+                related = database.Booking.query.filter_by(id=form.related_id.data).first()
+                related.cancelled = True
+                related.seats = 0
+            database.db.session.commit()
         return render_template('bookings.jinja',
                                booking_data=database_helpers.booking_list(current_user.id),
                                cancel_form=form)

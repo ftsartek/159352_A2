@@ -25,8 +25,9 @@ class Booking(db.Model):
     __tablename__ = 'booking'
 
     id: int = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    created = db.Column(db.DateTime, nullable=False, default=datetime.now())
+    created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     seats = db.Column(db.Integer, nullable=False)
+    cancelled = db.Column(db.Boolean, nullable=False, default=False)
     origin_booking = db.Column(db.Integer, db.ForeignKey('booking.id'), nullable=True)
     return_booking = db.Column(db.Integer, db.ForeignKey('booking.id'), nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)

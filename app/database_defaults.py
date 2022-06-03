@@ -11,8 +11,8 @@ def create_date_list(days) -> tuple:
     counter = 0
     date_list = []
     while counter < days:
-        date_generator = date_generator + timedelta(hours=24)
         date_list.append(date_generator)
+        date_generator = date_generator + timedelta(hours=24)
         counter += 1
     return tuple(date_list)
 
@@ -58,6 +58,7 @@ def default_users() -> None:
                  pass_hash=sha512_crypt.hash("4dminPass"), admin=True, active=True, validated=True)
     user = User(email="testuser@flightbooker.nz", first_name="normal", last_name="user",
                 pass_hash=sha512_crypt.hash("n0rmalPass"), admin=False, active=True, validated=False)
+    user.generate_validator(16)
     db.session.add(admin)
     db.session.add(user)
     db.session.commit()

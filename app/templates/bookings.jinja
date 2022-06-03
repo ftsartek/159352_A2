@@ -29,7 +29,7 @@
                                         '{{ booking.get("Aircraft Model") }} ({{ booking.get("Aircraft Registration") }}',
                                         '{{ booking.get("Creation").strftime("%x %X") }}',
                                         '{{ booking.get("Booking ID") }}',
-                                        '{% if booking.get("Return Booking ID") %}{{ booking.get("Return Booking ID") }}{% elif booking.get("Origin Booking ID") %}{{ booking.get("Origin Booking ID") }}{% else %}{{ None }}{% endif %}')">
+                                        '{% if booking.get("Return Booking ID") %}{{ booking.get("Return Booking ID") }}{% elif booking.get("Origin Booking ID") %}{{ booking.get("Origin Booking ID") }}{% else %}{% endif %}')">
                                         Details
                                 </button></td>
                             </tr>
@@ -48,9 +48,28 @@
                 <h6><strong>Arrival Time: </strong></h6><h6 id="book-sidebar-arr-tm"></h6><br>
                 <h6><strong>Aircraft: </strong></h6><h6 id="book-sidebar-aircraft"></h6><br>
                 <h6><strong>Booking Created: </strong></h6><h6 id="book-sidebar-created"></h6><br>
-                {{ cancel_form.booking_id }}
-                {{ cancel_form.related_id }}
-                {{ cancel_form.submit(class_="btn btn-primary") }}
+                <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">Cancel Booking</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="exampleModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Confirm Cancellation</h3>
+                </div>
+                <form method="post">
+                <div class="modal-body">
+                    <p>Are you sure you want to cancel? These flights may not be available to re-book.</p>
+                    {{ cancel_form.csrf_token }}
+                    {{ cancel_form.booking_id }}
+                    {{ cancel_form.related_id }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    {{ cancel_form.submit(class_="btn btn-danger") }}
+                </div>
+                </form>
             </div>
         </div>
     </div>
