@@ -61,7 +61,7 @@ def login():
             else:
                 login_user(user, remember=True)
                 flash('Logged in successfully', 'success')
-            return redirect('/dashboard')
+            return redirect('/dashboard/bookings')
         else:
             flash('Incorrect email or password', 'danger')
     return render_template('login.jinja', form=form)
@@ -73,22 +73,6 @@ def logout():
     logout_user()
     flash('Logged out successfully', 'success')
     return redirect('/login')
-
-
-@app.route('/dashboard')
-@login_required
-def dashboard():
-    if not current_user.is_validated():
-        return redirect('/dashboard/validate')
-    return "Hi"
-
-
-@app.route('/dashboard/pwd_reset', methods=['GET', 'POST'])
-@login_required
-def pwd_reset():
-    if not current_user.is_validated():
-        return redirect('/dashboard/validate')
-    pass
 
 
 @app.route('/dashboard/validate', methods=['GET', 'POST'])
@@ -109,9 +93,9 @@ def acc_validate():
     return render_template("dashboard_validate.jinja", form=form)
 
 
-@app.route('/dashboard/booking/confirm/<id>')
+@app.route('/dashboard/booking/confirm/<book_id>')
 @login_required
-def confirmation(id):
+def confirmation(book_id):
     booking = bookings
     return render_template("book_confirm.jinja", origin_details=None, return_details=None)
 
@@ -146,11 +130,10 @@ def book():
     else:
         selectform = forms.BookingSelectForm()
         searchform = forms.BookingSearchForm()
-
         # Book section
         if selectform.submit.data:
             if selectform.validate_on_submit():
-
+                # Create a new booking
                 new_booking = database.Booking(seats=selectform.ticket_number.data,
                                                user_id=selectform.user_id.data,
                                                flight_booked_id=selectform.schedule_id.data,
@@ -158,6 +141,7 @@ def book():
                                                end_leg_id=selectform.endleg_id.data,
                                                origin_booking=selectform.original_id.data)
                 database.db.session.add(new_booking)
+                # If this is a return flight, update the origin flight
                 if selectform.original_id.data is not None:
                     update_booking = database.Booking.query.filter_by(id=selectform.original_id.data).first()
                     update_booking.return_booking = new_booking.id
@@ -178,7 +162,6 @@ def book():
                                            airport_data=airport_data, results=results, returning=True, original_flight=new_booking.id)
             else:
                 print(selectform.errors)
-
         # Search section
         if searchform.submit.data:
             if searchform.validate_on_submit():
@@ -216,31 +199,11 @@ def book():
         return render_template('book_search.jinja', searchform=searchform)
 
 
-@app.route('/admin/dashboard')
-@login_required
-def adm_dash():
-    if current_user.is_admin():
-        return render_template("adm_.jinja")
-    else:
-        flash("You do not have permission to view this page.", "warning")
-        return redirect('/dashboard')
-
-
 @app.route('/admin/bookings')
 @login_required
 def adm_bookings():
     if current_user.is_admin():
         return render_template("adm_bookings.jinja", booking_data=database_helpers.booking_list())
-    else:
-        flash("You do not have permission to view this page.", "warning")
-        return redirect('/dashboard')
-
-
-@app.route('/admin/schedule', methods=['GET', 'POST'])
-@login_required
-def adm_schedule():
-    if current_user.is_admin():
-        return render_template("adm_.jinja")
     else:
         flash("You do not have permission to view this page.", "warning")
         return redirect('/dashboard')
@@ -271,16 +234,6 @@ def adm_fleet_mgmt(ac_id):
         return redirect('/dashboard')
 
 
-@app.route('/admin/routes', methods=['GET', 'POST'])
-@login_required
-def adm_routes():
-    if current_user.is_admin():
-        return render_template("adm_.jinja")
-    else:
-        flash("You do not have permission to view this page.", "warning")
-        return redirect('/dashboard')
-
-
 @app.route('/admin/users', methods=['GET', 'POST'])
 @login_required
 def adm_users():
@@ -291,9 +244,13 @@ def adm_users():
         return redirect('/dashboard')
 
 
-@app.route('/resetall')
+@app.route('/reset_all')
+@login_required
 def reset_all():
-    if not isinstance(current_user, flask_login.AnonymousUserMixin):
-        logout_user()
-    database_defaults.generate_defaults()
+    if current_user.is_admin():
+        if not isinstance(current_user, flask_login.AnonymousUserMixin):
+            logout_user()
+        database_defaults.generate_defaults()
+    else:
+        flash("You do not have permission to perform this function", "warning")
     return redirect('/login')
