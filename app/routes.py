@@ -96,8 +96,18 @@ def acc_validate():
 @app.route('/dashboard/booking/confirm/<book_id>')
 @login_required
 def confirmation(book_id):
-    booking = bookings
-    return render_template("book_confirm.jinja", origin_details=None, return_details=None)
+    conf_bookings = []
+    lookup = database.Booking.query.filter_by(id=book_id).first()
+    if lookup.user_id == current_user.id:
+        conf_bookings.append(lookup)
+        if lookup.origin_booking is not None:
+            conf_bookings.insert(0, database.Booking.query.filter_by(id=lookup.origin_booking))
+        elif lookup.return_booking is not None:
+            conf_bookings.append(database.Booking.query.filter_by(id=lookup.return_booking))
+        return render_template("book_confirm.jinja", bookings=bookings)
+    else:
+        flash('You do not have permission to access this resource.', 'warning')
+        return redirect('/dashboard/bookings')
 
 
 @app.route('/dashboard/bookings', methods=['GET', 'POST'])
@@ -117,6 +127,7 @@ def bookings():
                 related.cancelled = True
                 related.seats = 0
             database.db.session.commit()
+            flash('Your booking has been cancelled. Please contact us if this was done in error.', 'success')
         return render_template('bookings.jinja',
                                booking_data=database_helpers.booking_list(current_user.id),
                                cancel_form=form)
@@ -194,6 +205,8 @@ def book():
                     flash("No flights fit these criteria. Please try again.", 'warning')
                     return render_template('book_search.jinja', searchform=searchform)
                 # If everything is good, move on to booking
+
+                flash(f'{len(results)} flights found matching your criteria.', 'success')
                 return render_template('book_select.jinja', searchform=searchform, selectform=selectform, airport_data=airport_data, results=results, returning=False)
         # Default loader
         return render_template('book_search.jinja', searchform=searchform)
