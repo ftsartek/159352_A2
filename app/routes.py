@@ -97,14 +97,35 @@ def acc_validate():
 @login_required
 def confirmation(book_id):
     conf_bookings = []
+    ref = 'PT' + str(datetime.date.today().year)[2:] + str(current_user.id)
     lookup = database.Booking.query.filter_by(id=book_id).first()
-    if lookup.user_id == current_user.id:
-        conf_bookings.append(lookup)
+    # Redirect if the ID is invalid
+    if lookup is None:
+        flash('No booking with this reference exists.', 'danger')
+        return redirect('/dashboard/bookings')
+    # Check that the user should be allowed to see this confirmation
+    if (lookup.user_id == current_user.id and not lookup.cancelled) or current_user.is_admin():
+        conf_bookings.append(database_helpers.booking_list(booking=lookup.id)[0])
+        # Insert at the start of the list if it's the origin
         if lookup.origin_booking is not None:
-            conf_bookings.insert(0, database.Booking.query.filter_by(id=lookup.origin_booking))
+            conf_bookings.insert(0, database_helpers.booking_list(booking=lookup.origin_booking)[0])
+        # Or append to the end if it's return
         elif lookup.return_booking is not None:
-            conf_bookings.append(database.Booking.query.filter_by(id=lookup.return_booking))
-        return render_template("book_confirm.jinja", bookings=bookings)
+            conf_bookings.append(database_helpers.booking_list(booking=lookup.return_booking)[0])
+        # Build a reference number based on IDs
+        refno = 0
+        total_price = 0
+        # Get total price and a reference number
+        for item in conf_bookings:
+            refno += int((datetime.date.today().month * datetime.date.today().day * item.get("Booking ID")) /
+                         (item.get("Creation")).second * (item.get("Creation")).minute)
+            total_price += float(item.get("Price"))
+        ref = ref + str(refno)
+        # Add 'R' to the reference if it's a return flight.
+        if len(conf_bookings) > 1:
+            ref = ref + 'R'
+        return render_template("book_confirm.jinja", total_price=f'{total_price:.2f}', bookings=conf_bookings, ref=ref, title="Booking " + ref)
+    # Redirect if the user does not have access to this booking
     else:
         flash('You do not have permission to access this resource.', 'warning')
         return redirect('/dashboard/bookings')
@@ -122,13 +143,13 @@ def bookings():
             booking.cancelled = True
             booking.seats = 0
             print(form.related_id.data)
-            if form.related_id.data is not '':
+            if form.related_id.data != '':
                 related = database.Booking.query.filter_by(id=form.related_id.data).first()
                 related.cancelled = True
                 related.seats = 0
             database.db.session.commit()
             flash('Your booking has been cancelled. Please contact us if this was done in error.', 'success')
-        return render_template('bookings.jinja',
+        return render_template('book_list.jinja',
                                booking_data=database_helpers.booking_list(current_user.id),
                                cancel_form=form)
 

@@ -2,34 +2,38 @@
 
 {% block main %}
 
-<h1>Booking Page</h1>
-<h3>Listing flights from:</h3><br>
-<p>{{ airport_data[0].name }}</p><br>
-<h3>To:</h3><br>
-<p>{{ airport_data[1].name }}</p><br>
-<h3>Between:</h3>
-<p>{{ searchform.date_start_selector.data }} and {{ searchform.date_end_selector.data }}</p>
-<img src="/static/img/{{ airport_data[0].icao.lower() }}-{{ airport_data[1].icao.lower() }}.gif" class="img-fluid rounded-end">
+<div class="row my-3">
+<div class="col-sm-3 my-2">
+    <h5><strong>Listing flights from:</strong><br>
+{{ airport_data[0].name }}<br><br>
+<strong>To:</strong><br>
+{{ airport_data[1].name }}<br><br>
+<strong>Between:</strong><br>
+{{ (searchform.date_start_selector.data).strftime("%-d %b %Y") }} and {{ (searchform.date_end_selector.data).strftime("%-d %b %Y") }}</h5><br>
+<img src="/static/img/{{ airport_data[0].icao.lower() }}-{{ airport_data[1].icao.lower() }}.gif" class="img-fluid rounded">
+</div>
+<div class="col-sm-9">
+<div class="border-start border-secondary container overflow-scroll m-2" style="height: 90vh;">
 {% for flight in results %}{% if flight.get("Aircraft Capacity") - flight.get("Scheduled Seat Bookings") > 0 %}
-    <div class="row mb-3 rounded">
-        <div class="col-2 m-0 p-2 border rounded-start">
+    <div class="row my-2 rounded">
+        <div class="col-3 m-0 p-2 border rounded-start">
             <h5 class="noto-bold"><strong>{{ flight.get("Flight Designation") }}</strong></h5>
             <h6 class="noto-bold">({{ flight.get("Departure Airport ICAO") }} <span class="bi bi-arrow-right"></span> {{ flight.get("Arrival Airport ICAO") }}) </h6>
             <h6 class="noto-bold">{{ flight.get("Schedule Date") }}</h6>
             <h6 class="noto-regular">{{ flight.get("Aircraft Model") }}</h6>
         </div>
-        <div class="col-8 m-0 p-2 border border-start-0 noto-regular">
-            <p>Departs {{ flight.get("Departure Airport Name") }} at {{ flight.get("Start Leg Departure") }}</p>
-            <p>Arrives at {{ flight.get("Arrival Airport Name") }} at {{ flight.get("End Leg Arrival") }}</p>
+        <div class="col-7 m-0 p-2 border border-start-0 noto-regular">
+            <p>Departs {{ flight.get("Departure Airport Name") }} at {{ flight.get("Start Leg Departure").strftime("%H:%M:%S (%z UTC)") }}<br>
+            Arrives at {{ flight.get("Arrival Airport Name") }} at {{ flight.get("End Leg Arrival").strftime("%H:%M:%S (%z UTC)") }}<br>
             {% if flight.get("Stops") == 1 %}
-            <p>{{ flight.get("Stops") }} intermediate stop</p>
+            {{ flight.get("Stops") }} intermediate stop<br>
             {% elif flight.get("Stops") > 1 %}
-            <p>{{ flight.get("Stops") }} intermediate stops</p>
+            {{ flight.get("Stops") }} intermediate stops<br>
             {% else %}
-            <p>Direct Flight</p>
+            Direct Flight<br>
             {% endif %}
-            <p>Seats available: {{ flight.get("Aircraft Capacity") - flight.get("Scheduled Seat Bookings") }}</p>
-            <p>Price: ${{ flight.get("Price") }}</p>
+            Seats available: {{ flight.get("Aircraft Capacity") - flight.get("Scheduled Seat Bookings") }}<br>
+            Price: ${{ flight.get("Price") }}</p>
         </div>
         <div class="col-2 m-0 p-2 border border-start-0 rounded-end bg-primary text-white schedule-selector"
              data-bs-toggle="modal" data-bs-target="#exampleModal"
@@ -41,7 +45,9 @@
 
     </div>
 {% endif %}{% endfor %}
-
+</div>
+</div>
+</div>
 
     <div class="modal" id="exampleModal" tabindex="-1">
         <div class="modal-dialog">

@@ -18,6 +18,8 @@ If you'd like to see admin features (full user listing, etc), you can log in wit
 
 This account will not need verification, and can see a full list of bookings  (by any user) as well as the details of aircraft & users.
 
+It is additionally possible to create a new user account at the '/register' endpoint; as with the standard user, it will require 'verification' upon creation and will always redirect to that page until verification is complete.
+
 A user can create bookings from search results, look up their bookings (including history), and delete bookings.
 
 #### Additional Features
