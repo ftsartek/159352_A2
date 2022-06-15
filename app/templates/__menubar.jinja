@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-secondary bg-opacity-25 px-2">
     <div class="container">
-    <a class="navbar-brand" href="/">FlightBooker</a>
+    <a class="navbar-brand krona" href="/">FlightBooker</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -8,41 +8,41 @@
     <ul class="collapse navbar-collapse my-0" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto mb-lg-0">
             <li class="nav-item active">
-                <a class="nav-link" href="/">Home</a>
+                <a class="nav-link noto-bold" href="/">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/routes">Routes</a>
+                <a class="nav-link noto-bold" href="/routes">Routes</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/aircraft">Aircraft</a>
+                <a class="nav-link noto-bold" href="/aircraft">Aircraft</a>
             </li>
             {% if current_user.is_active and current_user.is_validated() %}
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle noto-bold" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Dashboard
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="/dashboard/bookings">View Bookings</a></li>
-                        <li><a class="dropdown-item" href="/dashboard/book">Search/Make Booking</a></li>
-                        <li><a class="dropdown-item" href="#">Account Management</a></li>
+                        <li><a class="dropdown-item noto-bold" href="/dashboard/bookings">View Bookings</a></li>
+                        <li><a class="dropdown-item noto-bold" href="/dashboard/book">Search/Make Booking</a></li>
+                        <li><a class="dropdown-item noto-bold" href="#">Account Management</a></li>
                         {% if current_user.is_admin() %}
                         <li><hr class="dropdown-divider"></li>
                         <li><p class="dropdown-item disabled"><strong>Administration</strong></p></li>
-                        <li><a class="dropdown-item" href="#">Flight List</a></li>
-                        <li><a class="dropdown-item" href="#">Booking List</a></li>
-                        <li><a class="dropdown-item" href="#">Aircraft List</a></li>
+                        <li><a class="dropdown-item noto-bold" href="#">Flight List</a></li>
+                        <li><a class="dropdown-item noto-bold" href="#">Booking List</a></li>
+                        <li><a class="dropdown-item noto-bold" href="#">Aircraft List</a></li>
                         {% endif %}
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="/logout">Log Out</a></li>
+                        <li><a class="dropdown-item noto-bold" href="/logout">Log Out</a></li>
                     </ul>
                 </li>
             {% elif current_user.is_active and not current_user.is_validated() %}
                 <li class="nav-item">
-                    <a class="nav-link" href="/dashboard/validate">Validate</a>
+                    <a class="nav-link noto-bold" href="/dashboard/validate">Validate</a>
                 </li>
             {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="/login">Login</a>
+                    <a class="nav-link noto-bold" href="/login">Login</a>
                 </li>
             {% endif %}
         </ul>

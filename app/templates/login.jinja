@@ -3,16 +3,17 @@
 {% block main %}
     <div class="container form-page">
         <div class="row align-items-center justify-content-center form-page">
-            <div class="col-sm-4 rounded p-3 bg-secondary bg-opacity-25 mt-3">
+            <div class="col-sm-4 border border-2 border-secondary rounded p-3 bg-secondary bg-opacity-25 mt-3">
                 <form method=post class="form-group">
                     {{ form.csrf_token }}
                     <dl>
                         {{ form.email.label }}
-                        {{ form.email(class_="form-control") }}
-                        {{ form.password.label }}
-                        {{ form.password(class_="form-control") }}
+                        {{ form.email(class_="form-control border-secondary") }}
                         <br>
-                        {{ form.submit(class_="btn btn-primary") }}
+                        {{ form.password.label }}
+                        {{ form.password(class_="form-control border-secondary") }}
+                        <br>
+                        {{ form.submit(class_="btn btn-primary border-dark") }}
                     </dl>
                 </form>
             </div>

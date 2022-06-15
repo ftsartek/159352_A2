@@ -2,21 +2,30 @@
 
 {% block main %}
 
-<h1>Booking Page</h1>
-
-<form method=post class="form-group">
-    {{ searchform.csrf_token }}
-    <dl>
-        {{ searchform.start_airport.label }}
-        {{ searchform.start_airport(class_="form-control") }}
-        {{ searchform.end_airport.label }}
-        {{ searchform.end_airport(class_="form-control") }}
-        {{ searchform.date_start_selector.label }}
-        {{ searchform.date_start_selector(class_="form-control") }}
-        {{ searchform.date_end_selector.label }}
-        {{ searchform.date_end_selector(class_="form-control") }}
-        {{ searchform.submit }}
-    </dl>
-</form>
+    <div class="container form-page">
+        <div class="row align-items-center justify-content-center form-page">
+            <div class="col-sm-4 border border-2 border-secondary rounded bg-secondary bg-opacity-25 mt-3 px-0">
+                <h2 class="noto-bold text-center pt-4">Search Flights</h2><br>
+                <form method=post class="form-group border-top border-1 p-3 border-secondary">
+                    {{ searchform.csrf_token }}
+                    <dl>
+                        {{ searchform.start_airport.label }}
+                        {{ searchform.start_airport(class_="form-control") }}
+                        <br>
+                        {{ searchform.end_airport.label }}
+                        {{ searchform.end_airport(class_="form-control") }}
+                        <br>
+                        {{ searchform.date_start_selector.label }}
+                        {{ searchform.date_start_selector(class_="form-control") }}
+                        <br>
+                        {{ searchform.date_end_selector.label }}
+                        {{ searchform.date_end_selector(class_="form-control") }}
+                        <br>
+                        {{ searchform.submit(class_="btn btn-primary") }}
+                    </dl>
+                </form>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
