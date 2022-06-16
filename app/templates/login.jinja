@@ -1,19 +1,19 @@
 {% extends "_base.jinja" %}
 
 {% block main %}
-    <div class="container form-page">
-        <div class="row align-items-center justify-content-center form-page">
-            <div class="col-sm-4 border border-2 border-secondary rounded p-3 bg-secondary bg-opacity-25 mt-3">
+    <div class="container my-0">
+        <div class="row align-items-center justify-content-center form-page my-5">
+            <div class="col-sm-4 rounded p-4 bg-dark bg-opacity-50 mt-3">
                 <form method=post class="form-group">
                     {{ form.csrf_token }}
                     <dl>
-                        {{ form.email.label }}
-                        {{ form.email(class_="form-control border-secondary") }}
+                        {{ form.email.label(class_="text-light noto-bold") }}
+                        {{ form.email(class_="form-control") }}
                         <br>
-                        {{ form.password.label }}
-                        {{ form.password(class_="form-control border-secondary") }}
+                        {{ form.password.label(class_="text-light noto-bold") }}
+                        {{ form.password(class_="form-control") }}
                         <br>
-                        {{ form.submit(class_="btn btn-primary border-dark") }}
+                        {{ form.submit(class_="btn btn-primary noto-bold") }}
                     </dl>
                 </form>
             </div>

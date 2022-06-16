@@ -1,3 +1,15 @@
+body {
+    min-height: 100vh;
+    background: url("../img/bg-blue-flow-lg.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.cont-fill {
+    min-height: 100%;
+    height: 100%;
+}
+
 .checkbox-icon {
     color: #188518;
 }
@@ -33,4 +45,25 @@
 
 .schedule-selector:hover {
     background: #0b3b94 !important;
+}
+
+.bg-menu {
+    background: #e0e3e7;
+    color: azure !important;
+}
+
+.bg-menu-text {
+    color: #194b8a !important;
+}
+
+.bg-dropdown {
+    background: #c7d5e5;
+}
+
+.bg-dropdown-item:hover {
+    background: #96abd9;
+}
+
+.bg-dropdown-divider {
+    color: #3d5483;
 }
