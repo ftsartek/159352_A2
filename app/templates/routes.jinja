@@ -1,44 +1,53 @@
 {% extends "_base.jinja" %}
 
 {% block main %}
+    <div class="container">
     <div class="row my-3">
         <p>Premiere Air Travel offers 5 primary routes, as shown below. Please contact us for information on charter flights, if our standard routes don't quite suit your needs.</p>
     </div>
-    <div class="row my-3 justify-content-center row-eq-height">
-        <div class="col-sm-4 p-1">
-            <div class="border border-secondary rounded p-2 text-center h-100">
-                <h3>Prestige Service</h3>
-                <img src="/static/img/nzne-yssy.gif" class="img-fluid rounded mb-1">
-                <img src="/static/img/yssy-nzne.gif" class="img-fluid rounded">
+    <div class="row my-3 g-0 justify-content-center row-eq-height">
+        <div class="col-sm-3 p-4">
+            <div class="card bg-dark bg-opacity-50">
+                <img src="/static/img/nzne-nzro-yssy-nzne.gif" class="card-img-top">
+                <div class="text-end text-light card-img-overlay h-100 text-opacity-75">
+                    <h2 class="noto-bold">Prestige Service</h2>
+                </div>
             </div>
         </div>
-        <div class="col-sm-4 p-1">
-            <div class="border border-secondary rounded p-2 text-center h-100">
-                <h3>Rotorua Shuttle</h3>
-                <img src="/static/img/nzne-nzro.gif" class="img-fluid rounded">
+        <div class="col-sm-3 p-4">
+            <div class="card bg-dark bg-opacity-50">
+                <img src="/static/img/nzne-nzro.gif" class="card-img-top">
+                <div class="text-center text-light card-body h-100">
+                    <h3>Rotorua Shuttle</h3>
+                </div>
             </div>
         </div>
-        <div class="col-sm-4 p-1">
-            <div class="border border-secondary rounded p-2 text-center h-100">
-                <h3>Great Barrier Shuttle</h3>
-                <img src="/static/img/nzne-nzgb.gif" class="img-fluid rounded">
+        <div class="col-sm-3 p-4">
+            <div class="card bg-dark bg-opacity-50">
+                <img src="/static/img/nzne-nzgb.gif" class="card-img-top">
+                <div class="text-center text-light card-body h-100">
+                    <h3>Great Barrier Shuttle</h3>
+                </div>
             </div>
         </div>
     </div>
     <div class="row my-3 justify-content-center row-eq-height">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-4 p-1">
-            <div class="border border-secondary rounded p-2 text-center h-100">
-                <h3>Chatham Service</h3>
-                <img src="/static/img/nzne-nzci.gif" class="img-fluid rounded">
+        <div class="col-sm-3 p-4">
+            <div class="card bg-dark bg-opacity-50">
+                <img src="/static/img/nzne-nzci.gif" class="card-img-top">
+                <div class="text-center text-light card-body h-100">
+                    <h3>Chatham Service</h3>
+                </div>
             </div>
         </div>
-        <div class="col-sm-4 p-1">
-            <div class="border border-secondary rounded p-2 text-center h-100">
-                <h3>Rotorua Shuttle</h3>
-                <img src="/static/img/nzne-nzro.gif" class="img-fluid rounded">
+        <div class="col-sm-3 p-4">
+            <div class="card bg-dark bg-opacity-50">
+                <img src="/static/img/nzne-nztl.gif" class="card-img-top">
+                <div class="text-center text-light card-body h-100">
+                    <h3>Tekapo Service</h3>
+                </div>
             </div>
         </div>
-        <div class="col-sm-2"></div>
+    </div>
     </div>
 {% endblock %}
