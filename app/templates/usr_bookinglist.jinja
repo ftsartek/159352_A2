@@ -1,10 +1,11 @@
 {% extends "_base.jinja" %}
 
 {% block main %}
-    <div class="row">
+    <div class="container">
+    <div class="row pt-3">
         <div class="col-9 p-2">
-            <div class="border">
-                <table class="table table-light">
+            <div class="">
+                <table class="table bg-dark bg-opacity-50 text-light rounded"  style="border-color: slategray">
                     <thead>
                         <tr>
                             <th>Designation</th>
@@ -13,9 +14,9 @@
                             <th>Details</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody style="border-color: slategray">
                         {% for booking in booking_data %}
-                            <tr>
+                            <tr style="border-color: slategray">
                                 <td>{{ booking.get("Flight Designation") }}</td>
                                 <td>{{ booking.get("Departure Airport Name") }} <br> {{ booking.get("Departure").strftime("%-I:%M %p (UTC %z) <br> %-d %b %Y") }}</td>
                                 <td>{{ booking.get("Arrival Airport Name") }} <br> {{ (booking.get("Arrival")).strftime("%-I:%M %p (UTC %z) <br> %-d %b %Y") }}</td>
@@ -28,9 +29,10 @@
                                         '{{ booking.get("Arrival").strftime("%-I:%M %p (UTC %z)") }}',
                                         '{{ booking.get("Aircraft Model") }} ({{ booking.get("Aircraft Registration") }}',
                                         '{{ booking.get("Creation").strftime("%x %X") }}',
+                                        '{% if booking.get("Cancelled") %}Cancelled{% elif booking.get("Completed") %}Completed{% else %}Pending{% endif %}',
                                         '{{ booking.get("Booking ID") }}',
                                         '{% if booking.get("Return Booking ID") %}{{ booking.get("Return Booking ID") }}{% elif booking.get("Origin Booking ID") %}{{ booking.get("Origin Booking ID") }}{% else %}{% endif %}')">
-                                        Details
+                                        View
                                 </button></td>
                             </tr>
                         {% endfor %}
@@ -39,19 +41,21 @@
             </div>
         </div>
         <div class="col-3 p-2" id="book-sidebar" style="visibility: hidden">
-            <div class="border p-2">
-                <h6><strong>Designation: </strong></h6><h6 id="book-sidebar-dsg"></h6><br>
-                <h6><strong>Flight Date: </strong></h6><h6 id="book-sidebar-date"></h6><br>
-                <h6><strong>Departure Airport: </strong></h6><h6 id="book-sidebar-dpt-ap"></h6><br>
-                <h6><strong>Departure Time: </strong></h6><h6 id="book-sidebar-dpt-tm"></h6><br>
-                <h6><strong>Arrival Airport: </strong></h6><h6 id="book-sidebar-arr-ap"></h6><br>
-                <h6><strong>Arrival Time: </strong></h6><h6 id="book-sidebar-arr-tm"></h6><br>
-                <h6><strong>Aircraft: </strong></h6><h6 id="book-sidebar-aircraft"></h6><br>
+            <div class="rounded bg-dark bg-opacity-50 text-light noto-regular p-3">
+                <h6><strong>Designation: </strong></h6><h6 id="book-sidebar-dsg"></h6>
+                <h6><strong>Flight Date: </strong></h6><h6 id="book-sidebar-date"></h6>
+                <h6><strong>Departure Airport: </strong></h6><h6 id="book-sidebar-dpt-ap"></h6>
+                <h6><strong>Departure Time: </strong></h6><h6 id="book-sidebar-dpt-tm"></h6>
+                <h6><strong>Arrival Airport: </strong></h6><h6 id="book-sidebar-arr-ap"></h6>
+                <h6><strong>Arrival Time: </strong></h6><h6 id="book-sidebar-arr-tm"></h6>
+                <h6><strong>Aircraft: </strong></h6><h6 id="book-sidebar-aircraft"></h6>
                 <h6><strong>Booking Created: </strong></h6><h6 id="book-sidebar-created"></h6><br>
+                <h6><strong>Status: </strong></h6><h6 id="book-sidebar-status"></h6><br>
                 <a id="conf-link" href="#"><button class="btn btn-primary">View Confirmation</button></a>
                 <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#cancelModal">Cancel Booking</button>
             </div>
         </div>
+    </div>
     </div>
     <div class="modal" id="cancelModal" tabindex="-1">
         <div class="modal-dialog">

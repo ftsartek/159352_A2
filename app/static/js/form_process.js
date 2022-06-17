@@ -7,7 +7,7 @@ function updateSelectForm(schedule_id, user_id, start_id, end_id, max_tickets) {
     document.getElementById('ticket_number').setAttribute('max', max_tickets);
 }
 
-function updateBookingSidebar(designation, date, dep_airport, dep_time, arr_airport, arr_time, aircraft, created, book_id, related_id) {
+function updateBookingSidebar(designation, date, dep_airport, dep_time, arr_airport, arr_time, aircraft, created, status, book_id, related_id) {
     document.getElementById('book-sidebar').style.visibility = 'visible';
     document.getElementById('book-sidebar-dsg').innerText = designation;
     document.getElementById('book-sidebar-date').innerText = date;
@@ -17,6 +17,7 @@ function updateBookingSidebar(designation, date, dep_airport, dep_time, arr_airp
     document.getElementById('book-sidebar-arr-tm').innerText = arr_time;
     document.getElementById('book-sidebar-aircraft').innerText = aircraft;
     document.getElementById('book-sidebar-created').innerText = created;
+    document.getElementById('book-sidebar-status').innerText = status;
     document.getElementById('conf-link').setAttribute('href', '/dashboard/booking/confirm/' + book_id)
     document.getElementById('booking_id').value = book_id;
     document.getElementById('related_id').value = related_id;

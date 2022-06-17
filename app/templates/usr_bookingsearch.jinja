@@ -4,11 +4,11 @@
 
     <div class="container form-page">
         <div class="row align-items-center justify-content-center form-page">
-            <div class="col-sm-4 border border-2 border-secondary rounded bg-secondary bg-opacity-25 mt-3 px-0">
+            <div class="col-sm-4 rounded bg-dark bg-opacity-50 mt-3 p-0 text-light">
                 <h2 class="noto-bold text-center pt-4">Search Flights</h2><br>
                 <form method=post class="form-group border-top border-1 p-3 border-secondary">
                     {{ searchform.csrf_token }}
-                    <dl>
+                    <dl class="mb-0">
                         {{ searchform.start_airport.label }}
                         {{ searchform.start_airport(class_="form-control") }}
                         <br>

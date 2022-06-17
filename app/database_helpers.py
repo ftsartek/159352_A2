@@ -1,4 +1,5 @@
 import datetime
+import time
 
 from app.database import db, Flight, FlightSchedule, FlightLeg, Airport, Aircraft, Booking, User
 from datetime import date
@@ -119,7 +120,9 @@ def booking_list(user=None, booking=None):
             "Return Booking ID": entry[16],
             "Price": f"{calc_total_price(entry[18], entry[19], entry[20]):.2f}",
             "Creation": entry[17],
-            "Cancelled": entry[21]})
+            "Cancelled": entry[21],
+            "Completed": True if datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(seconds=-time.timezone))) > datetime.datetime.combine(entry[4], entry[9], tzinfo=datetime.timezone(offset=entry[14])) +
+                       entry[10] - (entry[12] - entry[14]) else False})
     return compiled_bookings
 
 

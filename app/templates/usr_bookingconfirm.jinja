@@ -1,17 +1,17 @@
 {% extends "_base.jinja" %}
 
 {% block main %}
-
+<div class="container text-light bg-dark bg-opacity-50 rounded p-3 text-center">
     <div class="row my-2">
         <div class="col-12">
             <h1>{{ ref }}</h1>
             <h5>If any details of this confirmation are incorrect, please contact us as soon as possible to rectify.</h5>
         </div>
     </div>
-    <div class="row">
+    <div class="row justify-content-center">
     {% for booking in bookings %}
         <div class="col-5">
-            <div class="p-3 my-3 border border-2 border-secondary rounded text-center {% if booking.get("Cancelled") %}bg-danger{% else %}bg-info{% endif %} text-light">
+            <div class="p-3 my-3 rounded text-center {% if booking.get("Cancelled") %}bg-danger{% else %}bg-info{% endif %} text-light">
                 <h3><strong>{{ booking.get("Flight Designation") }} | {{ booking.get("Departure").strftime("%-d %b %Y") }}</strong></h3>
                 <h5><strong>{{ booking.get("Departure Airport Name") }} ==> {{ booking.get("Arrival Airport Name") }}</strong></h5>
                 <h5><strong>Departs at:</strong> {{ booking.get("Departure").strftime("%H:%M:%S (%z UTC)") }}</h5>
@@ -30,7 +30,7 @@
     <small><i>If paying by bank transfer, please ensure the payment is completed at least 1 working day prior to your flight departure date.<br>
     Online and phone payments are processed and credited to your account immediately.<br>
     If you intend to pay on the day of the flight, please retain a copy of this confirmation for ease of processing.</i></small></p>
-
+</div>
     {% endif %}
 
 {% endblock %}

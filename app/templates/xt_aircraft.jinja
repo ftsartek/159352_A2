@@ -1,0 +1,50 @@
+{% extends "_base.jinja" %}
+
+{% block main %}
+<div class="container">
+    <div class="row my-3 justify-content-center">
+        <div class="col-8 py-5">
+            <h2 class="text-center display-2 noto-light text-light">
+                Our Aircraft
+            </h2>
+            <h5 class="text-center noto-regular text-light">
+                Premiere Air Travel operates a fleet of five aircraft, made up of a SyberJet SJ30i, two HondaJet Elites, and two Cirrus SF50s.
+                These aircraft represent the bleeding edge of microjet aircraft design and allow us to offer shorter travel times in far more
+                luxury than our competitors.
+            </h5>
+        </div>
+    </div>
+    <div class="row my-3 justify-content-center">
+        <div class="col-sm-4 p-3">
+            <div class="card rounded bg-dark bg-opacity-50 text-center">
+                <img src="/static/img/syberjet.jpg" class="img-card-top rounded-top">
+                <div class="card-body noto-regular text-light">
+                    <h3>SyberJet SJ30i</h3>
+                    <p>The SyberJet SJ30i is the pride of our fleet, and with good reason - with seating for 6 in divine comfort and service that
+                    rivals first class in modern airliners, no stone has been left unturned as we strive to offer a truly uncompromised experience.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 p-3">
+            <div class="card rounded bg-dark bg-opacity-50 text-center">
+                <img src="/static/img/hondajet.jpg" class="img-card-top rounded-top">
+                <div class="card-body noto-regular text-light">
+                    <h3>HondaJet Elite</h3>
+                    <p>Our two HondaJet Elite aircraft take the premium aircraft experience to the next level - while small, they offer excellent comfort for
+                    five passengers, while significantly reducing commute times relative to an equivalent turboprop aircraft.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 p-3">
+            <div class="card rounded bg-dark bg-opacity-50 text-center">
+                <img src="/static/img/cirrus.jpg" class="img-card-top rounded-top">
+                <div class="card-body noto-regular text-light">
+                    <h3>Cirrus SF50</h3>
+                    <p>The Cirrus SF50 represents a turn in design philosophies, easily seen in its unique shape and layout. With this, our two SF50s have improved
+                    travel times, while still retaining passenger comforts that put airline travel to shame.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

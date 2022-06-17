@@ -12,17 +12,17 @@ print("Initialising routes")
 
 @app.route('/')
 def index():
-    return render_template("index.jinja")
+    return render_template("xt_index.jinja")
 
 
 @app.route('/routes')
 def routes():
-    return render_template("routes.jinja")
+    return render_template("xt_routes.jinja")
 
 
 @app.route('/aircraft')
 def aircraft():
-    return render_template("aircraft.jinja")
+    return render_template("xt_aircraft.jinja")
 
 
 # Account transaction pages
@@ -30,7 +30,7 @@ def aircraft():
 def register():
     form = forms.RegistrationForm()
     if current_user.is_authenticated:
-        return redirect('/dashboard')
+        return redirect('/')
     if form.validate_on_submit():
         user = database.User(email=form.email.data, first_name=form.first_name.data, last_name=form.surname.data, active=True)
         user.save_pass_hash(form.password.data)
@@ -44,27 +44,27 @@ def register():
         for error in form.errors:
             issues += form.errors.get(error)[0] + '<br>'
         flash(f'Your account could not be created. Errors encountered:<br>' + issues, 'danger')
-    return render_template("register.jinja", form=form)
+    return render_template("xt_register.jinja", form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = forms.LoginForm()
     if current_user.is_authenticated or login_fresh is None:
-        return redirect('/dashboard')
+        return redirect('/')
     if form.validate_on_submit():
         user = database.User.query.filter_by(email=form.email.data).first()
         if user is not None:
             if not user.validate_pass(form.password.data):
                 flash('Incorrect email or password', 'danger')
-                return render_template('login.jinja', form=form)
+                return render_template('usr_login.jinja', form=form)
             else:
                 login_user(user, remember=True)
                 flash('Logged in successfully', 'success')
             return redirect('/dashboard/bookings')
         else:
             flash('Incorrect email or password', 'danger')
-    return render_template('login.jinja', form=form)
+    return render_template('usr_login.jinja', form=form)
 
 
 @app.route('/logout', methods=['GET', 'POST'])
@@ -80,17 +80,17 @@ def logout():
 def acc_validate():
     form = forms.ValidationCheckForm()
     if not current_user.requires_validation():
-        return redirect('/dashboard')
+        return redirect('/')
     if form.validate_on_submit():
         if current_user.validate_account(form.validation_code.data):
             flash('Your account was successfully validated.', 'success')
             database.db.session.commit()
-            return redirect('/dashboard')
+            return redirect('/')
         else:
             flash('Your account could not be verified. Please try again.', 'danger')
     elif len(form.errors) > 0:
         flash('Your account could not be verified. Please try again.', 'danger')
-    return render_template("dashboard_validate.jinja", form=form)
+    return render_template("usr_validate.jinja", form=form)
 
 
 @app.route('/dashboard/booking/confirm/<book_id>')
@@ -124,7 +124,7 @@ def confirmation(book_id):
         # Add 'R' to the reference if it's a return flight.
         if len(conf_bookings) > 1:
             ref = ref + 'R'
-        return render_template("book_confirm.jinja", total_price=f'{total_price:.2f}', bookings=conf_bookings, ref=ref, title="Booking " + ref)
+        return render_template("usr_bookingconfirm.jinja", total_price=f'{total_price:.2f}', bookings=conf_bookings, ref=ref, title="Booking " + ref)
     # Redirect if the user does not have access to this booking
     else:
         flash('You do not have permission to access this resource.', 'warning')
@@ -149,7 +149,7 @@ def bookings():
                 related.seats = 0
             database.db.session.commit()
             flash('Your booking has been cancelled. Please contact us if this was done in error.', 'success')
-        return render_template('book_list.jinja',
+        return render_template('usr_bookinglist.jinja',
                                booking_data=database_helpers.booking_list(current_user.id),
                                cancel_form=form)
 
@@ -190,8 +190,9 @@ def book():
                         return_date_range + datetime.timedelta(days=15))
 
                     # If there are no results, alert user and reload search section
-                    return render_template('book_select.jinja', searchform=searchform, selectform=selectform,
-                                           airport_data=airport_data, results=results, returning=True, original_flight=new_booking.id)
+                    return render_template('usr_bookingselect.jinja', searchform=searchform, selectform=selectform,
+                                           airport_data=airport_data, results=results, returning=True,
+                                           original_flight=new_booking.id)
             else:
                 print(selectform.errors)
         # Search section
@@ -213,7 +214,7 @@ def book():
                     invalidate = True
                 # Reload the first step if the form data is invalid
                 if invalidate:
-                    return render_template('book_search.jinja', searchform=searchform)
+                    return render_template('usr_bookingsearch.jinja', searchform=searchform)
                 # Get airport data for query
                 airport_data = [database.Airport.query.filter_by(id=searchform.start_airport.data).first(),
                                 database.Airport.query.filter_by(id=searchform.end_airport.data).first()]
@@ -224,13 +225,13 @@ def book():
                 # If there are no results, alert user and reload search section
                 if len(results) == 0:
                     flash("No flights fit these criteria. Please try again.", 'warning')
-                    return render_template('book_search.jinja', searchform=searchform)
+                    return render_template('usr_bookingsearch.jinja', searchform=searchform)
                 # If everything is good, move on to booking
 
                 flash(f'{len(results)} flights found matching your criteria.', 'success')
-                return render_template('book_select.jinja', searchform=searchform, selectform=selectform, airport_data=airport_data, results=results, returning=False)
+                return render_template('usr_bookingselect.jinja', searchform=searchform, selectform=selectform, airport_data=airport_data, results=results, returning=False)
         # Default loader
-        return render_template('book_search.jinja', searchform=searchform)
+        return render_template('usr_bookingsearch.jinja', searchform=searchform)
 
 
 @app.route('/admin/bookings')
@@ -240,7 +241,7 @@ def adm_bookings():
         return render_template("adm_bookings.jinja", booking_data=database_helpers.booking_list())
     else:
         flash("You do not have permission to view this page.", "warning")
-        return redirect('/dashboard')
+        return redirect('/')
 
 
 @app.route('/admin/fleet', methods=['GET', 'POST'])
@@ -250,7 +251,7 @@ def adm_fleet():
         return render_template("adm_fleet.jinja", fleet_data=database.Aircraft.query.all())
     else:
         flash("You do not have permission to view this page.", "warning")
-        return redirect('/dashboard')
+        return redirect('/')
 
 
 @app.route('/admin/fleet/edit/<ac_id>', methods=['GET', 'POST'])
@@ -265,7 +266,7 @@ def adm_fleet_mgmt(ac_id):
         return redirect('/admin/fleet')
     else:
         flash("You do not have permission to view this page.", "warning")
-        return redirect('/dashboard')
+        return redirect('/')
 
 
 @app.route('/admin/users', methods=['GET', 'POST'])
@@ -275,7 +276,7 @@ def adm_users():
         return render_template("adm_users.jinja", user_data=database.User.query.all())
     else:
         flash("You do not have permission to view this page.", "warning")
-        return redirect('/dashboard')
+        return redirect('/')
 
 
 @app.route('/reset_all')
