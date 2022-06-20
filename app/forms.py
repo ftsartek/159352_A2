@@ -11,7 +11,7 @@ csrf = csrf.CSRFProtect(app)
 
 class LoginForm(FlaskForm):
     email = StringField('Email', [validators.DataRequired(), validators.Email()])
-    password = PasswordField('Password', [validators.DataRequired(), validators.Length(min=8, max=25)])
+    password = PasswordField('Password', [validators.DataRequired(), validators.Length(min=6, max=25)])
     submit = SubmitField("Log In")
 
 

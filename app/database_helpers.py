@@ -34,12 +34,12 @@ def filtered_flight_list(departure: int, arrival: int, earliest: date, latest: d
                         fl2_aliased.id, fl2_aliased.arrival_airport_id, fl2_aliased.leg,
                         fl2_aliased.departure_time, fl2_aliased.flight_duration,
                         db.func.sum(Booking.seats), Aircraft.id) \
-        .where(FlightSchedule.date >= earliest, FlightSchedule.date <= latest) \
+        .where(FlightSchedule.date > earliest, FlightSchedule.date <= latest) \
         .join(FlightSchedule.flight.of_type(Flight)) \
         .join(Flight.aircraft.of_type(Aircraft)) \
         .join(Flight.flightlegs.of_type(fl1_aliased)).join(Flight.flightlegs.of_type(fl2_aliased)) \
         .outerjoin(FlightSchedule.bookings.and_(
-        db.and_(Booking.start_leg_id <= fl2_aliased.id, Booking.end_leg_id >= fl1_aliased.id))) \
+                   db.and_(Booking.start_leg_id <= fl2_aliased.id, Booking.end_leg_id >= fl1_aliased.id))) \
         .where(fl1_aliased.departure_airport_id == departure) \
         .where(fl2_aliased.arrival_airport_id == arrival) \
         .group_by(FlightSchedule.id)
@@ -65,7 +65,7 @@ def filtered_flight_list(departure: int, arrival: int, earliest: date, latest: d
             "End Leg Arrival": datetime.datetime.combine(item[1], item[6]) + item[12],
             "Scheduled Seat Bookings": item[13] if item[13] is not None else 0,
             "Aircraft Capacity": Aircraft.query.filter_by(id=item[14]).first().capacity,
-            "Price": f"{calc_total_price(item[2], item[3], item[8]):.2f}",
+            "Price": f"{calc_total_price(item[2], item[3], item[8], 1):.2f}",
         })
     return compiled_schedules
 
@@ -118,7 +118,7 @@ def booking_list(user=None, booking=None):
             "Arrival Offset": entry[14],
             "Origin Booking ID": entry[15],
             "Return Booking ID": entry[16],
-            "Price": f"{calc_total_price(entry[18], entry[19], entry[20]):.2f}",
+            "Price": f"{calc_total_price(entry[18], entry[19], entry[20], entry[1]):.2f}",
             "Creation": entry[17],
             "Cancelled": entry[21],
             "Completed": True if datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(seconds=-time.timezone))) > datetime.datetime.combine(entry[4], entry[9], tzinfo=datetime.timezone(offset=entry[14])) +
@@ -126,10 +126,10 @@ def booking_list(user=None, booking=None):
     return compiled_bookings
 
 
-def calc_total_price(flight, start_leg, end_leg):
+def calc_total_price(flight, start_leg, end_leg, seats):
     price = 0.0
     for leg in range(start_leg, end_leg + 1):
         fl = FlightLeg.query.filter_by(id=leg).first()
         if fl.flight_id == flight:
             price += fl.price
-    return price
+    return price * seats

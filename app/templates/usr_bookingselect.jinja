@@ -40,7 +40,7 @@
             Direct Flight<br>
             {% endif %}
             Seats available: {{ flight.get("Aircraft Capacity") - flight.get("Scheduled Seat Bookings") }}<br>
-            Price: ${{ flight.get("Price") }}</p>
+            Price per seat: ${{ flight.get("Price") }}</p>
         </div>
         <div class="col-2 m-0 p-2 border border-start-0 rounded-end text-white schedule-selector border-secondary
                     bg-primary bg-opacity-50"

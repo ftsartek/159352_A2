@@ -1,7 +1,7 @@
 {% extends "_base.jinja" %}
 
 {% block main %}
-<div class="container text-light bg-dark bg-opacity-50 rounded p-3 text-center">
+<div class="container text-light bg-dark bg-opacity-50 rounded p-3 text-center mt-5">
     <div class="row my-2">
         <div class="col-12">
             <h1>{{ ref }}</h1>
@@ -10,13 +10,14 @@
     </div>
     <div class="row justify-content-center">
     {% for booking in bookings %}
-        <div class="col-5">
-            <div class="p-3 my-3 rounded text-center {% if booking.get("Cancelled") %}bg-danger{% else %}bg-info{% endif %} text-light">
-                <h3><strong>{{ booking.get("Flight Designation") }} | {{ booking.get("Departure").strftime("%-d %b %Y") }}</strong></h3>
-                <h5><strong>{{ booking.get("Departure Airport Name") }} ==> {{ booking.get("Arrival Airport Name") }}</strong></h5>
-                <h5><strong>Departs at:</strong> {{ booking.get("Departure").strftime("%H:%M:%S (%z UTC)") }}</h5>
-                <h5><strong>Estimated arrival:</strong> {{ booking.get("Arrival").strftime("%H:%M:%S (%z UTC)") }}</h5>
-                <h5><strong>Flight Cost:</strong> ${{ booking.get("Price") }}</h5>
+        <div class="col-4">
+            <div class="p-3 my-3 rounded text-center {% if booking.get("Cancelled") %}bg-danger{% elif booking.get("Completed") %}bg-secondary{% else %}bg-success{% endif %} text-light">
+                <h6><strong>{{ booking.get("Flight Designation") }} | {{ booking.get("Departure").strftime("%-d %b %Y") }}</strong></h6>
+                <h6><strong>{{ booking.get("Departure Airport Name") }} ==> {{ booking.get("Arrival Airport Name") }}</strong></h6>
+                <h6><strong>Departs at:</strong> {{ booking.get("Departure").strftime("%H:%M:%S (%z UTC)") }}</h6>
+                <h6><strong>Estimated arrival:</strong> {{ booking.get("Arrival").strftime("%H:%M:%S (%z UTC)") }}</h6>
+                <h6><strong>Booked Seats:</strong> {{ booking.get("Booked Seats") }}</h6>
+                <h6><strong>Flight Cost:</strong> ${{ booking.get("Price") }}</h6>
             </div>
         </div>
     {% endfor %}

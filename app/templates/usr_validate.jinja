@@ -2,19 +2,25 @@
 
 {% block main %}
 
-<h1>Validation Page</h1>
-
-    {% if current_user.requires_validation() %}
-        <h6>{{ current_user.verification_code }} </h6>
-        <form method=post class="form-group">
-            {{ form.csrf_token }}
-            <dl>
-                {{ form.validation_code.label }}
-                {{ form.validation_code(class_="form-control") }}
-            </dl>
-            <p><input type="submit" value="Validate Account">
-        </form>
-    {% else %} <h6>Your account does not need to be validated.</h6>
-    {% endif %}
-
+    <div class="container my-0">
+        <div class="row align-items-center justify-content-center form-page my-5">
+            <div class="col-sm-4 rounded p-4 bg-dark bg-opacity-50 mt-3 text-light">
+                {% if current_user.requires_validation() %}
+                    <h6><strong>Please enter this code into the box below:</strong></h6>
+                    <h6>{{ current_user.verification_code }} </h6>
+                    <br>
+                    <form method=post class="form-group">
+                        {{ form.csrf_token }}
+                        <dl>
+                            {{ form.validation_code.label }}
+                            {{ form.validation_code(class_="form-control") }}
+                            <br>
+                            {{ form.submit(class_="btn btn-primary") }}
+                        </dl>
+                    </form>
+                {% else %} <h6>Your account does not need to be validated.</h6>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 {% endblock %}

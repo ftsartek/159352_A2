@@ -22,5 +22,17 @@ It is additionally possible to create a new user account at the '/register' endp
 
 A user can create bookings from search results, look up their bookings (including history), and delete bookings.
 
-#### Additional Features
+#### Built With (and why):
+ - Back End:
+   - Flask: Lightweight, powerful and extensible. I chose Flask because a) I've got some experience with it, and b) it eliminates some of the bloat I feel like Django packages in.
+   - SQLAlchemy: An excellent ORM layer for SQL databases. I can pythonise the SQL queries and it simplifies the transactions I need to do with very little overhead. Linked to:
+     - SQLite3: While it would be very easy to integrate this with another SQL-style server (PGSql, MySQL), SQLite3 is more than suitable for the job and avoids a lot of the complexity of configuring another DB in a docker container
+   - Flask-Login: Easy-to-implement user session management.
+   - WTForms: A Python HTML form library, used to 
+ - Front End:
+   - Javascript: Could've used JQuery or another front-end JS framework, but the implementations in this web app have been fairly straightforward, so there was no real call to do so.
+   - Jinja Templating: Dynamic HTML templates with python-esque functionality capabilities. Generated on request and built up into a complete HTML page.
+   - Bootstrap: Topped off with some custom CSS, Bootstrap forms the majority of this app's visual implementation. It makes it quick and easy to get a decent-looking basis for a page.
+
+#### Additional Features:
  - Return Flights: users can optionally book a return flight after making an initial flight selection, with the parameters of the return being automatically chosen (within 2 weeks of the initial flight, return only, no detours). Upon cancelling a flight, any related flights will also be cancelled.
