@@ -14,7 +14,6 @@
                             <th class="text-center">Active</th>
                             <th class="text-center">Validated</th>
                             <th class="text-center">Admin</th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody style="border-color: slategray">
@@ -30,7 +29,6 @@
                                 {% else %}<h5 class="bi-x-square crossbox-icon"></h5>{% endif %}</td>
                                 <td class="text-center">{% if user.admin %}<h5 class="bi-check-square checkbox-icon"></h5>
                                 {% else %}<h5 class="bi-x-square crossbox-icon"></h5>{% endif %}</td>
-                                <td><a href="/admin/users/edit/{{ user.id }}"><button class="btn btn-secondary">Edit</button></a></td>
                             </tr>
                         {% endfor %}
                     </tbody>

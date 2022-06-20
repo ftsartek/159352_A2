@@ -209,8 +209,7 @@ def book():
                     return render_template('usr_bookingselect.jinja', searchform=searchform, selectform=selectform,
                                            airport_data=airport_data, results=results, returning=True,
                                            original_flight=new_booking.id, title="Select Flight")
-            else:
-                print(selectform.errors)
+                return redirect(f"/dashboard/booking/confirm/{new_booking.id}")
         # Search section
         if searchform.submit.data:
             if searchform.validate_on_submit():
@@ -269,21 +268,6 @@ def adm_fleet():
         return redirect('/')
 
 
-@app.route('/admin/fleet/edit/<ac_id>', methods=['GET', 'POST'])
-@login_required
-def adm_fleet_mgmt(ac_id):
-    if current_user.is_admin():
-        aircraft = database.Aircraft.query.get(ac_id)
-        if aircraft is not None:
-            form = forms.AircraftEditForm()
-            return render_template('adm_fleet_edit.jinja', aircraft=aircraft, form=form, title="Admin | Fleet Edit")
-        # Fallback
-        return redirect('/admin/fleet')
-    else:
-        flash("You do not have permission to view this page.", "warning")
-        return redirect('/')
-
-
 @app.route('/admin/users', methods=['GET', 'POST'])
 @login_required
 def adm_users():
@@ -294,7 +278,17 @@ def adm_users():
         return redirect('/')
 
 
-@app.route('/reset_all')
+@app.route('/admin/schedule', methods=['GET', 'POST'])
+@login_required
+def adm_schedule():
+    if current_user.is_admin():
+        return render_template("adm_schedule.jinja", sched_data=database.FlightSchedule.query.all(), db=database, title="Admin | Schedule")
+    else:
+        flash("You do not have permission to view this page.", "warning")
+        return redirect('/')
+
+
+@app.route('/admin/reset_all')
 @login_required
 def reset_all():
     if current_user.is_admin():

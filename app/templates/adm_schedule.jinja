@@ -1,0 +1,38 @@
+{% extends "_base.jinja" %}
+
+{% block main %}
+<div class="container">
+    <div class="row">
+        <div class="col-12 p-2">
+                <table class="table bg-dark bg-opacity-50 text-light rounded"  style="border-color: slategray">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Date</th>
+                            <th>Designation</th>
+                            <th>Start Airport</th>
+                            <th>End Airport</th>
+                            <th>Departure Time</th>
+                            <th>Registration</th>
+                            <th>Capacity</th>
+                        </tr>
+                    </thead>
+                    <tbody style="border-color: slategray">
+                        {% for sched in sched_data %}
+                            <tr style="border-color: slategray">
+                                <td>{{ sched.id }}</td>
+                                <td>{{ sched.date }}</td>
+                                <td>{{ sched.flight.designation }}</td>
+                                <td>{{ db.Airport.query.filter_by(id=sched.flight.flightlegs[0].departure_airport_id).first().name }}</td>
+                                <td>{{ db.Airport.query.filter_by(id=sched.flight.flightlegs[-1].arrival_airport_id).first().name }}</td>
+                                <td>{{ sched.flight.flightlegs[0].departure_time }} (UTC+{{ db.Airport.query.filter_by(id=sched.flight.flightlegs[0].departure_airport_id).first().tz_offset }})</td>
+                                <td>{{ db.Aircraft.query.filter_by(id=sched.flight.aircraft_id).first().registration }}</td>
+                                <td>{{ db.Aircraft.query.filter_by(id=sched.flight.aircraft_id).first().capacity }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+    </div>
+</div>
+{% endblock %}

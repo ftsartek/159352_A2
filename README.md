@@ -4,7 +4,7 @@
 
 FlightBooker is an online booking application built for the fictional airline Premiere Air Travel, who are based out of Dairy Flat Airfield. They offer 6 services, the details of which can be found at '/routes', and utilise 5 aircraft, the details of which are at '/aircraft'. All routes accessible by a given user are accessible via the menu bar.
 
-Upon first starting, the server will generate a set of defaults for databases, including schedules. While these should be useable for the life of the Docker container - however, if something breaks, or you would like to commit a full reset, use the Admin account and navigate to '/reset_all' - this will clear the database and generate a new set of defaults. If the admin account is inaccessible... Well, you'd better spin up a new Docker container, or find a way to delete the sqlite DB.
+Upon first starting, the server will generate a set of defaults for databases, including schedules. While these should be useable for the life of the Docker container - however, if something breaks, or you would like to commit a full reset, use the Admin account and navigate to '/admin/reset_all' - this will clear the database and generate a new set of defaults. If the admin account is inaccessible... Well, you'd better spin up a new Docker container, or find a way to delete the sqlite DB.
 
 A test user account is accessible using:
  - testuser@flightbooker.nz
@@ -28,7 +28,7 @@ A user can create bookings from search results, look up their bookings (includin
    - SQLAlchemy: An excellent ORM layer for SQL databases. I can pythonise the SQL queries and it simplifies the transactions I need to do with very little overhead. Linked to:
      - SQLite3: While it would be very easy to integrate this with another SQL-style server (PGSql, MySQL), SQLite3 is more than suitable for the job and avoids a lot of the complexity of configuring another DB in a docker container
    - Flask-Login: Easy-to-implement user session management.
-   - WTForms: A Python HTML form library, used to 
+   - WTForms: A Python HTML form library, used to generate secure forms for embedding within Jinja templates.
  - Front End:
    - Javascript: Could've used JQuery or another front-end JS framework, but the implementations in this web app have been fairly straightforward, so there was no real call to do so.
    - Jinja Templating: Dynamic HTML templates with python-esque functionality capabilities. Generated on request and built up into a complete HTML page.
@@ -36,3 +36,5 @@ A user can create bookings from search results, look up their bookings (includin
 
 #### Additional Features:
  - Return Flights: users can optionally book a return flight after making an initial flight selection, with the parameters of the return being automatically chosen (within 2 weeks of the initial flight, return only, no detours). Upon cancelling a flight, any related flights will also be cancelled.
+ - Admin Oversight: Administrator users can view a full list of users, aircraft, bookings or even schedules. These are all accessible from the menubar when logged in as the admin user.
+   - The admin can also see cancelled and complete bookings. Regular users viewing their own bookings can only see pending or complete ones.

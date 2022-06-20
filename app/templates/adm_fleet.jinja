@@ -13,7 +13,6 @@
                             <th>Capacity</th>
                             <th>Maintenance Date</th>
                             <th>Retired</th>
-                            <th>Edit Aircraft</th>
                         </tr>
                     </thead>
                     <tbody style="border-color: slategray">
@@ -25,7 +24,6 @@
                                 <td>{{ aircraft.capacity }}</td>
                                 <td>{{ aircraft.maintenance_due }}</td>
                                 <td>{{ aircraft.retired }}</td>
-                                <td><a href="/admin/fleet/edit/{{ aircraft.id }}"><button class="btn btn-secondary">Edit</button></a></td>
                             </tr>
                         {% endfor %}
                     </tbody>
