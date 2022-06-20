@@ -130,8 +130,9 @@ def confirmation(book_id):
         total_price = 0
         # Get total price and a reference number
         for item in conf_bookings:
-            refno += int((datetime.date.today().month * datetime.date.today().day * item.get("Booking ID")) /
-                         (item.get("Creation")).second * (item.get("Creation")).minute)
+            div = ((item.get("Creation")).second * (item.get("Creation")).minute)
+            refno += int((datetime.date.today().month * datetime.date.today().day * item.get("Booking ID")) / (div if div != 0 else 1))
+
             total_price += float(item.get("Price"))
         ref = ref + str(refno)
         # Add 'R' to the reference if it's a return flight.
@@ -252,7 +253,7 @@ def book():
 @login_required
 def adm_bookings():
     if current_user.is_admin():
-        return render_template("adm_bookings.jinja", booking_data=database_helpers.booking_list())
+        return render_template("adm_bookings.jinja", booking_data=database_helpers.booking_list(), title="Admin | Bookings")
     else:
         flash("You do not have permission to view this page.", "warning")
         return redirect('/')
@@ -262,7 +263,7 @@ def adm_bookings():
 @login_required
 def adm_fleet():
     if current_user.is_admin():
-        return render_template("adm_fleet.jinja", fleet_data=database.Aircraft.query.all())
+        return render_template("adm_fleet.jinja", fleet_data=database.Aircraft.query.all(), title="Admin | Fleet")
     else:
         flash("You do not have permission to view this page.", "warning")
         return redirect('/')
@@ -275,7 +276,7 @@ def adm_fleet_mgmt(ac_id):
         aircraft = database.Aircraft.query.get(ac_id)
         if aircraft is not None:
             form = forms.AircraftEditForm()
-            return render_template('adm_fleet_edit.jinja', aircraft=aircraft, form=form)
+            return render_template('adm_fleet_edit.jinja', aircraft=aircraft, form=form, title="Admin | Fleet Edit")
         # Fallback
         return redirect('/admin/fleet')
     else:
@@ -287,7 +288,7 @@ def adm_fleet_mgmt(ac_id):
 @login_required
 def adm_users():
     if current_user.is_admin():
-        return render_template("adm_users.jinja", user_data=database.User.query.all())
+        return render_template("adm_users.jinja", user_data=database.User.query.all(), title="Admin | Users")
     else:
         flash("You do not have permission to view this page.", "warning")
         return redirect('/')

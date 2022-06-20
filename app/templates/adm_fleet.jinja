@@ -1,13 +1,10 @@
 {% extends "_base.jinja" %}
 
 {% block main %}
+<div class="container">
     <div class="row">
-        <h1>FlightBooker</h1>
-    </div>
-    <div class="row">
-        <div class="col-sm-8 p-2">
-            <div class="border">
-                <table class="table table-light">
+        <div class="col-sm-12 p-2">
+                <table class="table bg-dark bg-opacity-50 text-light rounded" style="border-color: slategray">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -19,9 +16,9 @@
                             <th>Edit Aircraft</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody style="border-color: slategray">
                         {% for aircraft in fleet_data %}
-                            <tr>
+                            <tr  style="border-color: slategray">
                                 <td>{{ aircraft.id }}</td>
                                 <td>{{ aircraft.model }}</td>
                                 <td>{{ aircraft.registration }}</td>
@@ -33,10 +30,7 @@
                         {% endfor %}
                     </tbody>
                 </table>
-            </div>
-        </div>
-        <div class="col-sm-4 p-2">
-            <div class="border"></div>
         </div>
     </div>
+</div>
 {% endblock %}

@@ -1,10 +1,10 @@
 {% extends "_base.jinja" %}
 
 {% block main %}
+<div class="container">
     <div class="row">
         <div class="col-12 p-2">
-            <div class="border">
-                <table class="table table-light">
+                <table class="table bg-dark bg-opacity-50 text-light rounded"  style="border-color: slategray">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -20,9 +20,9 @@
                             <th>Created</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody style="border-color: slategray">
                         {% for booking in booking_data %}
-                            <tr>
+                            <tr class="{% if booking.get("Cancelled") %}bg-danger bg-opacity-50{% elif booking.get("Completed") %}bg-primary bg-opacity-50{% endif %}" style="border-color: slategray">
                                 <td>{{ booking.get("Booking ID") }}</td>
                                 <td>{{ booking.get("User Email") }}</td>
                                 <td>{{ booking.get("Flight Designation") }}</td>
@@ -39,6 +39,6 @@
                     </tbody>
                 </table>
             </div>
-        </div>
     </div>
+</div>
 {% endblock %}

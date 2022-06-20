@@ -24,9 +24,8 @@
                         {% if current_user.is_admin() %}
                         <li><hr class="dropdown-divider bg-dropdown-divider"></li>
                         <li><p class="dropdown-item disabled mb-0 text-secondary"><strong>Administration</strong></p></li>
-                        <li><a class="dropdown-item noto-regular bg-menu-text bg-dropdown-item" href="#">Flight List</a></li>
-                        <li><a class="dropdown-item noto-regular bg-menu-text bg-dropdown-item" href="#">Booking List</a></li>
-                        <li><a class="dropdown-item noto-regular bg-menu-text bg-dropdown-item" href="#">Aircraft List</a></li>
+                        <li><a class="dropdown-item noto-regular bg-menu-text bg-dropdown-item" href="/admin/bookings">Booking List</a></li>
+                        <li><a class="dropdown-item noto-regular bg-menu-text bg-dropdown-item" href="/admin/fleet">Aircraft List</a></li>
                         {% endif %}
                         <li><hr class="dropdown-divider bg-dropdown-divider"></li>
                         <li><a class="dropdown-item noto-regular bg-menu-text bg-dropdown-item" href="/logout">Log Out</a></li>
