@@ -24,7 +24,7 @@ app = Flask(__name__)
 
 app.secret_key = 'v98Hwg93nBA5sv-0238tVNsk2d='
 app.config['SESSION_TYPE'] = 'filesystem'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../fb.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['TESTING'] = False
 

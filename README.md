@@ -38,3 +38,4 @@ A user can create bookings from search results, look up their bookings (includin
  - Return Flights: users can optionally book a return flight after making an initial flight selection, with the parameters of the return being automatically chosen (within 2 weeks of the initial flight, return only, no detours). Upon cancelling a flight, any related flights will also be cancelled.
  - Admin Oversight: Administrator users can view a full list of users, aircraft, bookings or even schedules. These are all accessible from the menubar when logged in as the admin user.
    - The admin can also see cancelled and complete bookings. Regular users viewing their own bookings can only see pending or complete ones.
+ - Session Management: This is probably arguable as an 'additional' feature, but the app features full device-based session management using Flask-Login and Flask's built in session storage. Once you're logged in, it's pretty good at keeping you logged in.

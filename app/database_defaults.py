@@ -1,3 +1,5 @@
+import os
+
 from app.database import db, Aircraft, Airport, Booking, Flight, FlightLeg, FlightSchedule, User
 from datetime import date, time, timezone, timedelta
 from passlib.hash import sha512_crypt
@@ -277,5 +279,6 @@ def generate_defaults() -> None:
     generate_schedule()
 
 
-if not exists('/tmp/test.db'):
+if not exists(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'fb.db'))):
+    print("Generating default database values")
     generate_defaults()
